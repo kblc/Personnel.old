@@ -1,0 +1,8 @@
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\bin\Debug\Personnel.Services.Tests.dll
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\bin\Debug\Personnel.Services.Tests.pdb
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\bin\Debug\ru\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\obj\Debug\Personnel.Services.Tests.csprojResolveAssemblyReference.cache
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\obj\Debug\Personnel.Services.Tests.dll
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\obj\Debug\Personnel.Services.Tests.pdb
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\bin\Debug\Personnel.Services.Tests.dll.config

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="126478ff-6979-43f5-8df5-bbc9ae1ef2c8" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/history/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="ef864b4c-9466-4a65-87d1-f2a99f1fb043" SourceId="1" SourceUrl="http://localhost:8733/history/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="bc2d021e-af1d-4452-bfd4-c25cd932fb3c" SourceId="1" SourceUrl="http://localhost:8733/history/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="966a0832-8aa5-4693-a89f-e3ee8ed410db" SourceId="1" SourceUrl="http://localhost:8733/history/mex" />
+    <MetadataFile FileName="Personnel.Services.Model.xsd" MetadataType="Schema" ID="9deddd23-8a51-4aec-bbff-4b0a09a8ea3a" SourceId="1" SourceUrl="http://localhost:8733/history/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="c0e56127-b1bd-4b32-8da8-4569d8a17316" SourceId="1" SourceUrl="http://localhost:8733/history/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

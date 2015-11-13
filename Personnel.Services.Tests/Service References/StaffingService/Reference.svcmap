@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="7ea9bb87-7b67-4408-9b6b-2b601580f6cd" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/staffing/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="b672da9e-1b7d-4aec-9176-cd9c107f1050" SourceId="1" SourceUrl="http://localhost:8733/staffing/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="b29552b9-e754-47fb-bd67-f172cdf99ce8" SourceId="1" SourceUrl="http://localhost:8733/staffing/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="0b2e4440-aeb4-4031-ace9-a8ca31baee71" SourceId="1" SourceUrl="http://localhost:8733/staffing/mex" />
+    <MetadataFile FileName="Personnel.Services.Model.xsd" MetadataType="Schema" ID="6c3fb445-2952-4717-b5eb-033404d8dfc7" SourceId="1" SourceUrl="http://localhost:8733/staffing/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="01774784-a7b5-4fd3-9fb2-28bc51a6d338" SourceId="1" SourceUrl="http://localhost:8733/staffing/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

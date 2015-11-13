@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+  <xs:complexType name="FileResult">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" base="q1:BaseExecutionResultOfFile3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="FileResult" nillable="true" type="tns:FileResult" />
+  <xs:complexType name="PictureResult">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" base="q2:BaseExecutionResultOfPicture3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PictureResult" nillable="true" type="tns:PictureResult" />
+  <xs:complexType name="FileResults">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" base="q3:BaseExecutionResultsOfFile3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="FileResults" nillable="true" type="tns:FileResults" />
+</xs:schema>

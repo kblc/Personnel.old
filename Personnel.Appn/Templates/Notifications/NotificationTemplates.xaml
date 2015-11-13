@@ -1,0 +1,125 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+                    xmlns:staticNotification="clr-namespace:Personnel.Application.ViewModels.Notifications;assembly=Personnel.Application.ViewModels"
+                    xmlns:local="clr-namespace:Personnel.Appn.Templates.Notifications"
+                    xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
+                    xmlns:helperConverterss="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <helperConverterss:IsEqualVisibilityConverter x:Key="isEqualVisibilityConverter"/>
+    <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
+    <localConverters:ImagePathToImageSourceConverter x:Key="ImagePathToImageSourceConverter"/>
+
+    <DataTemplate x:Key="NotificationItemTemplate" DataType="staticNotification:NotificationItemViewModel">
+        <md:Card Margin="2,2" Cursor="Hand">
+            <Grid>
+                <Grid.InputBindings>
+                    <MouseBinding MouseAction="LeftClick" Command="{Binding Data.OpenCommand}"/>
+                </Grid.InputBindings>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <md:ColorZone Grid.RowSpan="999" Grid.Column="0" 
+                              VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="20">
+                    <md:ColorZone.Style>
+                        <Style TargetType="md:ColorZone">
+                            <Setter Property="Mode" Value="Accent"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Data.IsError}" Value="True">
+                                    <Setter Property="Mode" Value="Dark"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </md:ColorZone.Style>
+                </md:ColorZone>
+
+                <Image Grid.Column="0" Width="48" Height="48" Margin="4,4"
+                       Visibility="{Binding Data.HasIcon, Converter={StaticResource ResourceKey=booleanToVisibilityConverter}}"
+                       Source="{Binding Data.IconUrl, Converter={StaticResource ImagePathToImageSourceConverter}}"/>
+
+                <Grid Grid.Column="1" Margin="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding Data.Header}" Grid.Row="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Data.Message}" Grid.Row="1" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding Created, StringFormat=dd.MM.yyyy hh:mm:ss}" Grid.Row="2" FontSize="8"
+                                TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"/>
+                </Grid>
+
+                <Button Grid.RowSpan="999" Grid.Column="2" Style="{DynamicResource MaterialDesignRaisedDarkButton}" 
+                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Margin="4 4 8 4" Cursor="Hand"
+                        Command="{Binding Data.CloseCommand}">
+                    <TextBlock Text="hide" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
+        </md:Card>
+    </DataTemplate>
+
+    <DataTemplate x:Key="NotificationWatchItemTemplate" DataType="staticNotification:NotificationItemViewModel">
+        <Border Margin="2,2" Background="{DynamicResource MaterialDesignPaper}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <md:ColorZone Grid.RowSpan="999" Grid.Column="0" 
+                              VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="20">
+                    <md:ColorZone.Style>
+                        <Style TargetType="md:ColorZone">
+                            <Setter Property="Mode" Value="Accent"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Data.IsError}" Value="True">
+                                    <Setter Property="Mode" Value="Dark"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </md:ColorZone.Style>
+                </md:ColorZone>
+
+                <Image Grid.Column="0" Width="48" Height="48" Margin="4,4"
+                       Visibility="{Binding Data.HasIcon, Converter={StaticResource ResourceKey=booleanToVisibilityConverter}}"
+                       Source="{Binding Data.IconUrl, Converter={StaticResource ImagePathToImageSourceConverter}}"/>
+
+                <Grid Grid.Column="1" Margin="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding Data.Header}" Grid.Row="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Created, StringFormat=dd.MM.yyyy hh:mm:ss}" Grid.Row="1" FontSize="8"
+                               TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"/>
+                </Grid>
+
+                <TextBlock Text="{Binding Data.Message}" Grid.Row="1" 
+                           TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"/>
+
+                <Button Grid.Row="2" Grid.ColumnSpan="999" Style="{DynamicResource MaterialDesignRaisedDarkButton}" 
+                        HorizontalAlignment="Center"
+                        Margin="4 4 8 4" Cursor="Hand"
+                        Command="{Binding Data.CloseCommand}">
+                    <TextBlock Text="hide" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+
+
+</ResourceDictionary>

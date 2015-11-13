@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Helpers.WPF</name>
+    </assembly>
+    <members>
+        <member name="T:Helpers.WPF.Converters.IsEqualVisibilityConverter">
+            <summary>
+            This converter use for check similarity value and parameter for equals and then convert it to Visibility
+            </summary>
+        </member>
+        <member name="M:Helpers.WPF.Converters.IsEqualVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a value.
+            </summary>
+            <param name="value">The value produced by the binding source.</param>
+            <param name="targetType">The type of the binding target property.</param>
+            <param name="parameter">The converter parameter to use.</param>
+            <param name="culture">The culture to use in the converter.</param>
+            <returns>A converted value. If the method returns null, the valid null value is used.</returns>
+        </member>
+        <member name="M:Helpers.WPF.Converters.IsEqualVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Not implemented
+            </summary>
+        </member>
+        <member name="T:Helpers.WPF.Converters.ApplyConverter">
+            <summary>
+            ApplyConverter provide any math operations with parameter (e.g '+' (default), '-', '/', '*')
+            </summary>
+        </member>
+        <member name="M:Helpers.WPF.Converters.ApplyConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.Convert() function implementation
+            </summary>
+            <param name="value">Value</param>
+            <param name="targetType">Result target type</param>
+            <param name="parameter">String with math operation (e.g. -10, *2, /3)</param>
+            <param name="culture">Converter culture</param>
+            <returns>Convert result value</returns>
+        </member>
+        <member name="M:Helpers.WPF.Converters.ApplyConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.ConvertBack() function implementation
+            </summary>
+            <param name="value">Value</param>
+            <param name="targetType">Result target type</param>
+            <param name="parameter">String with math operation (e.g. -10, *2, /3)</param>
+            <param name="culture">Converter culture</param>
+            <returns>Return value not implemented</returns>
+        </member>
+        <member name="T:Helpers.WPF.DelegateCommand">
+            <summary>
+            This class implement ICommand interface
+            </summary>
+        </member>
+        <member name="E:Helpers.WPF.DelegateCommand.CanExecuteChanged">
+            <summary>
+            Reised when CanExecute changed
+            </summary>
+        </member>
+        <member name="M:Helpers.WPF.DelegateCommand.#ctor(System.Action{System.Object})">
+            <summary>
+            Create DelegateCommand class object
+            </summary>
+            <param name="execute">Action to execute on this command</param>
+        </member>
+        <member name="M:Helpers.WPF.DelegateCommand.#ctor(System.Action{System.Object},System.Predicate{System.Object})">
+            <summary>
+            Create DelegateCommand class object
+            </summary>
+            <param name="execute">Action to execute on this command</param>
+            <param name="canExecute">Action to check CanExecute for Action command</param>
+        </member>
+        <member name="M:Helpers.WPF.DelegateCommand.CanExecute(System.Object)">
+            <summary>
+            Defines the method that determines whether the command can execute in its current state.
+            </summary>
+            <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
+            <returns>true if this command can be executed; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.WPF.DelegateCommand.Execute(System.Object)">
+            <summary>
+            Defines the method to be called when the command is invoked.
+            </summary>
+            <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to null.</param>
+        </member>
+        <member name="M:Helpers.WPF.DelegateCommand.RaiseCanExecuteChanged">
+            <summary>
+            Raise other objects that CanExecute was changed
+            </summary>
+        </member>
+        <member name="T:Helpers.WPF.PropertyChangedBase">
+            <summary>
+            Base class for implement INotifyPropertyChanged interface
+            </summary>
+        </member>
+        <member name="E:Helpers.WPF.PropertyChangedBase.PropertyChanged">
+            <summary>
+            Occurs when a property value changes
+            </summary>
+        </member>
+        <member name="M:Helpers.WPF.PropertyChangedBase.RaisePropertyChange(System.String)">
+            <summary>
+            Raise property changed for INotifyPropertyChanged interface
+            </summary>
+            <param name="propertyName">Property name to raise</param>
+        </member>
+        <member name="M:Helpers.WPF.PropertyChangedBase.RaisePropertyAfterChange(System.String[],System.String)">
+            <summary>
+            Manage to raise property <b>propertyName</b> before any of <b>afterPropertyNames</b> raised
+            </summary>
+            <param name="afterPropertyNames">Array of property to wath.<br/><i>Can be mask like "*Value"</i></param>
+            <param name="propertyName">Property name to raise</param>
+        </member>
+        <member name="M:Helpers.WPF.PropertyChangedBase.RaisePropertyBeforeChange(System.String[],System.String)">
+            <summary>
+            Manage to raise property <b>propertyName</b> after any of <b>afterPropertyNames</b> raised
+            </summary>
+            <param name="beforePropertyNames">Array of property to wath.<br/><i>Can be mask like "*Value"</i></param>
+            <param name="propertyName">Property name to raise</param>
+        </member>
+        <member name="T:Helpers.WPF.Extensions">
+            <summary>
+            This extension for some WPF object
+            </summary>
+        </member>
+        <member name="M:Helpers.WPF.Extensions.IsDesignMode(System.Object)">
+            <summary>
+            Check object is Design mode now
+            </summary>
+            <param name="obj">Source object</param>
+            <returns>Returns true if object is in design mode now</returns>
+        </member>
+        <member name="P:Helpers.WPF.Extensions.IsInDesignMode">
+            <summary>
+            Returns true if current mode is design mode
+            </summary>
+        </member>
+        <member name="T:Helpers.WPF.ObservableCollectionEx`1">
+            <summary>
+            Represents a dynamic data extended collection that provides notifications when items get added, removed, or when the whole list is refreshed.
+            Collection extended by: Protected OnCollectionChanged() event, some Range*() methods
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+        </member>
+        <member name="E:Helpers.WPF.ObservableCollectionEx`1.CollectionChanged">
+            <summary>
+            Occurs when an item is added, removed, changed, moved, or the entire list is refreshed.   
+            </summary>
+        </member>
+        <member name="M:Helpers.WPF.ObservableCollectionEx`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Raises the CollectionChanged event with the provided arguments.
+            </summary>
+            <param name="e">Arguments of the event being raised.</param>
+        </member>
+        <member name="M:Helpers.WPF.ObservableCollectionEx`1.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            Raises the PropertyChanged event with the provided arguments.
+            </summary>
+            <param name="e">Arguments of the event being raised.</param>
+        </member>
+        <member name="M:Helpers.WPF.ObservableCollectionEx`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add items range to collection
+            </summary>
+            <param name="items">Items to add</param>
+            <exception cref="T:System.ArgumentNullException">Items cannot be null</exception>
+        </member>
+    </members>
+</doc>

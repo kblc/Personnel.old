@@ -1,0 +1,2645 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="StaffingService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SymmetricBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:ProtectionToken>
+              <wsp:Policy>
+                <sp:SecureConversationToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                  <wsp:Policy>
+                    <sp:RequireDerivedKeys />
+                    <sp:BootstrapPolicy>
+                      <wsp:Policy>
+                        <sp:SignedParts>
+                          <sp:Body />
+                          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+                          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+                          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+                          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+                          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+                          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+                          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+                        </sp:SignedParts>
+                        <sp:EncryptedParts>
+                          <sp:Body />
+                        </sp:EncryptedParts>
+                        <sp:SymmetricBinding>
+                          <wsp:Policy>
+                            <sp:ProtectionToken>
+                              <wsp:Policy>
+                                <sp:SpnegoContextToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                                  <wsp:Policy>
+                                    <sp:RequireDerivedKeys />
+                                  </wsp:Policy>
+                                </sp:SpnegoContextToken>
+                              </wsp:Policy>
+                            </sp:ProtectionToken>
+                            <sp:AlgorithmSuite>
+                              <wsp:Policy>
+                                <sp:Basic256 />
+                              </wsp:Policy>
+                            </sp:AlgorithmSuite>
+                            <sp:Layout>
+                              <wsp:Policy>
+                                <sp:Strict />
+                              </wsp:Policy>
+                            </sp:Layout>
+                            <sp:IncludeTimestamp />
+                            <sp:EncryptSignature />
+                            <sp:OnlySignEntireHeadersAndBody />
+                          </wsp:Policy>
+                        </sp:SymmetricBinding>
+                        <sp:Wss11>
+                          <wsp:Policy />
+                        </sp:Wss11>
+                        <sp:Trust10>
+                          <wsp:Policy>
+                            <sp:MustSupportIssuedTokens />
+                            <sp:RequireClientEntropy />
+                            <sp:RequireServerEntropy />
+                          </wsp:Policy>
+                        </sp:Trust10>
+                      </wsp:Policy>
+                    </sp:BootstrapPolicy>
+                  </wsp:Policy>
+                </sp:SecureConversationToken>
+              </wsp:Policy>
+            </sp:ProtectionToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+            <sp:IncludeTimestamp />
+            <sp:EncryptSignature />
+            <sp:OnlySignEntireHeadersAndBody />
+          </wsp:Policy>
+        </sp:SymmetricBinding>
+        <sp:Wss11 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy />
+        </sp:Wss11>
+        <sp:Trust10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:MustSupportIssuedTokens />
+            <sp:RequireClientEntropy />
+            <sp:RequireServerEntropy />
+          </wsp:Policy>
+        </sp:Trust10>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_ChangeLanguage_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingsGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingsGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingGetRange_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingGetRange_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingRemove_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingRemove_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingRemoveRange_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingRemoveRange_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingUpdate_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingUpdate_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingInsert_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_StaffingInsert_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentsGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentsGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentGetRange_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentGetRange_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentRemove_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentRemove_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentRemoveRange_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentRemoveRange_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentUpdate_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentUpdate_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentInsert_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_DepartmentInsert_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointsGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointsGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointGetRange_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointGetRange_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointRemove_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointRemove_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointRemoveRange_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointRemoveRange_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointUpdate_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointUpdate_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointInsert_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_AppointInsert_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeGetCurrent_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeGetCurrent_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeGetRange_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeGetRange_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeesGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeesGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRemove_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRemove_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRemoveRange_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRemoveRange_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeUpdate_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeUpdate_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeInsert_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeInsert_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_RightsGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_RightsGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsGet_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsGet_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsAdd_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsAdd_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsAddByName_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsAddByName_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsRemove_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsRemove_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsRemoveByName_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsRemoveByName_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsUpdate_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeeRightsUpdate_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IStaffingService_ChangeLanguage_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeLanguage" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingsGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingGetRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingGetRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingGetRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingGetRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingRemoveRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingRemoveRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingRemoveRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingRemoveRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingInsert" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_StaffingInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StaffingInsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentsGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentGetRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentGetRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentGetRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentGetRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentRemoveRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentRemoveRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentRemoveRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentRemoveRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentInsert" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_DepartmentInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DepartmentInsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:AppointsGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AppointsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointGetRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:AppointGetRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointGetRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AppointGetRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:AppointGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AppointGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:AppointRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AppointRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointRemoveRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:AppointRemoveRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointRemoveRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AppointRemoveRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:AppointUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AppointUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:AppointInsert" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_AppointInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AppointInsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeGetCurrent_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeGetCurrent" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeGetCurrent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeGetCurrentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeGetRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeGetRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeGetRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeGetRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeesGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeesGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeesGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeesGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRemoveRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRemoveRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRemoveRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRemoveRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeInsert" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeInsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_RightsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RightsGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_RightsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RightsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsAdd_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsAdd" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsAdd_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsAddResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsAddByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsAddByName" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsAddByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsAddByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsRemoveByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsRemoveByName" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsRemoveByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsRemoveByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeeRightsUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeeRightsUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingsGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingGetRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingGetRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingGetRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingGetRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingRemoveRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingRemoveRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingRemoveRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingRemoveRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingInsert" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTStaffingInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTStaffingInsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentsGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentGetRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentGetRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentGetRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentGetRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentRemoveRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentRemoveRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentRemoveRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentRemoveRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentInsert" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTDepartmentInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTDepartmentInsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointsGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointGetRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointGetRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointGetRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointGetRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointRemoveRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointRemoveRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointRemoveRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointRemoveRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointInsert" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTAppointInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTAppointInsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeGetCurrent_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeGetCurrent" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeGetCurrent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeGetCurrentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeGetRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeGetRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeGetRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeGetRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeesGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeesGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeesGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeesGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRemoveRange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRemoveRange" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRemoveRange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRemoveRangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeInsert_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeInsert" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeInsert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeInsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTRightsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTRightsGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTRightsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTRightsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsGet_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsGet" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsGet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsGetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsAdd_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsAdd" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsAdd_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsAddResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsAddByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsAddByName" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsAddByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsAddByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsRemoveByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsRemoveByName" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsRemoveByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsRemoveByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeeRightsUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeeRightsUpdateResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IStaffingService">
+    <wsdl:operation name="ChangeLanguage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseService/ChangeLanguage" message="tns:IStaffingService_ChangeLanguage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StaffingsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/StaffingsGet" message="tns:IStaffingService_StaffingsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/StaffingsGetResponse" message="tns:IStaffingService_StaffingsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StaffingGetRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/StaffingGetRange" message="tns:IStaffingService_StaffingGetRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/StaffingGetRangeResponse" message="tns:IStaffingService_StaffingGetRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StaffingGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/StaffingGet" message="tns:IStaffingService_StaffingGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/StaffingGetResponse" message="tns:IStaffingService_StaffingGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StaffingRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/StaffingRemove" message="tns:IStaffingService_StaffingRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/StaffingRemoveResponse" message="tns:IStaffingService_StaffingRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StaffingRemoveRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/StaffingRemoveRange" message="tns:IStaffingService_StaffingRemoveRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/StaffingRemoveRangeResponse" message="tns:IStaffingService_StaffingRemoveRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StaffingUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/StaffingUpdate" message="tns:IStaffingService_StaffingUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/StaffingUpdateResponse" message="tns:IStaffingService_StaffingUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StaffingInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/StaffingInsert" message="tns:IStaffingService_StaffingInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/StaffingInsertResponse" message="tns:IStaffingService_StaffingInsert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/DepartmentsGet" message="tns:IStaffingService_DepartmentsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/DepartmentsGetResponse" message="tns:IStaffingService_DepartmentsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentGetRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/DepartmentGetRange" message="tns:IStaffingService_DepartmentGetRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/DepartmentGetRangeResponse" message="tns:IStaffingService_DepartmentGetRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/DepartmentGet" message="tns:IStaffingService_DepartmentGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/DepartmentGetResponse" message="tns:IStaffingService_DepartmentGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/DepartmentRemove" message="tns:IStaffingService_DepartmentRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/DepartmentRemoveResponse" message="tns:IStaffingService_DepartmentRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentRemoveRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/DepartmentRemoveRange" message="tns:IStaffingService_DepartmentRemoveRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/DepartmentRemoveRangeResponse" message="tns:IStaffingService_DepartmentRemoveRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/DepartmentUpdate" message="tns:IStaffingService_DepartmentUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/DepartmentUpdateResponse" message="tns:IStaffingService_DepartmentUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/DepartmentInsert" message="tns:IStaffingService_DepartmentInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/DepartmentInsertResponse" message="tns:IStaffingService_DepartmentInsert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AppointsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/AppointsGet" message="tns:IStaffingService_AppointsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/AppointsGetResponse" message="tns:IStaffingService_AppointsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AppointGetRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/AppointGetRange" message="tns:IStaffingService_AppointGetRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/AppointGetRangeResponse" message="tns:IStaffingService_AppointGetRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AppointGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/AppointGet" message="tns:IStaffingService_AppointGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/AppointGetResponse" message="tns:IStaffingService_AppointGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AppointRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/AppointRemove" message="tns:IStaffingService_AppointRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/AppointRemoveResponse" message="tns:IStaffingService_AppointRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AppointRemoveRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/AppointRemoveRange" message="tns:IStaffingService_AppointRemoveRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/AppointRemoveRangeResponse" message="tns:IStaffingService_AppointRemoveRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AppointUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/AppointUpdate" message="tns:IStaffingService_AppointUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/AppointUpdateResponse" message="tns:IStaffingService_AppointUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AppointInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/AppointInsert" message="tns:IStaffingService_AppointInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/AppointInsertResponse" message="tns:IStaffingService_AppointInsert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeGetCurrent">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeGetCurrent" message="tns:IStaffingService_EmployeeGetCurrent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeGetCurrentResponse" message="tns:IStaffingService_EmployeeGetCurrent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeGetRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeGetRange" message="tns:IStaffingService_EmployeeGetRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeGetRangeResponse" message="tns:IStaffingService_EmployeeGetRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeesGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeesGet" message="tns:IStaffingService_EmployeesGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeesGetResponse" message="tns:IStaffingService_EmployeesGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeGet" message="tns:IStaffingService_EmployeeGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeGetResponse" message="tns:IStaffingService_EmployeeGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRemove" message="tns:IStaffingService_EmployeeRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRemoveResponse" message="tns:IStaffingService_EmployeeRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRemoveRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRemoveRange" message="tns:IStaffingService_EmployeeRemoveRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRemoveRangeResponse" message="tns:IStaffingService_EmployeeRemoveRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeUpdate" message="tns:IStaffingService_EmployeeUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeUpdateResponse" message="tns:IStaffingService_EmployeeUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeInsert" message="tns:IStaffingService_EmployeeInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeInsertResponse" message="tns:IStaffingService_EmployeeInsert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RightsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/RightsGet" message="tns:IStaffingService_RightsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/RightsGetResponse" message="tns:IStaffingService_RightsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsGet" message="tns:IStaffingService_EmployeeRightsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsGetResponse" message="tns:IStaffingService_EmployeeRightsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsAdd">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsAdd" message="tns:IStaffingService_EmployeeRightsAdd_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsAddResponse" message="tns:IStaffingService_EmployeeRightsAdd_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsAddByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsAddByName" message="tns:IStaffingService_EmployeeRightsAddByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsAddByNameResponse" message="tns:IStaffingService_EmployeeRightsAddByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsRemove" message="tns:IStaffingService_EmployeeRightsRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsRemoveResponse" message="tns:IStaffingService_EmployeeRightsRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsRemoveByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsRemoveByName" message="tns:IStaffingService_EmployeeRightsRemoveByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsRemoveByNameResponse" message="tns:IStaffingService_EmployeeRightsRemoveByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsUpdate" message="tns:IStaffingService_EmployeeRightsUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeeRightsUpdateResponse" message="tns:IStaffingService_EmployeeRightsUpdate_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="IStaffingServiceREST">
+    <wsdl:operation name="ChangeLanguage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBaseService/ChangeLanguage" message="tns:IStaffingService_ChangeLanguage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTStaffingsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingsGet" message="tns:IStaffingServiceREST_RESTStaffingsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingsGetResponse" message="tns:IStaffingServiceREST_RESTStaffingsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTStaffingGetRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingGetRange" message="tns:IStaffingServiceREST_RESTStaffingGetRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingGetRangeResponse" message="tns:IStaffingServiceREST_RESTStaffingGetRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTStaffingGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingGet" message="tns:IStaffingServiceREST_RESTStaffingGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingGetResponse" message="tns:IStaffingServiceREST_RESTStaffingGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTStaffingRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingRemove" message="tns:IStaffingServiceREST_RESTStaffingRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingRemoveResponse" message="tns:IStaffingServiceREST_RESTStaffingRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTStaffingRemoveRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingRemoveRange" message="tns:IStaffingServiceREST_RESTStaffingRemoveRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingRemoveRangeResponse" message="tns:IStaffingServiceREST_RESTStaffingRemoveRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTStaffingUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingUpdate" message="tns:IStaffingServiceREST_RESTStaffingUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingUpdateResponse" message="tns:IStaffingServiceREST_RESTStaffingUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTStaffingInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingInsert" message="tns:IStaffingServiceREST_RESTStaffingInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTStaffingInsertResponse" message="tns:IStaffingServiceREST_RESTStaffingInsert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTDepartmentsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentsGet" message="tns:IStaffingServiceREST_RESTDepartmentsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentsGetResponse" message="tns:IStaffingServiceREST_RESTDepartmentsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTDepartmentGetRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentGetRange" message="tns:IStaffingServiceREST_RESTDepartmentGetRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentGetRangeResponse" message="tns:IStaffingServiceREST_RESTDepartmentGetRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTDepartmentGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentGet" message="tns:IStaffingServiceREST_RESTDepartmentGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentGetResponse" message="tns:IStaffingServiceREST_RESTDepartmentGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTDepartmentRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentRemove" message="tns:IStaffingServiceREST_RESTDepartmentRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentRemoveResponse" message="tns:IStaffingServiceREST_RESTDepartmentRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTDepartmentRemoveRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentRemoveRange" message="tns:IStaffingServiceREST_RESTDepartmentRemoveRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentRemoveRangeResponse" message="tns:IStaffingServiceREST_RESTDepartmentRemoveRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTDepartmentUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentUpdate" message="tns:IStaffingServiceREST_RESTDepartmentUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentUpdateResponse" message="tns:IStaffingServiceREST_RESTDepartmentUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTDepartmentInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentInsert" message="tns:IStaffingServiceREST_RESTDepartmentInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentInsertResponse" message="tns:IStaffingServiceREST_RESTDepartmentInsert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTAppointsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointsGet" message="tns:IStaffingServiceREST_RESTAppointsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointsGetResponse" message="tns:IStaffingServiceREST_RESTAppointsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTAppointGetRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointGetRange" message="tns:IStaffingServiceREST_RESTAppointGetRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointGetRangeResponse" message="tns:IStaffingServiceREST_RESTAppointGetRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTAppointGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointGet" message="tns:IStaffingServiceREST_RESTAppointGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointGetResponse" message="tns:IStaffingServiceREST_RESTAppointGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTAppointRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointRemove" message="tns:IStaffingServiceREST_RESTAppointRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointRemoveResponse" message="tns:IStaffingServiceREST_RESTAppointRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTAppointRemoveRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointRemoveRange" message="tns:IStaffingServiceREST_RESTAppointRemoveRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointRemoveRangeResponse" message="tns:IStaffingServiceREST_RESTAppointRemoveRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTAppointUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointUpdate" message="tns:IStaffingServiceREST_RESTAppointUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointUpdateResponse" message="tns:IStaffingServiceREST_RESTAppointUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTAppointInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointInsert" message="tns:IStaffingServiceREST_RESTAppointInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTAppointInsertResponse" message="tns:IStaffingServiceREST_RESTAppointInsert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeGetCurrent">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeGetCurrent" message="tns:IStaffingServiceREST_RESTEmployeeGetCurrent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeGetCurrentResponse" message="tns:IStaffingServiceREST_RESTEmployeeGetCurrent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeGetRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeGetRange" message="tns:IStaffingServiceREST_RESTEmployeeGetRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeGetRangeResponse" message="tns:IStaffingServiceREST_RESTEmployeeGetRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeesGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeesGet" message="tns:IStaffingServiceREST_RESTEmployeesGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeesGetResponse" message="tns:IStaffingServiceREST_RESTEmployeesGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeGet" message="tns:IStaffingServiceREST_RESTEmployeeGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeGetResponse" message="tns:IStaffingServiceREST_RESTEmployeeGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRemove" message="tns:IStaffingServiceREST_RESTEmployeeRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRemoveResponse" message="tns:IStaffingServiceREST_RESTEmployeeRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeRemoveRange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRemoveRange" message="tns:IStaffingServiceREST_RESTEmployeeRemoveRange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRemoveRangeResponse" message="tns:IStaffingServiceREST_RESTEmployeeRemoveRange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeUpdate" message="tns:IStaffingServiceREST_RESTEmployeeUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeUpdateResponse" message="tns:IStaffingServiceREST_RESTEmployeeUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeInsert">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeInsert" message="tns:IStaffingServiceREST_RESTEmployeeInsert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeInsertResponse" message="tns:IStaffingServiceREST_RESTEmployeeInsert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTRightsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTRightsGet" message="tns:IStaffingServiceREST_RESTRightsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTRightsGetResponse" message="tns:IStaffingServiceREST_RESTRightsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeRightsGet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsGet" message="tns:IStaffingServiceREST_RESTEmployeeRightsGet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsGetResponse" message="tns:IStaffingServiceREST_RESTEmployeeRightsGet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeRightsAdd">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsAdd" message="tns:IStaffingServiceREST_RESTEmployeeRightsAdd_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsAddResponse" message="tns:IStaffingServiceREST_RESTEmployeeRightsAdd_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeRightsAddByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsAddByName" message="tns:IStaffingServiceREST_RESTEmployeeRightsAddByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsAddByNameResponse" message="tns:IStaffingServiceREST_RESTEmployeeRightsAddByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeRightsRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsRemove" message="tns:IStaffingServiceREST_RESTEmployeeRightsRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsRemoveResponse" message="tns:IStaffingServiceREST_RESTEmployeeRightsRemove_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeRightsRemoveByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsRemoveByName" message="tns:IStaffingServiceREST_RESTEmployeeRightsRemoveByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsRemoveByNameResponse" message="tns:IStaffingServiceREST_RESTEmployeeRightsRemoveByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeeRightsUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsUpdate" message="tns:IStaffingServiceREST_RESTEmployeeRightsUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeRightsUpdateResponse" message="tns:IStaffingServiceREST_RESTEmployeeRightsUpdate_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSHttpBinding_IStaffingService" type="tns:IStaffingService">
+    <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ChangeLanguage">
+      <soap12:operation soapAction="http://tempuri.org/IBaseService/ChangeLanguage" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_ChangeLanguage_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="StaffingsGet">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/StaffingsGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingsGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingsGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StaffingGetRange">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/StaffingGetRange" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingGetRange_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingGetRange_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StaffingGet">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/StaffingGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StaffingRemove">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/StaffingRemove" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingRemove_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingRemove_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StaffingRemoveRange">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/StaffingRemoveRange" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingRemoveRange_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingRemoveRange_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StaffingUpdate">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/StaffingUpdate" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingUpdate_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingUpdate_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StaffingInsert">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/StaffingInsert" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingInsert_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_StaffingInsert_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentsGet">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/DepartmentsGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentsGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentsGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentGetRange">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/DepartmentGetRange" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentGetRange_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentGetRange_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentGet">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/DepartmentGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentRemove">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/DepartmentRemove" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentRemove_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentRemove_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentRemoveRange">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/DepartmentRemoveRange" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentRemoveRange_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentRemoveRange_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentUpdate">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/DepartmentUpdate" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentUpdate_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentUpdate_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DepartmentInsert">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/DepartmentInsert" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentInsert_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_DepartmentInsert_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppointsGet">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/AppointsGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointsGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointsGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppointGetRange">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/AppointGetRange" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointGetRange_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointGetRange_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppointGet">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/AppointGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppointRemove">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/AppointRemove" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointRemove_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointRemove_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppointRemoveRange">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/AppointRemoveRange" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointRemoveRange_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointRemoveRange_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppointUpdate">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/AppointUpdate" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointUpdate_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointUpdate_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AppointInsert">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/AppointInsert" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointInsert_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_AppointInsert_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeGetCurrent">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeGetCurrent" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeGetCurrent_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeGetCurrent_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeGetRange">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeGetRange" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeGetRange_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeGetRange_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeesGet">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeesGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeesGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeesGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeGet">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRemove">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeRemove" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRemove_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRemove_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRemoveRange">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeRemoveRange" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRemoveRange_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRemoveRange_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeUpdate">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeUpdate" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeUpdate_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeUpdate_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeInsert">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeInsert" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeInsert_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeInsert_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RightsGet">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/RightsGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_RightsGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_RightsGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsGet">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeRightsGet" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsGet_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsGet_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsAdd">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeRightsAdd" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsAdd_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsAdd_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsAddByName">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeRightsAddByName" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsAddByName_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsAddByName_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsRemove">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeRightsRemove" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsRemove_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsRemove_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsRemoveByName">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeRightsRemoveByName" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsRemoveByName_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsRemoveByName_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeeRightsUpdate">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeeRightsUpdate" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsUpdate_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeeRightsUpdate_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="StaffingService">
+    <wsdl:port name="WSHttpBinding_IStaffingService" binding="tns:WSHttpBinding_IStaffingService">
+      <soap12:address location="http://localhost:8733/staffing/" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://localhost:8733/staffing/</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Dns>localhost</Dns>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

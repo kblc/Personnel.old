@@ -1,0 +1,17 @@
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Personnel.Application.ViewModels.dll.config
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Personnel.Application.ViewModels.dll
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Personnel.Application.ViewModels.pdb
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\AutoMapper.dll
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Helpers.dll
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Helpers.WPF.dll
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\AutoMapper.xml
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Helpers.pdb
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Helpers.xml
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Helpers.WPF.pdb
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Helpers.WPF.xml
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\ru\Helpers.resources.dll
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.Properties.Resources.resources
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.csproj.GenerateResource.Cache
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.dll
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.pdb
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.csprojResolveAssemblyReference.cache

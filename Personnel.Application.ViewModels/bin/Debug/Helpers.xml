@@ -1,0 +1,707 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Helpers</name>
+    </assembly>
+    <members>
+        <member name="T:Helpers.ConcurrencyObjects`1">
+            <summary>
+            Concurency object list
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Helpers.ConcurrencyObjects`1.Max">
+            <summary>
+            Max concurency objects count inside. 0 = infinity
+            </summary>
+        </member>
+        <member name="P:Helpers.ConcurrencyObjects`1.TimeToGetObject">
+            <summary>
+            Max await objects get
+            </summary>
+        </member>
+        <member name="M:Helpers.ConcurrencyObjects`1.#ctor">
+            <summary>
+            Create instance
+            </summary>
+        </member>
+        <member name="M:Helpers.ConcurrencyObjects`1.GetObject">
+            <summary>
+            Get first free object or new
+            </summary>
+            <returns>New or free object</returns>
+        </member>
+        <member name="M:Helpers.ConcurrencyObjects`1.ReturnObject(`0)">
+            <summary>
+            Return object to bag
+            </summary>
+            <param name="obj">Object to return</param>
+        </member>
+        <member name="M:Helpers.ConcurrencyObjects`1.RemoveObject(`0)">
+            <summary>
+            Remove object from bag
+            </summary>
+            <param name="obj">Object to remove</param>
+        </member>
+        <member name="M:Helpers.ConcurrencyObjects`1.GetNewObjectInside">
+            <summary>
+            Get new object instance from function (is exists) or create it from default constructor
+            </summary>
+            <returns>Instance</returns>
+        </member>
+        <member name="P:Helpers.ConcurrencyObjects`1.GetNewObject">
+            <summary>
+            Function to get new instance of object
+            </summary>
+        </member>
+        <member name="T:Helpers.Extensions">
+            <summary>
+            Some extensions
+            </summary>
+        </member>
+        <member name="M:Helpers.Extensions.GetExceptionText(System.Exception,System.String,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get full exception text
+            </summary>
+            <param name="ex">Exception</param>
+            <param name="whereCathed">Cather information (e.g. function name)</param>
+            <param name="includeStackTrace">Include stack trace</param>
+            <param name="clearText">Include only exception (and inner exceptions) text</param>
+            <param name="includeData">Include exception data block is exists</param>
+            <returns>Exception text</returns>
+        </member>
+        <member name="M:Helpers.Extensions.Like(System.String,System.String,System.Boolean)">
+            <summary>
+            Check similarity for string and mask (RegEx used)
+            </summary>
+            <param name="source">Source string</param>
+            <param name="mask">Mask<br/><i>Should be like <b>test*mask*</b> or other</i></param>
+            <param name="ignoreCase">Ignore case for string and mask while checking</param>
+            <returns>Return true if source string like mask</returns>
+        </member>
+        <member name="M:Helpers.Extensions.StringLikes(System.String,System.String,System.Boolean)">
+            <summary>
+            Check similarity for string and mask (RegEx used)
+            </summary>
+            <param name="source">Source string</param>
+            <param name="mask">Mask<br/><i>Should be like <b>test*mask*</b> or other</i></param>
+            <param name="ignoreCase">Ignore case for string and mask while checking</param>
+            <returns>Return true if source string like mask</returns>
+        </member>
+        <member name="M:Helpers.Extensions.CopyObject``2(``0,``1)">
+            <summary>
+            Copy object properties from selected item to destination object. <br/>Object can be <b>not similar</b> types.
+            </summary>
+            <typeparam name="fromType">Type of source object</typeparam>
+            <typeparam name="toType">Type of destination object</typeparam>
+            <param name="from">Source object</param>
+            <param name="to">Destincation object</param>
+        </member>
+        <member name="M:Helpers.Extensions.CopyObjectTo``2(``0,``1)">
+            <summary>
+            Copy object properties from selected item to destination object. <br/>Object can be <b>not similar</b> types.
+            </summary>
+            <typeparam name="fromType">Type of source object</typeparam>
+            <typeparam name="toType">Type of destination object</typeparam>
+            <param name="from">Source object</param>
+            <param name="to">Destincation object</param>
+        </member>
+        <member name="M:Helpers.Extensions.CopyObjectFrom``2(``1,``0)">
+            <summary>
+            Copy object properties from selected item to destination object. <br/>Object can be <b>not similar</b> types.
+            </summary>
+            <typeparam name="fromType">Type of source object</typeparam>
+            <typeparam name="toType">Type of destination object</typeparam>
+            <param name="from">Source object</param>
+            <param name="to">Destincation object</param>
+        </member>
+        <member name="M:Helpers.Extensions.CopyObjectTo``2(``0,``1,System.String[])">
+            <summary>
+            Copy object properties from selected item to destination object. <br/>Object can be <b>not similar</b> types.
+            </summary>
+            <typeparam name="fromType">Type of source object</typeparam>
+            <typeparam name="toType">Type of destination object</typeparam>
+            <param name="from">Source object</param>
+            <param name="to">Destincation object</param>
+            <param name="excludePropertyes">Exclude some property names. Items can use LIKE syntax (ex: '*name*' or 'param*')</param>
+        </member>
+        <member name="M:Helpers.Extensions.CopyObjectFrom``2(``1,``0,System.String[])">
+            <summary>
+            Copy object properties from selected item to destination object. <br/>Object can be <b>not similar</b> types.
+            </summary>
+            <typeparam name="fromType">Type of source object</typeparam>
+            <typeparam name="toType">Type of destination object</typeparam>
+            <param name="from">Source object</param>
+            <param name="to">Destincation object</param>
+            <param name="excludePropertyes">Exclude some property names. Items can use LIKE syntax (ex: '*name*' or 'param*')</param>
+            <returns>Notifications</returns>
+        </member>
+        <member name="M:Helpers.Extensions.CopyObject``2(``0,``1,System.String[])">
+            <summary>
+            Copy object properties from selected item to destination object. <br/>Object can be <b>not similar</b> types.
+            </summary>
+            <typeparam name="fromType">Type of source object</typeparam>
+            <typeparam name="toType">Type of destination object</typeparam>
+            <param name="from">Source object</param>
+            <param name="to">Destincation object</param>
+            <param name="excludePropertyes">Exclude some property names. Items can use LIKE syntax (ex: '*name*' or 'param*')</param>
+            <returns>Notifications</returns>
+        </member>
+        <member name="M:Helpers.Extensions.GetAttributeValue``2(System.Enum,System.Func{``0,``1})">
+            <summary>
+            Get attribute for enumeration value.
+            </summary>
+            <typeparam name="T">Attribute type to select</typeparam>
+            <typeparam name="TExpected">Expected value type (e.g. string)</typeparam>
+            <param name="enumeration">Enumeration type</param>
+            <param name="expression">Selective expression</param>
+            <returns>Attribute value for scpecified enum value</returns>
+        </member>
+        <member name="T:Helpers.CSV.CSVFile">
+            <summary>
+            Helper for work with CSV file
+            </summary>
+        </member>
+        <member name="P:Helpers.CSV.CSVFile.Table">
+            <summary>
+            Result table
+            </summary>
+        </member>
+        <member name="P:Helpers.CSV.CSVFile.TotalRowCount">
+            <summary>
+            Total row count
+            </summary>
+        </member>
+        <member name="P:Helpers.CSV.CSVFile.ProcessedRowCount">
+            <summary>
+            Processed row count
+            </summary>
+        </member>
+        <member name="P:Helpers.CSV.CSVFile.FilePath">
+            <summary>
+            File path
+            </summary>
+        </member>
+        <member name="M:Helpers.CSV.CSVFile.Load(System.Collections.Generic.IEnumerable{System.String},System.String,System.String,System.Boolean,System.String,System.Action{System.String},System.Func{System.String,System.String},System.Action{System.Data.DataTable},System.Linq.Expressions.Expression{System.Func{System.Data.DataRow,System.Boolean}})">
+            <summary>
+            Load CSV table from lines
+            </summary>
+            <param name="lines">CSV file lines</param>
+            <param name="tableName">Result table name</param>
+            <param name="filePath">Result file path</param>
+            <param name="hasColumns">Is first row is column row</param>
+            <param name="delimiter">Separator between data</param>
+            <param name="verboseLogAction">Action to verbose load action</param>
+            <param name="columnRenamer">Action to rename columns</param>
+            <param name="tableValidator">Validate table before load</param>
+            <param name="rowFilter">Validate each row when load it</param>
+            <returns>CSV file load info</returns>
+        </member>
+        <member name="M:Helpers.CSV.CSVFile.Load(System.String,System.Text.Encoding,System.String,System.Boolean,System.String,System.Action{System.String},System.Func{System.String,System.String},System.Action{System.Data.DataTable},System.Linq.Expressions.Expression{System.Func{System.Data.DataRow,System.Boolean}})">
+            <summary>
+            Load CSV table from file
+            </summary>
+            <param name="filePath">File path to load file</param>
+            <param name="fileEncoding">File encoding</param>
+            <param name="tableName">Result table name</param>
+            <param name="hasColumns">Is first row is column row</param>
+            <param name="delimiter">Separator between data</param>
+            <param name="verboseLogAction">Action to verbose load action</param>
+            <param name="columnRenamer">Action to rename columns</param>
+            <param name="tableValidator">Validate table before load</param>
+            <param name="rowFilter">Filter each row when load it (true for add row in data table)</param>
+            <returns>CSV file load info</returns>
+        </member>
+        <member name="M:Helpers.CSV.CSVFile.Save(System.Data.DataTable,System.Boolean,System.String,System.Action{System.String},System.Func{System.String,System.String},System.Func{System.Data.DataColumn,System.Boolean})">
+            <summary>
+            Get lines for CSV file from DataTable
+            </summary>
+            <param name="table">Table with data for CSV file</param>
+            <param name="hasColumns">Write column line</param>
+            <param name="delimiter">Separator between data</param>
+            <param name="verboseLogAction">Action for verbose saving</param>
+            <param name="columnRenamer">Function for rename columns before save</param>
+            <param name="excludeColumn">Function for exclude columns</param>
+            <returns>CSV file lines</returns>
+        </member>
+        <member name="M:Helpers.CSV.CSVFile.Save(System.Data.DataTable,System.String,System.Text.Encoding,System.Boolean,System.String,System.Action{System.String},System.Func{System.String,System.String},System.Func{System.Data.DataColumn,System.Boolean})">
+            <summary>
+            Save DataTable to CSV file
+            </summary>
+            <param name="table">Table with data for CSV file</param>
+            <param name="filePath">File path to save file</param>
+            <param name="encoding">File encoding</param>
+            <param name="hasColumns">Write column line</param>
+            <param name="delimiter">Separator between data</param>
+            <param name="verboseLogAction">Action for verbose saving</param>
+            <param name="columnRenamer">Function for rename columns before save</param>
+            <param name="excludeColumn">Function for exclude columns</param>
+            <returns></returns>
+        </member>
+        <member name="M:Helpers.CSV.CSVFile.MergeTables(System.Collections.Generic.IEnumerable{System.Data.DataTable},System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Merge tables to one result table
+            </summary>
+            <param name="dataTables">Tables to merge</param>
+            <param name="columnsId">Identifiers column names</param>
+            <returns>Merged data table</returns>
+        </member>
+        <member name="T:Helpers.Linq.ConcatExtension">
+            <summary>
+            Concatination extension for LINQ helper
+            </summary>
+        </member>
+        <member name="M:Helpers.Linq.ConcatExtension.Concat``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String},System.String)">
+            <summary>
+            Get concatinated string from selector
+            </summary>
+            <typeparam name="TSelect">Selector type</typeparam>
+            <param name="selecter">Selector enumeration</param>
+            <param name="resultSelector">Selector function</param>
+            <param name="delimiter">Delimiter between strings (e.g. ';' or new string)</param>
+            <returns>Concatinated string</returns>
+        </member>
+        <member name="T:Helpers.Linq.GenericEqualityComparer`1">
+            <summary>
+            Generic comparer for linq Distinct() and other comparision operations
+            </summary>
+            <typeparam name="T">Comparable class type</typeparam>
+        </member>
+        <member name="M:Helpers.Linq.GenericEqualityComparer`1.#ctor(System.Func{`0,System.Object},System.Boolean)">
+            <summary>
+            Create new instance
+            </summary>
+            <param name="expr">Comparision expression</param>
+            <param name="withoutHash">Disable hash function if true</param>
+        </member>
+        <member name="M:Helpers.Linq.GenericEqualityComparer`1.Equals(`0,`0)">
+            <summary>
+            IEqualityComparer Equals between two objects realisation.
+            </summary>
+            <param name="x">First object</param>
+            <param name="y">Second object</param>
+            <returns>True if equals</returns>
+        </member>
+        <member name="M:Helpers.Linq.GenericEqualityComparer`1.GetHashCode(`0)">
+            <summary>
+            IEqualityComparer GetHashCode realisation 
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Helpers.Linq.GenericEqualityComparer`1.Get(System.Func{`0,System.Object},System.Boolean)">
+            <summary>
+            Get new instance
+            </summary>
+            <param name="expr">Comparision expression</param>
+            <param name="withoutHash">Disable hash function if true</param>
+            <returns>New GenericEqualityComparer instance</returns>
+        </member>
+        <member name="T:Helpers.Linq.GenericComperer`1">
+            <summary>
+            Generic comparer for linq OrderBy() and other comparision operations
+            </summary>
+            <typeparam name="T">Comparable class type</typeparam>
+        </member>
+        <member name="M:Helpers.Linq.GenericComperer`1.#ctor(System.Func{`0,System.IComparable})">
+            <summary>
+            Create new instance
+            </summary>
+            <param name="expr">Comparision expression</param>
+        </member>
+        <member name="M:Helpers.Linq.GenericComperer`1.Compare(`0,`0)">
+            <summary>
+            IComparer Compare between two objects realisation.
+            </summary>
+            <param name="x">First object</param>
+            <param name="y">Second object</param>
+            <returns>Comparision result</returns>
+        </member>
+        <member name="M:Helpers.Linq.GenericComperer`1.Get(System.Func{`0,System.IComparable})">
+            <summary>
+            Create new instance
+            </summary>
+            <param name="expr">Comparision expression</param>
+            <returns>New GenericComperer instance</returns>
+        </member>
+        <member name="T:Helpers.Linq.JoinedEnumerable">
+            <summary>
+            This is my own extension class for some join selectors. I copied it as it is (from my own helper library)
+            </summary>
+        </member>
+        <member name="T:Helpers.Log">
+            <summary>
+            Log static class for loggin anything
+            </summary>
+        </member>
+        <member name="T:Helpers.Log.SessionInfo">
+            <summary>
+            Session information class
+            </summary>
+        </member>
+        <member name="F:Helpers.Log.SessionInfo.SessionStart">
+            <summary>
+            Session start
+            </summary>
+        </member>
+        <member name="F:Helpers.Log.SessionInfo.SessionName">
+            <summary>
+            Session name
+            </summary>
+        </member>
+        <member name="P:Helpers.Log.SessionInfo.Enabled">
+            <summary>
+            Is log write enabled
+            </summary>
+        </member>
+        <member name="M:Helpers.Log.SessionInfo.#ctor(System.String,System.Boolean,System.Action{System.Collections.Generic.IEnumerable{System.String}})">
+            <summary>
+            Create new instance
+            </summary>
+            <param name="sessionName">Session name</param>
+            <param name="isEnabled">Is log write enabled by default</param>
+            <param name="output">Output log action</param>
+        </member>
+        <member name="M:Helpers.Log.SessionInfo.Add(System.String,System.String)">
+            <summary>
+            Add log message
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Helpers.Log.SessionInfo.Add(System.Exception,System.String)">
+            <summary>
+            Add log message from exception with catcher information
+            </summary>
+            <param name="ex">Exception to log</param>
+            <param name="whereCathed">Cather information (e.g. function name)</param>
+        </member>
+        <member name="M:Helpers.Log.SessionInfo.Clear">
+            <summary>
+            Clear log
+            </summary>
+        </member>
+        <member name="P:Helpers.Log.SessionInfo.TotalElapsed">
+            <summary>
+            Total elapsed time
+            </summary>
+        </member>
+        <member name="P:Helpers.Log.SessionInfo.PartElapsed">
+            <summary>
+            Last part elapsed time
+            </summary>
+        </member>
+        <member name="M:Helpers.Log.SessionInfo.LogElapsed">
+            <summary>
+            Write log elapsed part time and start new part
+            </summary>
+        </member>
+        <member name="M:Helpers.Log.SessionInfo.Dispose">
+            <summary>
+            Dispose log session and flush write log if enabled
+            </summary>
+        </member>
+        <member name="P:Helpers.Log.LogFileName">
+            <summary>
+            Get or Set log file name. <i>Log file located in current assembly directory</i>
+            </summary>
+        </member>
+        <member name="P:Helpers.Log.CurrentPath">
+            <summary>
+            Get current assembly path
+            </summary>
+        </member>
+        <member name="P:Helpers.Log.LogFilePath">
+            <summary>
+            Get full log file path
+            </summary>
+        </member>
+        <member name="M:Helpers.Log.Add(System.String,System.String)">
+            <summary>
+            Add log message
+            </summary>
+            <param name="message"></param>
+            <param name="whereCathed">Where is message catched</param>
+        </member>
+        <member name="M:Helpers.Log.Add(System.Exception,System.String)">
+            <summary>
+            Add log message from exception with catcher information
+            </summary>
+            <param name="ex">Exception to log</param>
+            <param name="whereCathed">Cather information (e.g. function name)</param>
+        </member>
+        <member name="M:Helpers.Log.Session(System.String,System.Boolean,System.Action{System.Collections.Generic.IEnumerable{System.String}})">
+            <summary>
+            Create log session. Log collected in session and flush on session dispose (if enabled)
+            </summary>
+            <param name="sessionName">Log session name</param>
+            <param name="isEnabled">Is session flush enabled for default</param>
+            <param name="output">Override log output if need</param>
+            <returns>Disposable session</returns>
+        </member>
+        <member name="M:Helpers.Log.Clear">
+            <summary>
+            Clear (remove) log file
+            </summary>
+        </member>
+        <member name="T:Helpers.Old.Log">
+            <summary>
+            Log static class for loggin anything
+            </summary>
+        </member>
+        <member name="P:Helpers.Old.Log.LogFileName">
+            <summary>
+            Get or Set log file name. <i>Log file located in current assembly directory</i>
+            </summary>
+        </member>
+        <member name="P:Helpers.Old.Log.CurrentPath">
+            <summary>
+            Get current assembly path
+            </summary>
+        </member>
+        <member name="P:Helpers.Old.Log.LogFilePath">
+            <summary>
+            Get full log file path
+            </summary>
+        </member>
+        <member name="M:Helpers.Old.Log.SessionStart(System.String,System.Boolean)">
+            <summary>
+            Start new log session
+            </summary>
+            <param name="sessionName">Session name (e.g. function name)</param>
+            <param name="isBlockInfo">Write log after close session or write directly</param>
+            <returns>Session identifier</returns>
+        </member>
+        <member name="M:Helpers.Old.Log.SessionEnd(System.Guid,System.Boolean)">
+            <summary>
+            Close log session
+            </summary>
+            <param name="session">Session identifier</param>
+            <param name="writeThisBlock">Use false to hide this session log</param>
+        </member>
+        <member name="M:Helpers.Old.Log.Add(System.String)">
+            <summary>
+            Add log message
+            </summary>
+            <param name="logMessage">Message to log</param>
+        </member>
+        <member name="M:Helpers.Old.Log.AddWithCatcher(System.String,System.String)">
+            <summary>
+            Add log message with cather information
+            </summary>
+            <param name="whereCathed">Cather information (e.g. function name)</param>
+            <param name="logMessage">Message to log</param>
+        </member>
+        <member name="M:Helpers.Old.Log.Add(System.String,System.String)">
+            <summary>
+            Add log message with cather information
+            </summary>
+            <param name="whereCathed">Cather information (e.g. function name)</param>
+            <param name="logMessage">Message to log</param>
+        </member>
+        <member name="M:Helpers.Old.Log.Add(System.Guid,System.String)">
+            <summary>
+            Add log message to session
+            </summary>
+            <param name="session">Session identifier</param>
+            <param name="logMessage">Message to log</param>
+        </member>
+        <member name="M:Helpers.Old.Log.Add(System.Guid,System.Exception)">
+            <summary>
+            Add log message from exception to session
+            </summary>
+            <param name="session">Session identifier</param>
+            <param name="ex">Exception to log</param>
+        </member>
+        <member name="M:Helpers.Old.Log.Add(System.Exception)">
+            <summary>
+            Add log message from exception
+            </summary>
+            <param name="ex">Exception to log</param>
+        </member>
+        <member name="M:Helpers.Old.Log.Add(System.Exception,System.String)">
+            <summary>
+            Add log message from exception with catcher information
+            </summary>
+            <param name="ex">Exception to log</param>
+            <param name="whereCathed">Cather information (e.g. function name)</param>
+        </member>
+        <member name="M:Helpers.Old.Log.Clear">
+            <summary>
+            Clear (remove) log file
+            </summary>
+        </member>
+        <member name="T:Helpers.Serialization.ISerializable">
+            <summary>
+            Interface for deserialization for objects
+            </summary>
+        </member>
+        <member name="M:Helpers.Serialization.ISerializable.OnDeserialized">
+            <summary>
+            Invoke after deserialization ends
+            </summary>
+        </member>
+        <member name="T:Helpers.Serialization.Extensions">
+            <summary>
+            Extensions for serialization methods
+            </summary>
+        </member>
+        <member name="M:Helpers.Serialization.Extensions.SerializeToBytes(System.Object,System.Boolean)">
+            <summary>
+            Serialize this current object to byte array
+            </summary>
+            <param name="source">Object to serialize</param>
+            <param name="compressed">Use GZip compression</param>
+            <returns>Byte array of serialized object</returns>
+        </member>
+        <member name="M:Helpers.Serialization.Extensions.SerializeToBase64(System.Object,System.Boolean)">
+            <summary>
+            Serialize this current object to Base64 string
+            </summary>
+            <param name="source">Object to serialize</param>
+            <param name="compressed">Use GZip compression</param>
+            <returns>Base64 string of object serialization</returns>
+        </member>
+        <member name="M:Helpers.Serialization.Extensions.SerializeToXML(System.Object,System.Boolean)">
+            <summary>
+            Serialize this current object to XML string
+            </summary>
+            <param name="source">Object to serialize</param>
+            <param name="clean">Is XML result clean</param>
+            <returns>XML string of object serialization</returns>
+        </member>
+        <member name="M:Helpers.Serialization.Extensions.DeserializeFromBytes``1(System.Type,System.Byte[],System.Boolean,``0@)">
+            <summary>
+            Deserialization byte array to selected object. <i>Using: typeof(item).DeserializeFromBytes(...)</i>
+            </summary>
+            <typeparam name="type">Object type</typeparam>
+            <param name="typeOfObject">Object type</param>
+            <param name="bytes">Byte array to deserialization</param>
+            <param name="compressed">Is stream was compressed</param>
+            <param name="result">Deserializated object</param>
+        </member>
+        <member name="M:Helpers.Serialization.Extensions.DeserializeFromBase64``1(System.Type,System.String,System.Boolean,``0@)">
+            <summary>
+            Deserialization base64 string to selected object. <i>Using: typeof(item).DeserializeFromBase64(...)</i>
+            </summary>
+            <typeparam name="type">Object type</typeparam>
+            <param name="typeOfObject">Object type</param>
+            <param name="base64String">Base64 string to deserialization</param>
+            <param name="compressed">Is stream was compressed</param>
+            <param name="result">Deserializated object</param>
+        </member>
+        <member name="M:Helpers.Serialization.Extensions.DeserializeFromXML``1(System.Type,System.String,``0@)">
+            <summary>
+            Deserialization XML string to selected object. <i>Using: typeof(item).DeserializeFromXML(...)</i>
+            </summary>
+            <typeparam name="type">Object type</typeparam>
+            <param name="typeOfObject">Object type</param>
+            <param name="xml">Xml string to deserialization</param>
+            <param name="result">Deserializated object</param>
+        </member>
+        <member name="M:Helpers.Serialization.Extensions.CompressToBytes(System.String)">
+            <summary>
+            Compress current string to bytes using GZip
+            </summary>
+            <param name="source">String to compress</param>
+            <returns>Compressed byte array</returns>
+        </member>
+        <member name="M:Helpers.Serialization.Extensions.DecompressFromBytes(System.Byte[])">
+            <summary>
+            Decompress byte array to string
+            </summary>
+            <param name="source">Source byte array</param>
+            <returns>Decompressed string</returns>
+        </member>
+        <member name="T:Helpers.PercentageProgress">
+            <summary>
+            Class to calculate percentage progress for many values
+            </summary>
+        </member>
+        <member name="T:Helpers.PercentageProgress.PercentageProgressEventArgs">
+            <summary>
+            Event arguments for percentage progress change events
+            </summary>
+        </member>
+        <member name="M:Helpers.PercentageProgress.PercentageProgressEventArgs.#ctor">
+            <summary>
+            Create new instance
+            </summary>
+        </member>
+        <member name="M:Helpers.PercentageProgress.PercentageProgressEventArgs.#ctor(System.Decimal)">
+            <summary>
+            Create new instance and init value
+            </summary>
+            <param name="value">Value</param>
+        </member>
+        <member name="F:Helpers.PercentageProgress.PercentageProgressEventArgs.Value">
+            <summary>
+            Current percentage progress value
+            </summary>
+        </member>
+        <member name="M:Helpers.PercentageProgress.#ctor">
+            <summary>
+            Create PercentageProgress instance
+            </summary>
+        </member>
+        <member name="P:Helpers.PercentageProgress.Value">
+            <summary>
+            Get or set current percentage value for this part (from 0 to 100)
+            </summary>
+        </member>
+        <member name="P:Helpers.PercentageProgress.Weight">
+            <summary>
+            Get or set weight for child node (default = 1)
+            </summary>
+        </member>
+        <member name="P:Helpers.PercentageProgress.HasChilds">
+            <summary>
+            Get if current part has child
+            </summary>
+        </member>
+        <member name="M:Helpers.PercentageProgress.GetChild(System.Decimal,System.Decimal)">
+            <summary>
+            Get new child with default value
+            </summary>
+            <param name="value">Percentage value for new child</param>
+            <param name="weight">Percentage item weight for parent item</param>
+            <returns>Child with default value for this item</returns>
+        </member>
+        <member name="M:Helpers.PercentageProgress.RemoveChild(Helpers.PercentageProgress)">
+            <summary>
+            Remove child
+            </summary>
+            <param name="child">Child to remove</param>
+        </member>
+        <member name="E:Helpers.PercentageProgress.Change">
+            <summary>
+            Occurs when a property Value changes
+            </summary>
+        </member>
+        <member name="T:Helpers.Resource">
+            <summary>
+              Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
+            </summary>
+        </member>
+        <member name="P:Helpers.Resource.ResourceManager">
+            <summary>
+              Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
+            </summary>
+        </member>
+        <member name="P:Helpers.Resource.Culture">
+            <summary>
+              Перезаписывает свойство CurrentUICulture текущего потока для всех
+              обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
+            </summary>
+        </member>
+        <member name="P:Helpers.Resource.Helpers_CSV_Load_NoOneRowFound">
+            <summary>
+              Ищет локализованную строку, похожую на No one row found in imported data.
+            </summary>
+        </member>
+        <member name="P:Helpers.Resource.PercentageProgress_ValueMustBeMoreZeroAndLesstOneHundred">
+            <summary>
+              Ищет локализованную строку, похожую на Value must be more or equal 0 and less or equal 100.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9BDFF29B-A718-44BD-AB2E-2D2C815D7FB8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Personnel.Application.ViewModels</RootNamespace>
+    <AssemblyName>Personnel.Application.ViewModels</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Helpers">
+      <HintPath>..\..\Helpers\Helpers\bin\Release\Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Helpers.WPF">
+      <HintPath>..\..\Helpers\Helpers.WPF\bin\Release\Helpers.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdditionalModels\LimitedObservableCollection.cs" />
+    <Compile Include="Notifications\NotificationDataViewModel.cs" />
+    <Compile Include="AdditionalModels\TempData.cs" />
+    <Compile Include="Additional\AbstractBaseViewModel.cs" />
+    <Compile Include="Birthdays\EmployeeViewModel.cs" />
+    <Compile Include="Birthdays\LevelViewModel.cs" />
+    <Compile Include="Birthdays\TimePartViewModel.cs" />
+    <Compile Include="Birthdays\ViewModel.cs" />
+    <Compile Include="History\ViewModel.cs" />
+    <Compile Include="Notifications\NotificationItemViewModel.cs" />
+    <Compile Include="Notifications\ViewModel.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\HistoryService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\StaffingService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\StorageService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Staffing\ViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Static.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Service References\HistoryService\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\HistoryService\Personnel.Application.ViewModels.HistoryService.HistoryResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\HistoryService\Personnel.Services.Model.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\HistoryService\service.wsdl" />
+    <None Include="Service References\HistoryService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\HistoryService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StaffingService\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.AppointResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.AppointResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.DepartmentResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.DepartmentResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.EmployeeResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.EmployeeResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.LoginValueResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.RightResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.RightValueResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.StaffingResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.StaffingResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StaffingService\Personnel.Services.Model.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StaffingService\service.wsdl" />
+    <None Include="Service References\StaffingService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StaffingService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StorageService\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StorageService\Message.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StorageService\Personnel.Application.ViewModels.StorageService.FileResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StorageService\Personnel.Application.ViewModels.StorageService.FileResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StorageService\Personnel.Application.ViewModels.StorageService.PictureResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StorageService\Personnel.Services.Model.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StorageService\Personnel.Services.Service.File.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StorageService\service.wsdl" />
+    <None Include="Service References\StorageService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StorageService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\HistoryService\" />
+    <WCFMetadataStorage Include="Service References\StaffingService\" />
+    <WCFMetadataStorage Include="Service References\StorageService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\HistoryService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\HistoryService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\HistoryService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StaffingService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StaffingService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StaffingService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StorageService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StorageService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StorageService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\Icons\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

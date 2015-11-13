@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f80552e9-aa1f-4414-944e-befb1b06adf2" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/staffing/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="0ed64a45-fd28-43fa-bb3b-8e769c570b66" SourceId="1" SourceUrl="http://localhost:8733/staffing/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="63d94144-92bc-4cf2-afb5-98add5b06f8c" SourceId="1" SourceUrl="http://localhost:8733/staffing/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="660fc4e8-c90b-4a00-b468-1a2bd6ba76d7" SourceId="1" SourceUrl="http://localhost:8733/staffing/mex" />
+    <MetadataFile FileName="Personnel.Services.Model.xsd" MetadataType="Schema" ID="3616f11a-7b70-4980-9805-817626fec1c0" SourceId="1" SourceUrl="http://localhost:8733/staffing/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="2c4bb5d4-31f6-4b7a-b2bf-76eb2b226a0b" SourceId="1" SourceUrl="http://localhost:8733/staffing/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
