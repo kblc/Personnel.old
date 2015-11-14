@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Helpers.Linq;
+using Personnel.Application.ViewModels.AdditionalModels;
 
 namespace Personnel.Application.ViewModels.Birthdays
 {
@@ -26,7 +27,9 @@ namespace Personnel.Application.ViewModels.Birthdays
             }
         }
 
-        public ObservableCollection<LevelViewModel> Levels { get; } = new ObservableCollection<LevelViewModel>();
+        public ObservableCollection<EmployeeViewModel> Today { get; } = new MTObservableCollection<EmployeeViewModel>();
+
+        public ObservableCollection<LevelViewModel> Levels { get; } = new MTObservableCollection<LevelViewModel>();
 
         private float levelsHorizontalPosition = 50;
         public float LevelsHorizontalPosition
@@ -61,10 +64,27 @@ namespace Personnel.Application.ViewModels.Birthdays
                 Levels.Clear();
                 SelectedLevel = null;
 
-                var now = DateTime.Now;
+                var dtNow = DateTime.Now;
+                var now = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day);
                 var start = now - TimeSpan.FromDays(Period.TotalDays / 2d);
                 var end = start + Period;
 
+                #region Today
+
+                var employeesToday = Static.Staffing.Employee
+                    .Where(e => e.Birthday.HasValue)
+                    .Select(e => new { Employee = e, YearBirthday = GetEmployeeDateBirthFor(now, now, e.Birthday.Value) })
+                    .Where(e => e.YearBirthday != null)
+                    .Select(e => new EmployeeViewModel()
+                    {
+                        Employee = e.Employee,
+                        Age = e.YearBirthday.Value.Year - e.Employee.Birthday.Value.Year,
+                        IsBirthdayGone = e.YearBirthday.Value < now
+                    });
+                foreach(var employee in employeesToday)
+                    Today.Add(employee);
+
+                #endregion
                 #region Level 1
 
                 var getWeekNameByDate = new Func<DateTime, string>((dt) => $"{Properties.Resources.VMBIRTHDAYS_WEEK} {dt.DayOfYear / 7} - {dt.Year}");
@@ -74,28 +94,6 @@ namespace Personnel.Application.ViewModels.Birthdays
                     var nameEnd = getWeekNameByDate(dt1);
                     return (nameStart == nameEnd) ? nameStart : $"{nameStart} ~ {nameEnd}";
                 });
-
-                var getEmployeeDateBirth = new Func<DateTime, DateTime, DateTime, DateTime?>((dateFrom, dateTo, birthDay) =>
-                {
-                    if (dateFrom.Year == dateTo.Year)
-                    {
-                        if (dateFrom.DayOfYear <= birthDay.DayOfYear && birthDay.DayOfYear <= dateTo.DayOfYear)
-                            return new DateTime(dateFrom.Year, birthDay.Month, birthDay.Day);
-                    } else
-                    {
-                        var dateTo2 = new DateTime(dateTo.Year, 1, 1);
-                        if (dateFrom.DayOfYear <= birthDay.DayOfYear && birthDay.DayOfYear < dateTo2.DayOfYear)
-                        {
-                            return new DateTime(dateFrom.Year, birthDay.Month, birthDay.Day);
-                        }
-                        if (dateTo2.DayOfYear <= birthDay.DayOfYear && birthDay.DayOfYear < dateTo.DayOfYear)
-                        {
-                            return new DateTime(dateTo2.Year, birthDay.Month, birthDay.Day);
-                        }
-                    }
-                    return null;
-                });
-                
 
                 var level1 = new LevelViewModel() { Name = Properties.Resources.VMBIRTHDAYS_BYWEEK };
                 var weekStart = start - TimeSpan.FromDays((int)start.DayOfWeek) - TimeSpan.FromTicks(start.Ticks);
@@ -112,7 +110,7 @@ namespace Personnel.Application.ViewModels.Birthdays
 
                     var employees = Static.Staffing.Employee
                         .Where(e => e.Birthday.HasValue)
-                        .Select(e => new { Employee = e, YearBirthday = getEmployeeDateBirth(tp.Start, tp.End, e.Birthday.Value) })
+                        .Select(e => new { Employee = e, YearBirthday = GetEmployeeDateBirthFor(tp.Start, tp.End, e.Birthday.Value) })
                         .Where(e => e.YearBirthday != null)
                         .Select(e => new EmployeeViewModel()
                         {
@@ -146,6 +144,28 @@ namespace Personnel.Application.ViewModels.Birthdays
             {
                 Static.Notifications.AddExceptionNotification(ex);
             }
+        }
+
+        private static DateTime? GetEmployeeDateBirthFor(DateTime periodDateFrom, DateTime periodDateTo, DateTime realBirthday)
+        {
+            if (periodDateFrom.Year == periodDateTo.Year)
+            {
+                if (periodDateFrom.DayOfYear <= realBirthday.DayOfYear && realBirthday.DayOfYear <= periodDateTo.DayOfYear)
+                    return new DateTime(periodDateFrom.Year, realBirthday.Month, realBirthday.Day);
+            }
+            else
+            {
+                var dateTo2 = new DateTime(periodDateTo.Year, 1, 1);
+                if (periodDateFrom.DayOfYear <= realBirthday.DayOfYear && realBirthday.DayOfYear < dateTo2.DayOfYear)
+                {
+                    return new DateTime(periodDateFrom.Year, realBirthday.Month, realBirthday.Day);
+                }
+                if (dateTo2.DayOfYear <= realBirthday.DayOfYear && realBirthday.DayOfYear < periodDateTo.DayOfYear)
+                {
+                    return new DateTime(dateTo2.Year, realBirthday.Month, realBirthday.Day);
+                }
+            }
+            return null;
         }
 
         private LevelViewModel selectedLevel = null;

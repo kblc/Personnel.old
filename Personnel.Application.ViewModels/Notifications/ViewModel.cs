@@ -40,8 +40,7 @@ namespace Personnel.Application.ViewModels.Notifications
 
         public const string IconUrlError = "";
 
-        public LimitedObservableCollection<NotificationItemViewModel> Notifications { get; }
-            = new LimitedObservableCollection<NotificationItemViewModel>(15);
+        public LimitedObservableCollection<NotificationItemViewModel> Notifications { get; } = new LimitedObservableCollection<NotificationItemViewModel>(15);
 
         private NotificationItemViewModel selectedNotification = null;
         public NotificationItemViewModel SelectedNotification
@@ -68,27 +67,26 @@ namespace Personnel.Application.ViewModels.Notifications
 
         protected override void Init()
         {
+            var getItemFunc = new Func<NotificationDataViewModel, NotificationItemViewModel>((data) => Notifications.Where(i => i.Data == data).FirstOrDefault());
+            var removeFunc = new Action<NotificationItemViewModel, bool>((itm, andSelected) =>
+            {
+                if (itm != null)
+                    try
+                    {
+                        if (Notifications.Contains(itm))
+                            Notifications.Remove(itm);
+
+                        if (andSelected && SelectedNotification == itm)
+                            ChangeSelectedTo(null);
+                    }
+                    catch { }
+            });
+
             Notifications.CollectionChanged += (s, e) =>
             {
                 if (e.NewItems != null)
                     foreach (var item in e.NewItems.OfType<NotificationItemViewModel>())
                     {
-                        var getItemFunc = new Func<NotificationDataViewModel, NotificationItemViewModel>((data) => Notifications.Where(i => i.Data == data).FirstOrDefault());
-
-                        var removeFunc = new Action<NotificationItemViewModel, bool>((itm, andSelected) =>
-                        {
-                            if (itm != null)
-                                try
-                                {
-                                    if (Notifications.Contains(itm))
-                                        Notifications.Remove(itm);
-
-                                    if (andSelected && SelectedNotification == itm)
-                                        ChangeSelectedTo(null);
-                                }
-                                catch { }
-                        });
-
                         item.OnEnd += (s2, e2) => removeFunc(s2 as NotificationItemViewModel, false);
                         if (item.Data != null)
                         { 
@@ -113,19 +111,9 @@ namespace Personnel.Application.ViewModels.Notifications
                 ex.GetExceptionText(), 
                 true,
                 GetIconForType(entityTypeName) ?? IconUrlError);
+
             var data = new NotificationItemViewModel(notification);
-
-            var syncContext = System.Threading.SynchronizationContext.Current;
-            if (syncContext == null)
-            {
-                System.Threading.SynchronizationContext.SetSynchronizationContext(new System.Threading.SynchronizationContext());
-                syncContext = System.Threading.SynchronizationContext.Current;
-            }
-
-            if (syncContext != null)
-                syncContext.Send((x) => Static.Notifications.Notifications.Add(data), null);
-            else
-                Static.Notifications.Notifications.Add(data);
+            Static.Notifications.Notifications.Add(data);
         }
 
         public event EventHandler<NotificationItemViewModel> ShowNotification;

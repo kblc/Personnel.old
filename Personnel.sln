@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personnel.Application.ViewM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personnel.Services.ConsoleServer", "Personnel.Services.ConsoleServer\Personnel.Services.ConsoleServer.csproj", "{4452964D-7E8F-4FD1-A771-A42A0DA9564B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personnel.Appn", "Personnel.Appn\Personnel.Appn.csproj", "{7EE33AFC-4D91-4095-B733-449BB9D47F69}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personnel.Application", "Personnel.Appn\Personnel.Application.csproj", "{7EE33AFC-4D91-4095-B733-449BB9D47F69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

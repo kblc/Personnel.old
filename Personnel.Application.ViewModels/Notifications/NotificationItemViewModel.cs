@@ -10,7 +10,7 @@ namespace Personnel.Application.ViewModels.Notifications
     public class NotificationItemViewModel : AdditionalModels.TempData<NotificationDataViewModel>
     {
         public NotificationItemViewModel() : base() { }
-        public NotificationItemViewModel(NotificationDataViewModel data) : base(data) { }
+        public NotificationItemViewModel(NotificationDataViewModel data) : base(TimeSpan.FromSeconds(15), data) { }
 
         private bool isSelected = false;
         public bool IsSelected

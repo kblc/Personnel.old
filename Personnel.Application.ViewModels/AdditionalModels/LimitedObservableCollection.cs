@@ -59,6 +59,17 @@ namespace Personnel.Application.ViewModels.AdditionalModels
             }
         }
 
+        protected readonly object lockObject = new object();
+        protected override void RemoveItem(int index)
+        {
+            lock (lockObject)
+                base.RemoveItem(index);
+        }
+        protected override void InsertItem(int index, T item)
+        {
+            lock(lockObject)
+                base.InsertItem(index, item);
+        }
     }
 
     public class LimitedObservableCollection<T> : MTObservableCollection<T>

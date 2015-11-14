@@ -8,3 +8,13 @@ C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\FileStorage\obj\
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\FileStorage\obj\Debug\FileStorage.pdb
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\FileStorage\bin\Debug\FileStorage.dll.config
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\FileStorage\obj\Debug\FileStorage.csprojResolveAssemblyReference.cache
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\FileStorage\bin\Debug\FileStorage.dll.config
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\FileStorage\bin\Debug\FileStorage.dll
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\FileStorage\bin\Debug\FileStorage.pdb
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\FileStorage\bin\Debug\Helpers.dll
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\FileStorage\bin\Debug\Helpers.pdb
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\FileStorage\bin\Debug\Helpers.xml
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\FileStorage\bin\Debug\ru\Helpers.resources.dll
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\FileStorage\obj\Debug\FileStorage.csprojResolveAssemblyReference.cache
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\FileStorage\obj\Debug\FileStorage.dll
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\FileStorage\obj\Debug\FileStorage.pdb

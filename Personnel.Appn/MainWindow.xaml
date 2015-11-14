@@ -11,6 +11,7 @@
         xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         xmlns:controls="clr-namespace:Personnel.Appn.Controls"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
@@ -30,6 +31,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
                 <ResourceDictionary Source="Templates/Notifications/NotificationTemplates.xaml" />
+                <ResourceDictionary Source="Templates/Birthdays/BirthdaysTemplates.xaml" />
                 <ResourceDictionary>
                     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
                     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter"/>
@@ -38,6 +40,9 @@
                     <helperConverters:IsEqualsConverter x:Key="IsEqualsConverter"/>
                     <helperConverters:IsNotEqualVisibilityConverter x:Key="IsNotEqualVisibilityConverter"/>
                     <helperConverters:NullToFalseConverter x:Key="NullToFalseConverter"/>
+                    <controls:ContentStorageControl x:Key="abc">
+                        
+                    </controls:ContentStorageControl>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -51,18 +56,40 @@
                                 HorizontalAlignment="Right" Margin="16"
                                 IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
                     <ListBox x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="0"                         
-                                PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
+                             PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="controls:ContentStorageControl">
                                 <ContentPresenter Content="{Binding Header}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <controls:ContentStorageControl HeaderName="Дни рождения">
+                            <controls:ContentStorageControl.Header>
+                                <TextBlock Text="{Binding Source={x:Static static:Static.Birthdays}, Path=Today.Count, StringFormat=Дни рождения ({0})}" Margin="32 0 32 0" />
+                            </controls:ContentStorageControl.Header>
+                            <controls:ContentStorageControl.Content>
+                                <Grid DataContext="{x:Static static:Static.Birthdays}">
+                                    <Grid Margin="16">
+                                        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="16">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding SelectedLevel.Name}" FontSize="18" FontWeight="Bold"/>
+                                            <Button Content="+" Grid.Column="1" Command="{Binding LevelUpCommand}"/>
+                                            <Button Content="-" Grid.Column="2" Command="{Binding LevelDownCommand}"/>
+                                        </Grid>
+                                        <!--<ContentControl Content="{Binding SelectedLevel}" Template="{DynamicResource BirthdaysLevelControlTemplate}"/>-->
+                                        <ContentPresenter Content="{Binding SelectedLevel}" ContentTemplate="{DynamicResource BirthdaysLevelTemplate}"/>
+                                    </Grid>
+                                </Grid>
+                            </controls:ContentStorageControl.Content>
+                        </controls:ContentStorageControl>
                         <controls:ContentStorageControl HeaderName="Уведомления">
                             <controls:ContentStorageControl.Header>
                                 <TextBlock Text="{Binding Source={x:Static static:Static.Notifications}, Path=Notifications.Count, StringFormat=Уведомления ({0})}" Margin="32 0 32 0" />
                             </controls:ContentStorageControl.Header>
                             <controls:ContentStorageControl.Content>
-
                                 <Grid DataContext="{x:Static static:Static.Notifications}">
                                     <Grid.Resources>
                                         <CollectionViewSource Source="{Binding Notifications}" x:Key="notifications">
@@ -107,7 +134,7 @@
             </md:DrawerHost.LeftDrawerContent>
             <DockPanel>
                 <md:ColorZone Padding="8" md:ShadowAssist.ShadowDepth="Depth2"
-                            Mode="PrimaryLight" DockPanel.Dock="Top">
+                              Mode="PrimaryLight" DockPanel.Dock="Top">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -119,33 +146,17 @@
                         <TextBlock Grid.Column="1" Margin="8" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Center"
                                    Text="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.HeaderName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <Border Grid.Column="2" DataContext="{x:Static static:Static.History}" VerticalAlignment="Center" Width="60">
-                            <Grid>
-                                <!--<Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>-->
-
-                                <!--<Border Background="Orange" Grid.RowSpan="999" Grid.ColumnSpan="999" Visibility="{Binding IsLoaded, Converter={StaticResource ReverseBooleanToVisibilityConverter}}"/>
-                                <Border Background="LightCoral" Grid.RowSpan="999" Grid.ColumnSpan="999" Visibility="{Binding IsError, Converter={StaticResource BooleanToVisibilityConverter}}"/>-->
-
-                                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
-                                             IsIndeterminate="True"
-                                             x:Name="DeterminateCircularProgress"
-                                             VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <ProgressBar.Visibility>
-                                        <MultiBinding Converter="{StaticResource MultiBooleanORToVisibilityConverter}">
-                                            <Binding Path="IsWaiting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
-                                            <Binding Path="IsLoaded" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
-                                        </MultiBinding>
-                                    </ProgressBar.Visibility>
-                                </ProgressBar>
-
-                                <!--<TextBlock Text="history" HorizontalAlignment="Center" FontWeight="Bold"/>
-                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
-                                    <TextBlock Text="Waiting.." Visibility="{Binding IsWaiting, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                    <TextBlock Text="Loading.." Visibility="{Binding IsLoaded, Converter={StaticResource ReverseBooleanToVisibilityConverter}}"/>
-                                </Grid>-->
-                            </Grid>
+                            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
+                                         IsIndeterminate="True"
+                                         VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <ProgressBar.Visibility>
+                                    <MultiBinding Converter="{StaticResource MultiBooleanORToVisibilityConverter}">
+                                        <Binding Path="IsConnecting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="True"/>
+                                        <Binding Path="IsWaiting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
+                                        <Binding Path="IsLoaded" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
+                                    </MultiBinding>
+                                </ProgressBar.Visibility>
+                            </ProgressBar>
                         </Border>
                     </Grid>
                 </md:ColorZone>

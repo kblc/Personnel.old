@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
                     xmlns:staticNotification="clr-namespace:Personnel.Application.ViewModels.Notifications;assembly=Personnel.Application.ViewModels"
-                    xmlns:local="clr-namespace:Personnel.Appn.Templates.Notifications"
                     xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
                     xmlns:helperConverterss="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF">
+    
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
@@ -56,9 +56,10 @@
                                 TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"/>
                 </Grid>
 
-                <Button Grid.RowSpan="999" Grid.Column="2" Style="{DynamicResource MaterialDesignRaisedDarkButton}" 
-                        HorizontalAlignment="Right" VerticalAlignment="Center"
-                        Margin="4 4 8 4" Cursor="Hand"
+                <Button Grid.RowSpan="999" Grid.Column="2" Style="{DynamicResource MaterialDesignDarkButton}" 
+                        HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                        Margin="4 4 8 4" 
+                        Cursor="Hand"
                         Command="{Binding Data.CloseCommand}">
                     <TextBlock Text="hide" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>

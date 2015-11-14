@@ -92,11 +92,22 @@ namespace Personnel.Application.ViewModels.Staffing
         private Thread initThread = null;
         protected override void Init()
         {
+            Static.History.IsLoadedChanged += (s, isLoaded) => { if (isLoaded) InitThread(); };
+            if (Static.History.IsLoaded)
+                InitThread();
+            Static.History.Changed += OnHistoryChanged;
+        }
+
+        private void InitThread()
+        {
+            if (initThread != null)
+                throw new Exception("Thread already initialized");
+
             initThread = new Thread(new ParameterizedThreadStart(InitThread));
             initThread.IsBackground = true;
             initThread.Start(Context);
-            Static.History.Changed += OnHistoryChanged;
         }
+
         protected override void OnDisposing()
         {
             if (initThread != null && initThread.IsAlive)

@@ -6,3 +6,11 @@ C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Servic
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\obj\Debug\Personnel.Services.Tests.dll
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\obj\Debug\Personnel.Services.Tests.pdb
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Services.Tests\bin\Debug\Personnel.Services.Tests.dll.config
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Services.Tests\bin\Debug\Personnel.Services.Tests.dll.config
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Services.Tests\bin\Debug\Personnel.Services.Tests.dll
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Services.Tests\bin\Debug\Personnel.Services.Tests.pdb
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Services.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Services.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Services.Tests\obj\Debug\Personnel.Services.Tests.csprojResolveAssemblyReference.cache
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Services.Tests\obj\Debug\Personnel.Services.Tests.dll
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Services.Tests\obj\Debug\Personnel.Services.Tests.pdb
