@@ -125,6 +125,8 @@ namespace Personnel.Application.ViewModels.Staffing
 
             var checkAggregateExceptions = new Action<Type, AggregateException>((t, ex) =>
             {
+                if (ex == null)
+                    return;
                 foreach(var e in ex.InnerExceptions)
                     modelLevelThContext.DoCallBack(() => RaiseExceptionCatched(t, e));
                 throw ex;
@@ -177,7 +179,7 @@ namespace Personnel.Application.ViewModels.Staffing
                 catch (Exception ex)
                 {
                     modelLevelThContext.DoCallBack(() => RaiseExceptionCatched(null, ex));
-                    Thread.Sleep(200);
+                    Thread.Sleep(5000);
                 }
             } while (!inited);
 

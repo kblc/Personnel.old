@@ -16,16 +16,6 @@ namespace Personnel.Application.ViewModels.Birthdays
         public ObservableCollection<EmployeeViewModel> Employee { get; }
             = new ObservableCollection<EmployeeViewModel>();
 
-        private string name = string.Empty;
-        /// <summary>
-        /// Time part name
-        /// </summary>
-        public string Name
-        {
-            get { return name; }
-            set { if (name == value) return; name = value; RaisePropertyChanged(() => Name); }
-        }
-
         private bool isCurrent = false;
         /// <summary>
         /// Is current day part
@@ -54,6 +44,16 @@ namespace Personnel.Application.ViewModels.Birthdays
         {
             get { return end; }
             set { if (end == value) return; end = value; RaisePropertyChanged(() => End); }
+        }
+
+        private string name = string.Empty;
+        /// <summary>
+        /// Part name
+        /// </summary>
+        public string Name
+        {
+            get { return name; }
+            set { if (name == value) return; name = value; RaisePropertyChanged(() => Name); }
         }
     }
 }

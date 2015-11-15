@@ -53,23 +53,25 @@
             <md:DrawerHost.LeftDrawerContent>
                 <StackPanel Orientation="Vertical">
                     <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
-                                HorizontalAlignment="Right" Margin="16"
-                                IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                            HorizontalAlignment="Right" Margin="16"
+                            IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
                     <ListBox x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="0"                         
-                             PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
+                            PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="controls:ContentStorageControl">
                                 <ContentPresenter Content="{Binding Header}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                        <controls:ContentStorageControl HeaderName="Дни рождения">
+                        <controls:ContentStorageControl IsLoaded="{Binding Source={x:Static static:Static.Birthdays}, Path=IsLoaded}"
+                                                        Caption="{Binding Source={x:Static static:Static.Birthdays}, Path=Today.Count, StringFormat=Дни рождения ({0})}">
                             <controls:ContentStorageControl.Header>
                                 <TextBlock Text="{Binding Source={x:Static static:Static.Birthdays}, Path=Today.Count, StringFormat=Дни рождения ({0})}" Margin="32 0 32 0" />
                             </controls:ContentStorageControl.Header>
                             <controls:ContentStorageControl.Content>
                                 <Grid DataContext="{x:Static static:Static.Birthdays}">
-                                    <Grid Margin="16">
-                                        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="16">
+                                    <Grid Margin="16" Visibility="{Binding IsLoaded, Converter={StaticResource booleanToVisibilityConverter}}">
+                                        <ContentPresenter Content="{Binding SelectedLevel}" ContentTemplate="{DynamicResource BirthdaysLevelTemplate}"/>
+                                        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="48">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
@@ -79,13 +81,12 @@
                                             <Button Content="+" Grid.Column="1" Command="{Binding LevelUpCommand}"/>
                                             <Button Content="-" Grid.Column="2" Command="{Binding LevelDownCommand}"/>
                                         </Grid>
-                                        <!--<ContentControl Content="{Binding SelectedLevel}" Template="{DynamicResource BirthdaysLevelControlTemplate}"/>-->
-                                        <ContentPresenter Content="{Binding SelectedLevel}" ContentTemplate="{DynamicResource BirthdaysLevelTemplate}"/>
                                     </Grid>
-                                </Grid>
+                                </Grid> 
                             </controls:ContentStorageControl.Content>
                         </controls:ContentStorageControl>
-                        <controls:ContentStorageControl HeaderName="Уведомления">
+                        <controls:ContentStorageControl IsLoaded="{Binding Source={x:Static static:Static.Notifications}, Path=IsLoaded}"
+                                                        Caption="{Binding Source={x:Static static:Static.Notifications}, Path=Notifications.Count, StringFormat=Уведомления ({0})}">
                             <controls:ContentStorageControl.Header>
                                 <TextBlock Text="{Binding Source={x:Static static:Static.Notifications}, Path=Notifications.Count, StringFormat=Уведомления ({0})}" Margin="32 0 32 0" />
                             </controls:ContentStorageControl.Header>
@@ -101,7 +102,7 @@
 
                                     <ScrollViewer x:Name="NotificationsGrid" Margin="16" >
                                         <ItemsControl ItemsSource="{Binding Source={StaticResource notifications}}"
-                                                      ItemTemplate="{DynamicResource NotificationItemTemplate}">
+                                                    ItemTemplate="{DynamicResource NotificationItemTemplate}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <WrapPanel Orientation="Horizontal" ItemWidth="320" ItemHeight="60"/>
@@ -111,7 +112,7 @@
                                     </ScrollViewer>
 
                                     <Border Background="#99000000"
-                                            Visibility="{Binding SelectedNotification, Converter={StaticResource IsNotEqualVisibilityConverter}}">
+                                        Visibility="{Binding SelectedNotification, Converter={StaticResource IsNotEqualVisibilityConverter}}">
                                         <Border.InputBindings>
                                             <MouseBinding Command="{Binding ClearSelectionCommand}" MouseAction="LeftClick"/>
                                         </Border.InputBindings>
@@ -121,9 +122,9 @@
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            
+
                                             <ContentControl Content="{Binding SelectedNotification, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                            ContentTemplate="{DynamicResource NotificationWatchItemTemplate}"/>
+                                                        ContentTemplate="{DynamicResource NotificationWatchItemTemplate}"/>
                                         </Grid>
                                     </Border>
                                 </Grid>
@@ -134,7 +135,7 @@
             </md:DrawerHost.LeftDrawerContent>
             <DockPanel>
                 <md:ColorZone Padding="8" md:ShadowAssist.ShadowDepth="Depth2"
-                              Mode="PrimaryLight" DockPanel.Dock="Top">
+                            Mode="PrimaryLight" DockPanel.Dock="Top">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -142,18 +143,24 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
-                                      x:Name="MenuToggleButton" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="1" Margin="8" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                   Text="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.HeaderName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    x:Name="MenuToggleButton" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   Grid.Column="1" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="23"/>
+                        
+                        <!--<ContentPresenter Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Header, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Grid.Column="1" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                        
                         <Border Grid.Column="2" DataContext="{x:Static static:Static.History}" VerticalAlignment="Center" Width="60">
                             <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
-                                         IsIndeterminate="True"
-                                         VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        IsIndeterminate="True"
+                                        VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <ProgressBar.Visibility>
                                     <MultiBinding Converter="{StaticResource MultiBooleanORToVisibilityConverter}">
                                         <Binding Path="IsConnecting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="True"/>
                                         <Binding Path="IsWaiting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
                                         <Binding Path="IsLoaded" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
+                                        <Binding ElementName="DemoItemsListBox" Path="SelectedItem.IsLoaded" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
                                     </MultiBinding>
                                 </ProgressBar.Visibility>
                             </ProgressBar>

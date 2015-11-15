@@ -7,24 +7,8 @@ using System.Threading.Tasks;
 
 namespace Personnel.Application.ViewModels.Birthdays
 {
-    public class EmployeeViewModel : NotifyPropertyChangedBase
+    public class EmployeeViewModel : Staffing.EmployeeInfoViewMode
     {
-        private StaffingService.Employee employee = null;
-        /// <summary>
-        /// Employee
-        /// </summary>
-        public StaffingService.Employee Employee
-        {
-            get { return employee; }
-            set
-            {
-                if (employee == value)
-                    return;
-                employee = value;
-                RaisePropertyChanged(() => Employee);
-            }
-        }
-
         private int age = default(int);
         /// <summary>
         /// Age at this part

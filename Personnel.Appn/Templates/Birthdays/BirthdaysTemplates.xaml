@@ -2,50 +2,97 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:staticBirthdays="clr-namespace:Personnel.Application.ViewModels.Birthdays;assembly=Personnel.Application.ViewModels"
                     xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
-                    xmlns:helperConverterss="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
+                    xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
                     xmlns:controls="clr-namespace:Personnel.Appn.Controls"
                     xmlns:static="clr-namespace:Personnel.Application.ViewModels;assembly=Personnel.Application.ViewModels"
                     xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
-
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    
+    <helperConverters:ApplyConverter x:Key="birthdaysApplyConverter"/>
+    <localConverters:ImagePathToImageSourceConverter x:Key="birthdaysImagePathToImageSourceConverter"/>
+    <BooleanToVisibilityConverter x:Key="birthdaysBooleanToVisibilityConverter"/>
+
+    <DataTemplate x:Key="BirthdaysEmployeePartTemplate" DataType="staticBirthdays:EmployeeViewModel">
+        <md:Card Margin="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Width="48" Height="48" Grid.RowSpan="2"
+                       Visibility="{Binding HasPhoto, Converter={StaticResource birthdaysBooleanToVisibilityConverter}}"
+                       Source="{Binding Photo, Converter={StaticResource birthdaysImagePathToImageSourceConverter}}"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" Margin="4" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1} {2}">
+                            <Binding Path="Employee.Surname"/>
+                            <Binding Path="Employee.Name"/>
+                            <Binding Path="Employee.Patronymic"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1" Margin="4" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0}/{1}">
+                            <Binding Path="Department.Name"/>
+                            <Binding Path="Appoint.Name"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+        </md:Card>
+    </DataTemplate>
 
     <DataTemplate x:Key="BirthdaysTimePartTemplate" DataType="staticBirthdays:TimePartViewModel">
-        <md:Card>
+        <md:ColorZone Margin="4" MaxWidth="320" MinWidth="240">
+            <md:ColorZone.Style>
+                <Style TargetType="md:ColorZone">
+                    <Setter Property="Mode" Value="PrimaryLight"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCurrent}" Value="True">
+                            <Setter Property="Mode" Value="Accent"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </md:ColorZone.Style>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
 
-                <md:ColorZone MinHeight="30" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <md:ColorZone.Style>
-                        <Style TargetType="md:ColorZone">
-                            <Setter Property="Mode" Value="Light"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsCurrent}" Value="True">
-                                    <Setter Property="Mode" Value="Accent"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </md:ColorZone.Style>
-                </md:ColorZone>
-                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
+                <TextBlock Text="{Binding Name}" Margin="4" 
+                            TextWrapping="Wrap" TextTrimming="WordEllipsis" HorizontalAlignment="Center"/>
+                
+                <ItemsControl ItemsSource="{Binding Employee}" Grid.Row="1"
+                              ItemTemplate="{DynamicResource BirthdaysEmployeePartTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </Grid>
-        </md:Card>
+        </md:ColorZone>
     </DataTemplate>
 
     <DataTemplate x:Key="BirthdaysLevelTemplate" DataType="staticBirthdays:LevelViewModel">
         <Grid>
-            <ScrollViewer Margin="16" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer Margin="16" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible">
                 <ItemsControl ItemsSource="{Binding Parts}"
                               ItemTemplate="{DynamicResource BirthdaysTimePartTemplate}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" ItemWidth="320"/>
+                            <WrapPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>

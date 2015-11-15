@@ -4,18 +4,59 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Helpers.WPF;
+using System.Windows;
 
 namespace Personnel.Appn.Controls
 {
-    public class ContentStorageControl : Helpers.WPF.PropertyChangedBase
+    public class ContentStorageControl : DependencyObject
     {
-        private string headerName = null;
-        public string HeaderName { get { return headerName; } set { if (headerName == value) return; headerName = value; RaisePropertyChange(nameof(HeaderName)); } }
+        #region Caption
 
-        private object header = null;
-        public object Header { get { return header; } set { if (header == value) return; header = value; RaisePropertyChange(nameof(Header)); } }
+        public static readonly DependencyProperty CaptionProperty = DependencyProperty.Register(nameof(Caption), typeof(string),
+            typeof(ContentStorageControl), new PropertyMetadata(default(string)));
 
-        private object content = null;
-        public object Content { get { return content; } set { if (content == value) return; content = value; RaisePropertyChange(nameof(Content)); } }
+        public string Caption
+        {
+            get { return (string)this.GetValue(CaptionProperty); }
+            set { this.SetValue(CaptionProperty, value); }
+        }
+
+        #endregion
+        #region Header
+
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object),
+            typeof(ContentStorageControl), new PropertyMetadata(default(object)));
+
+        public object Header
+        {
+            get { return this.GetValue(HeaderProperty); }
+            set { this.SetValue(HeaderProperty, value); }
+        }
+
+        #endregion
+        #region Content
+
+        public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object),
+            typeof(ContentStorageControl), new PropertyMetadata(default(object)));
+
+        public object Content
+        {
+            get { return this.GetValue(ContentProperty); }
+            set { this.SetValue(ContentProperty, value); }
+        }
+
+        #endregion
+        #region IsLoaded
+
+        public static readonly DependencyProperty IsLoadedProperty = DependencyProperty.Register(nameof(IsLoaded), typeof(bool),
+            typeof(ContentStorageControl), new PropertyMetadata(default(bool)));
+
+        public bool IsLoaded
+        {
+            get { return (bool)this.GetValue(IsLoadedProperty); }
+            set { this.SetValue(IsLoadedProperty, value); }
+        }
+
+        #endregion
     }
 }
