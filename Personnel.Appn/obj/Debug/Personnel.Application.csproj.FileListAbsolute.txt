@@ -71,3 +71,4 @@ C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\o
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\obj\Debug\Personnel.Appn.Properties.Resources.resources
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\obj\Debug\Personnel.Application.csproj.GenerateResource.Cache
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\obj\Debug\Templates\Staffing\DepartmentsTemplates.baml
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Appn\obj\Debug\Templates\Staffing\DepartmentsTemplates.baml

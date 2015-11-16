@@ -9,67 +9,141 @@ using System.Windows.Input;
 using Helpers;
 using Helpers.Linq;
 using Helpers.WPF;
+using System.ComponentModel;
 
 namespace Personnel.Application.ViewModels.Staffing
 {
-    public class DepartmentEditViewModel : Additional.NotifyPropertyChangedBase
+    public interface ITreeItem<T> : INotifyPropertyChanged
     {
-        public DepartmentEditViewModel()
+        ITreeItem<T> Parent { get; set; }
+        ObservableCollection<T> Childs { get; }
+        bool CanManage { get; }
+        bool ShowDebugInfo { get; }
+    }
+
+    public class DepartmentEditViewModel : Additional.NotifyPropertyChangedBase, ITreeItem<DepartmentEditViewModel>
+    {
+        private StaffingService.Department department = null;
+        public StaffingService.Department Department
         {
-            Static.Departments
-                .PropertyChanged += (s, e) => { if (e.PropertyName == nameof(Static.Departments.CanManage)) RaiseAllComamnds(); };
+            get { return department; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(Department));
+
+                if (department == value)
+                    return;
+                department = value;
+                IsEditMode = false;
+                RaisePropertyChanged(() => Department);
+                RaiseAllComamnds();
+            }
         }
 
-        private StaffingService.Department department = null;
-        public StaffingService.Department Department { get { return department; } set { if (department == value) return; Unsubscribe(department); department = value; Subscribe(department); RaisePropertyChanged(() => Department); RaiseAllComamnds(); } }
+        private ITreeItem<DepartmentEditViewModel> parent = null;
+        public ITreeItem<DepartmentEditViewModel> Parent
+        {
+            get { return parent; }
+            set
+            {
+                if (parent == value)
+                    return;
+
+                if (parent != null)
+                    parent.PropertyChanged -= Parent_PropertyChanged;
+                parent = value;
+                if (parent != null)
+                    parent.PropertyChanged += Parent_PropertyChanged;
+
+                RaisePropertyChanged(() => Parent);
+            }
+        }
+
+        private void Parent_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CanManage))
+                RaisePropertyChanged(() => CanManage);
+            if (e.PropertyName == nameof(ShowDebugInfo))
+                RaisePropertyChanged(() => ShowDebugInfo);
+        }
 
         public ObservableCollection<DepartmentEditViewModel> Childs { get; } = new MTObservableCollection<DepartmentEditViewModel>();
 
         private Helpers.WPF.DelegateCommand deleteCommand = null;
-        private ICommand DeleteCommand
+        public ICommand DeleteCommand
         {
             get
             {
-                return deleteCommand ?? (deleteCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnDelete(); OnDelete?.Invoke(this, o); }, (o) => Static.Departments.CanManage && !IsBusy && !IsDeleted));
+                return deleteCommand ?? (deleteCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnDelete(); }, (o) => Static.Departments.CanManage && !IsBusy && !IsDeleted));
             }
         }
 
         private Helpers.WPF.DelegateCommand saveCommand = null;
-        private ICommand SaveCommand
+        public ICommand SaveCommand
         {
             get
             {
-                return saveCommand ?? (saveCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnChange(); OnChange?.Invoke(this, o); }, (o) => Static.Departments.CanManage && !IsBusy && !IsDeleted));
+                return saveCommand ?? (saveCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnChange(); }, (o) => Static.Departments.CanManage && !IsBusy && !IsDeleted && IsEditMode));
             }
         }
 
-        private Helpers.WPF.DelegateCommand addChildCommand = null;        private ICommand AddChildCommand
+        private Helpers.WPF.DelegateCommand cancelCommand = null;
+        public ICommand CancelCommand
         {
             get
             {
-                return addChildCommand ?? (addChildCommand = 
-                    new Helpers.WPF.DelegateCommand((o) => 
-                    {
-                        var child = RaiseOnAddChild();
-                        if (child != null)
-                            OnAddChild?.Invoke(this, child);
-                    }
-                    , (o) => Static.Departments.CanManage && !IsBusy && !IsNew && !IsDeleted));
+                return cancelCommand ?? (cancelCommand = new Helpers.WPF.DelegateCommand(o =>
+                {
+                    if (IsNew)
+                        RaiseOnDelete();
+                    else
+                        IsEditMode = false;
+                }, (o) => Static.Departments.CanManage && !IsBusy && !IsDeleted && IsEditMode));
             }
+        }
+
+        private Helpers.WPF.DelegateCommand setToEditModeCommand = null;
+        public ICommand SetToEditModeCommand
+        {
+            get { return setToEditModeCommand ?? (setToEditModeCommand = new DelegateCommand(o => { IsEditMode = true; }, (o) => Static.Departments.CanManage && !IsBusy && !IsDeleted)); }
+        }
+
+        private Helpers.WPF.DelegateCommand addChildCommand = null;
+        public ICommand AddChildCommand
+        {
+            get { return addChildCommand ?? (addChildCommand = new Helpers.WPF.DelegateCommand((o) => RaiseOnAddChild(), (o) => Static.Departments.CanManage && !IsBusy && !IsNew && !IsDeleted && !IsEditMode)); }
         }
 
         private void RaiseAllComamnds()
         {
-            saveCommand?.RaiseCanExecuteChanged();
-            deleteCommand?.RaiseCanExecuteChanged();
-            addChildCommand?.RaiseCanExecuteChanged();
+            try
+            {
+                saveCommand?.RaiseCanExecuteChanged();
+                cancelCommand?.RaiseCanExecuteChanged();
+                deleteCommand?.RaiseCanExecuteChanged();
+                addChildCommand?.RaiseCanExecuteChanged();
+                setToEditModeCommand?.RaiseCanExecuteChanged();
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
-        private DepartmentEditViewModel parent = null;
-        public DepartmentEditViewModel Parent
+
+        private bool isEditMode = false;
+        public bool IsEditMode
         {
-            get { return parent; }
-            internal set { if (parent == value) return; parent = value; RaisePropertyChanged(() => Parent); }
+            get { return isEditMode; }
+            private set
+            {
+                if (isEditMode == value)
+                    return;
+                isEditMode = value;
+                DepartmentName = Department.Name;
+                RaisePropertyChanged(() => IsEditMode);
+                RaiseAllComamnds();
+            }
         }
 
         private bool isBusy = false;
@@ -79,13 +153,20 @@ namespace Personnel.Application.ViewModels.Staffing
             internal set { if (isBusy == value) return; isBusy = value; RaisePropertyChanged(() => IsBusy); RaiseAllComamnds(); }
         }
 
-        public bool IsNew { get { return Department?.Id != 0; } }
+        public bool IsNew { get { return Department?.Id == 0; } }
 
         private bool isDeleted = false;
         public bool IsDeleted
         {
             get { return isDeleted; }
             internal set { if (isDeleted == value) return; isDeleted = value; RaisePropertyChanged(() => IsDeleted); RaiseAllComamnds(); }
+        }
+
+        private bool isSelected = false;
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set { if (isSelected == value) return; isSelected = value; RaisePropertyChanged(() => IsSelected); }
         }
 
         public bool HasError { get { return !string.IsNullOrWhiteSpace(Error); }}
@@ -97,127 +178,132 @@ namespace Personnel.Application.ViewModels.Staffing
             internal set { if (error == value) return; error = value; RaisePropertyChanged(() => Error); RaisePropertyChanged(() => HasError); RaiseAllComamnds(); }
         }
 
-        private void Unsubscribe(StaffingService.Department department)
+        private string departmentName = string.Empty;
+        public string DepartmentName
         {
-            if (department == null)
-                return;
-            department.PropertyChanged -= Department_PropertyChanged;
-        }
-        private void Subscribe(StaffingService.Department department)
-        {
-            if (department == null)
-                return;
-            department.PropertyChanged += Department_PropertyChanged;
+            get { return departmentName; }
+            set { if (departmentName == value) return; departmentName = value; RaisePropertyChanged(() => DepartmentName); }
         }
 
-        private void Department_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public bool CanManage => Parent?.CanManage ?? false;
+        public bool ShowDebugInfo => Parent?.ShowDebugInfo ?? false;
+
+        private string GetExceptionText(string whereCatched, Exception ex)
         {
-            RaiseOnChange();
-            OnChange?.Invoke(this, e);
+            return ex.GetExceptionText($"{GetType().Name}.{whereCatched}()"
+#if !DEBUG
+                , clearText: true, includeData: false, includeStackTrace: false
+#endif
+
+                );
         }
 
         private void RaiseOnChange()
         {
             IsBusy = true;
-            using (var srvc = new StaffingService.StaffingServiceClient())
-                try
-                {
-                    var res = (Department.Id == 0)
-                        ? srvc.DepartmentInsertAsync(Department)
-                        : srvc.DepartmentUpdateAsync(Department);
-
-                    res.ContinueWith((dep) =>
-                    {
-                        try
-                        { 
-                            if (res.Exception != null)
-                            {
-                                Error = res.Exception.GetExceptionText(clearText: true, includeStackTrace: false);
-                            } else
-                            {
-                                if (dep.Result.Error != null)
-                                {
-                                    Error = dep.Result.Error;
-                                }
-                                else
-                                {
-                                    Unsubscribe(this.Department);
-                                    try
-                                    {
-                                        this.Department.CopyObjectFrom(dep.Result.Value);
-                                        addChildCommand?.RaiseCanExecuteChanged();
-                                        deleteCommand?.RaiseCanExecuteChanged();
-                                    }
-                                    finally
-                                    {
-                                        Subscribe(this.Department);
-                                    }
-                                }
-                            }
-                        }
-                        finally
-                        {
-                            IsBusy = false;
-                        }
-                    });
-                }
-                catch (Exception ex)
-                {
-                    IsBusy = false;
-                    Error = ex.GetExceptionText(clearText: true, includeStackTrace: false);
-                }
-        }
-        private void RaiseOnDelete()
-        {
-            IsBusy = true;
-
-            if (IsNew)
+            var srvc = new StaffingService.StaffingServiceClient();
+            try
             {
-                if (Parent != null)
-                    Parent.Childs.Remove(this);
-            } else
-            using (var srvc = new StaffingService.StaffingServiceClient())
-                try
+                Department.Name = DepartmentName;
+
+                var res = (Department.Id == 0)
+                    ? srvc.DepartmentInsertAsync(Department)
+                    : srvc.DepartmentUpdateAsync(Department);
+
+                res.ContinueWith((dep) =>
                 {
-                    var allDepsToDelete = this.Traverse(i => i.Childs);
-                    var allDepsIdsToDelete = allDepsToDelete.Select(i => i.Department.Id).ToArray();
-                    var res = srvc.DepartmentRemoveRangeAsync(allDepsIdsToDelete);
-                    res.ContinueWith((dep) =>
+                    try
                     {
-                        try
+                        if (dep.Exception != null)
                         {
-                            if (res.Exception != null)
+                            Error = GetExceptionText(nameof(RaiseOnChange), res.Exception);
+                        } else
+                        {
+                            if (dep.Result.Error != null)
                             {
-                                Error = res.Exception.GetExceptionText(clearText: true, includeStackTrace: false);
+                                Error = dep.Result.Error;
                             }
                             else
                             {
-                                if (dep.Result.Error != null)
-                                {
-                                    Error = dep.Result.Error;
-                                }
-                                else
-                                {
-                                    foreach (var i in allDepsToDelete)
-                                    {
-                                        i.IsDeleted = true;
-                                    }
-                                }
+                                this.Department.CopyObjectFrom(dep.Result.Value);
+                                IsEditMode = false;
+                                Error = null;
                             }
                         }
-                        finally
-                        {
-                            IsBusy = false;
-                        }
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Error = ex.GetExceptionText(clearText: true, includeStackTrace: false);
-                    IsBusy = false;
-                }
+                    }
+                    finally
+                    {
+                        IsBusy = false;
+                        try { srvc.Close(); } catch { }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                try { srvc.Close(); } catch { }
+                IsBusy = false;
+                Error = GetExceptionText(nameof(RaiseOnChange), ex);
+            }
         }
-        private DepartmentEditViewModel RaiseOnAddChild()
+        private void RaiseOnDelete()
+        {
+            if (IsNew)
+            {
+                if (Parent != null && Parent.Childs.Contains(this))
+                    Parent.Childs.Remove(this);
+                return;
+            }
+
+            IsBusy = true;
+            var srvc = new StaffingService.StaffingServiceClient();
+            try
+            {
+                var allDepsToDelete = this.Traverse(i => i.Childs);
+                var allDepsIdsToDelete = allDepsToDelete.Select(i => i.Department.Id).ToArray();
+                var res = srvc.DepartmentRemoveRangeAsync(allDepsIdsToDelete);
+                res.ContinueWith((dep) =>
+                {
+                    try
+                    {
+                        if (dep.Exception != null)
+                        {
+                            Error = GetExceptionText(nameof(RaiseOnDelete), res.Exception);
+                        }
+                        else
+                        {
+                            if (dep.Result.Error != null)
+                            {
+                                Error = dep.Result.Error;
+                            }
+                            else
+                            {
+                                foreach (var i in allDepsToDelete)
+                                {
+                                    i.IsDeleted = true;
+                                }
+
+                                if (Parent != null && Parent.Childs.Contains(this))
+                                    Parent.Childs.Remove(this);
+
+                                Error = null;
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        IsBusy = false;
+                        try { srvc.Close(); } catch { }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                try { srvc.Close(); } catch { }
+                Error = GetExceptionText(nameof(RaiseOnDelete), ex);
+                IsBusy = false;
+            }
+        }
+        private void RaiseOnAddChild()
         {
             IsBusy = true;
             try
@@ -228,25 +314,26 @@ namespace Personnel.Application.ViewModels.Staffing
                     {
                         ParentId = Department.Id,
                         Name = Properties.Resources.DEPARTMENTEDIT_NewDepartmentName
-                    }
+                    },
+                    Parent = this,
+                    IsSelected = true,
+                    IsEditMode = true
                 };
                 Childs.Add(newDep);
-                return newDep;
+                Error = null;
             }
             catch (Exception ex)
             {
-                Error = ex.GetExceptionText(clearText: true, includeStackTrace: false);
+                Error = GetExceptionText(System.Reflection.MethodBase.GetCurrentMethod().Name, ex);
+            }
+            finally
+            {
                 IsBusy = false;
-                return null;
             }
         }
-
-        internal event EventHandler<object> OnDelete;
-        internal event EventHandler<object> OnChange;
-        internal event EventHandler<DepartmentEditViewModel> OnAddChild;
     }
 
-    public class DepartmentsEditViewModel : Additional.AbstractBaseViewModel
+    public class DepartmentsEditViewModel : Additional.AbstractBaseViewModel, ITreeItem<DepartmentEditViewModel>
     {
         private const string MANAGEDEPARTMENTS = "MANAGEDEPARTMENTS";
 
@@ -258,16 +345,69 @@ namespace Personnel.Application.ViewModels.Staffing
             get { return error; }
             internal set { if (error == value) return; error = value; RaisePropertyChanged(() => Error); RaisePropertyChanged(() => HasError); }
         }
+
         public bool CanManage
         {
             get
             {
+                return true;
+
                 var canDeleteRightId = Static.Staffing.Rights.Where(r => r.SystemName == MANAGEDEPARTMENTS).Select(r => r.Id).FirstOrDefault();
                 return (Static.Staffing.Current != null && Static.Staffing.Current.Rights.Any(r => r.RightId == canDeleteRightId));
             }
         }
 
+        private bool showDebugInfo
+#if DEBUG
+            = true;
+#else
+            = false;
+#endif
+        public bool ShowDebugInfo
+        {
+            get { return showDebugInfo; }
+            set { if (showDebugInfo == value) return; showDebugInfo = value; RaisePropertyChanged(() => ShowDebugInfo); }
+        }
+
+        private DelegateCommand insertCommand = null;
+        public ICommand InsertCommand { get { return insertCommand ?? (insertCommand = new DelegateCommand(o => Insert() ,o => CanManage )); } }
+
         public ObservableCollection<DepartmentEditViewModel> Tree { get; } = new MTObservableCollection<DepartmentEditViewModel>();
+
+        ITreeItem<DepartmentEditViewModel> ITreeItem<DepartmentEditViewModel>.Parent
+        {
+            get
+            {
+                return null;
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        ObservableCollection<DepartmentEditViewModel> ITreeItem<DepartmentEditViewModel>.Childs
+        {
+            get
+            {
+                return Tree;
+            }
+        }
+
+        private void Insert()
+        {
+            var newDep = new DepartmentEditViewModel()
+            {
+                Department = new StaffingService.Department()
+                {
+                    ParentId = null,
+                    Name = Properties.Resources.DEPARTMENTEDIT_NewDepartmentName
+                },
+                Parent = this,
+            };
+            Tree.Add(newDep);
+        }
 
         protected override void Init()
         {
@@ -291,12 +431,15 @@ namespace Personnel.Application.ViewModels.Staffing
                     Static.Staffing.Current.PropertyChanged += (s, e) =>
                     {
                         if (e.PropertyName.StartsWith(nameof(Static.Staffing.Current.Rights)))
+                        { 
                             RaisePropertyChanged(() => CanManage);
+                            insertCommand?.RaiseCanExecuteChanged();
+                        }
                     };
 
                 var depArray = Static.Staffing.Department.ToArray();
                 Static.Staffing.Department.Where(d => d.ParentId == null)
-                    .Select(d => new DepartmentEditViewModel() { Department = d })
+                    .Select(d => new DepartmentEditViewModel() { Department = d, Parent = this })
                     .ToList()
                     .ForEach(i =>
                     {
@@ -332,7 +475,7 @@ namespace Personnel.Application.ViewModels.Staffing
                                     }
                                     else
                                     {
-                                        Tree.Add(new DepartmentEditViewModel() { Department = d });
+                                        Tree.Add(new DepartmentEditViewModel() { Department = d, Parent = this });
                                     }
                                 }
                             }
@@ -363,25 +506,25 @@ namespace Personnel.Application.ViewModels.Staffing
 
         private void LoadTest()
         {
-            var top1 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Top 1", Id = 1 } };
-            //var top2 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Top 2", Id = 2 } };
+            var top1 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Top 1", Id = 1 }, Parent = this };
+            var top2 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Top 2", Id = 2 }, Parent = this };
 
-            //var sTop1 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 1 top 1", Id = 3, ParentId = 1 }, Parent = top1 };
-            //var sTop2 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 4, ParentId = 1 }, Parent = top1 };
-            //var sTop3 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 5, ParentId = 1 }, Parent = top1 };
+            var sTop1 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 1 top 1", Id = 3, ParentId = 1 }, Parent = top1 };
+            var sTop2 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 4, ParentId = 1 }, Parent = top1 };
+            var sTop3 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 5, ParentId = 1 }, Parent = top1 };
 
-            //var sTop21 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 1 top 1", Id = 6, ParentId = 2 }, Parent = top2 };
-            //var sTop22 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 7, ParentId = 2 }, Parent = top2 };
+            var sTop21 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 1 top 1", Id = 6, ParentId = 2 }, Parent = top2 };
+            var sTop22 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 7, ParentId = 2 }, Parent = top2 };
 
-            //top1.Childs.Add(sTop1);
-            //top1.Childs.Add(sTop2);
-            //top1.Childs.Add(sTop3);
+            top1.Childs.Add(sTop1);
+            top1.Childs.Add(sTop2);
+            top1.Childs.Add(sTop3);
 
-            //top2.Childs.Add(sTop21);
-            //top2.Childs.Add(sTop22);
+            top2.Childs.Add(sTop21);
+            top2.Childs.Add(sTop22);
 
             Tree.Add(top1);
-            //Tree.Add(top2);
+            Tree.Add(top2);
 
             IsLoaded = true;
         }

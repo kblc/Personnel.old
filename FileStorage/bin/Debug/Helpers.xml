@@ -329,6 +329,24 @@
             This is my own extension class for some join selectors. I copied it as it is (from my own helper library)
             </summary>
         </member>
+        <member name="M:Helpers.Linq.NodeTraverse.Traverse``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            Get all items under tree items
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items">Items collection</param>
+            <param name="childSelector">Get childs selector</param>
+            <returns>All items under tree items</returns>
+        </member>
+        <member name="M:Helpers.Linq.NodeTraverse.Traverse``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            Get all items under tree item
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items">Items collection</param>
+            <param name="childSelector">Get childs selector</param>
+            <returns>All items under tree item</returns>
+        </member>
         <member name="T:Helpers.Log">
             <summary>
             Log static class for loggin anything
