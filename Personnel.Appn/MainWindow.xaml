@@ -32,6 +32,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
                 <ResourceDictionary Source="Templates/Notifications/NotificationTemplates.xaml" />
                 <ResourceDictionary Source="Templates/Birthdays/BirthdaysTemplates.xaml" />
+                <ResourceDictionary Source="Templates/Staffing/DepartmentsTemplates.xaml" />
                 <ResourceDictionary>
                     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
                     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter"/>
@@ -40,9 +41,6 @@
                     <helperConverters:IsEqualsConverter x:Key="IsEqualsConverter"/>
                     <helperConverters:IsNotEqualVisibilityConverter x:Key="IsNotEqualVisibilityConverter"/>
                     <helperConverters:NullToFalseConverter x:Key="NullToFalseConverter"/>
-                    <controls:ContentStorageControl x:Key="abc">
-                        
-                    </controls:ContentStorageControl>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -62,6 +60,16 @@
                                 <ContentPresenter Content="{Binding Header}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <controls:ContentStorageControl IsLoaded="{Binding Source={x:Static static:Static.Departments}, Path=IsLoaded}"
+                                                        Caption="Отделы">
+                            <controls:ContentStorageControl.Header>
+                                <TextBlock Text="Отделы" Margin="32 0 32 0" />
+                            </controls:ContentStorageControl.Header>
+                            <controls:ContentStorageControl.Content>
+                                <ContentPresenter Content="{x:Static static:Static.Departments}" 
+                                                  ContentTemplate="{DynamicResource DepartmentsViewTemplate}"/>
+                            </controls:ContentStorageControl.Content>
+                        </controls:ContentStorageControl>
                         <controls:ContentStorageControl IsLoaded="{Binding Source={x:Static static:Static.Birthdays}, Path=IsLoaded}"
                                                         Caption="{Binding Source={x:Static static:Static.Birthdays}, Path=Today.Count, StringFormat=Дни рождения ({0})}">
                             <controls:ContentStorageControl.Header>

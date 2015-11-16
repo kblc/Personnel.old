@@ -61,6 +61,15 @@ namespace Personnel.Application.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New department.
+        /// </summary>
+        internal static string DEPARTMENTEDIT_NewDepartmentName {
+            get {
+                return ResourceManager.GetString("DEPARTMENTEDIT_NewDepartmentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         internal static string ERROR {

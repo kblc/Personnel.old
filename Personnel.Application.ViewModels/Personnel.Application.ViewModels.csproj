@@ -85,6 +85,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Staffing\DepartmentsEditViewModel.cs" />
     <Compile Include="Staffing\EmployeeViewMode.cs" />
     <Compile Include="Staffing\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

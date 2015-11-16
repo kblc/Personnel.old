@@ -50,6 +50,9 @@ namespace Personnel.Application.ViewModels
         private static ViewModels.Staffing.ViewModel staffing = null;
         public static ViewModels.Staffing.ViewModel Staffing { get { return staffing ?? (staffing = new ViewModels.Staffing.ViewModel()); } }
 
+        private static ViewModels.Staffing.DepartmentsEditViewModel departments = null;
+        public static ViewModels.Staffing.DepartmentsEditViewModel Departments { get { return departments ?? (departments = new ViewModels.Staffing.DepartmentsEditViewModel()); } }
+
         private static ViewModels.Birthdays.ViewModel birthdays = null;
         public static ViewModels.Birthdays.ViewModel Birthdays { get { return birthdays ?? (birthdays = new ViewModels.Birthdays.ViewModel()); } }
     }

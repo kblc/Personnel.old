@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Appn\obj\Debug\
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\obj\Debug\
 Personnel.Appn
 none
 false
 DEBUG;TRACE
-C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Appn\App.xaml
-4-1028159500
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\App.xaml
+51646137468
 
-11937746069
-21569493870
-MainWindow.xaml;Templates\Birthdays\BirthdaysTemplates.xaml;Templates\Notifications\NotificationTemplates.xaml;Templates\Staffing\StaffingTemplates.xaml;
+111377748107
+211791603670
+MainWindow.xaml;Templates\Birthdays\BirthdaysTemplates.xaml;Templates\Notifications\NotificationTemplates.xaml;Templates\Staffing\DepartmentsTemplates.xaml;Templates\Staffing\StaffingTemplates.xaml;
 
-True
+False
 
