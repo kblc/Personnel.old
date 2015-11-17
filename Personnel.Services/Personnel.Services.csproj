@@ -68,6 +68,7 @@
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Config\ServicesConfigSection.cs" />
     <Compile Include="Model\BaseExecutionResult.cs" />
+    <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Model\EmployeePhoto.cs" />
     <Compile Include="Model\EmployeeLogin.cs" />
     <Compile Include="Model\Picture.cs" />

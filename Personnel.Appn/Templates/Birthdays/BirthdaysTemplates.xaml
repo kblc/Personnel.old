@@ -15,7 +15,7 @@
     <localConverters:ImagePathToImageSourceConverter x:Key="birthdaysImagePathToImageSourceConverter"/>
     <BooleanToVisibilityConverter x:Key="birthdaysBooleanToVisibilityConverter"/>
 
-    <DataTemplate x:Key="BirthdaysEmployeePartTemplate" DataType="staticBirthdays:EmployeeViewModel">
+    <DataTemplate x:Key="BirthdaysEmployeePartTemplate" DataType="{x:Type staticBirthdays:EmployeeViewModel}">
         <md:Card Margin="4">
             <Grid>
                 <Grid.RowDefinitions>
@@ -52,10 +52,10 @@
         </md:Card>
     </DataTemplate>
 
-    <DataTemplate x:Key="BirthdaysTimePartTemplate" DataType="staticBirthdays:TimePartViewModel">
+    <DataTemplate x:Key="BirthdaysTimePartTemplate" DataType="{x:Type staticBirthdays:TimePartViewModel}">
         <md:ColorZone Margin="4" MaxWidth="320" MinWidth="240">
             <md:ColorZone.Style>
-                <Style TargetType="md:ColorZone">
+                <Style TargetType="{x:Type md:ColorZone}">
                     <Setter Property="Mode" Value="PrimaryLight"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsCurrent}" Value="True">
@@ -85,7 +85,7 @@
         </md:ColorZone>
     </DataTemplate>
 
-    <DataTemplate x:Key="BirthdaysLevelTemplate" DataType="staticBirthdays:LevelViewModel">
+    <DataTemplate x:Key="BirthdaysLevelTemplate" DataType="{x:Type staticBirthdays:LevelViewModel}">
         <Grid>
             <ScrollViewer Margin="16" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible">
                 <ItemsControl ItemsSource="{Binding Parts}"

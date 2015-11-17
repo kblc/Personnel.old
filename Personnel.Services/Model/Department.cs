@@ -11,7 +11,8 @@ namespace Personnel.Services.Model
     /// Department
     /// </summary>
     [DataContract]
-    public class Department
+    [Serializable]
+    public class Department : BaseModel
     {
         /// <summary>
         /// Department identifier

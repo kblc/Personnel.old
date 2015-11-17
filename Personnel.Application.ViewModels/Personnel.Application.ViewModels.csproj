@@ -244,6 +244,12 @@
   <ItemGroup>
     <Folder Include="Content\Icons\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Swordfish\Swordfish.NET.General.csproj">
+      <Project>{f2e1680e-1b15-4cf2-bab0-54b8c8f6abdf}</Project>
+      <Name>Swordfish.NET.General</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

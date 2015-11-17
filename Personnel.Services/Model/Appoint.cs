@@ -11,7 +11,8 @@ namespace Personnel.Services.Model
     /// Appoint
     /// </summary>
     [DataContract]
-    public class Appoint
+    [Serializable]
+    public class Appoint : BaseModel
     {
         /// <summary>
         /// Appoint identifier

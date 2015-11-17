@@ -14,7 +14,7 @@
     <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
     <localConverters:ImagePathToImageSourceConverter x:Key="ImagePathToImageSourceConverter"/>
 
-    <DataTemplate x:Key="NotificationItemTemplate" DataType="staticNotification:NotificationItemViewModel">
+    <DataTemplate x:Key="NotificationItemTemplate" DataType="{x:Type staticNotification:NotificationItemViewModel}">
         <md:Card Margin="2,2" Cursor="Hand">
             <Grid>
                 <Grid.InputBindings>
@@ -29,7 +29,7 @@
                 <md:ColorZone Grid.RowSpan="999" Grid.Column="0" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="20">
                     <md:ColorZone.Style>
-                        <Style TargetType="md:ColorZone">
+                        <Style TargetType="{x:Type md:ColorZone}">
                             <Setter Property="Mode" Value="Accent"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Data.IsError}" Value="True">
@@ -67,7 +67,7 @@
         </md:Card>
     </DataTemplate>
 
-    <DataTemplate x:Key="NotificationWatchItemTemplate" DataType="staticNotification:NotificationItemViewModel">
+    <DataTemplate x:Key="NotificationWatchItemTemplate" DataType="{x:Type staticNotification:NotificationItemViewModel}">
         <Border Margin="2,2" Background="{DynamicResource MaterialDesignPaper}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -83,7 +83,7 @@
                 <md:ColorZone Grid.RowSpan="999" Grid.Column="0" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="20">
                     <md:ColorZone.Style>
-                        <Style TargetType="md:ColorZone">
+                        <Style TargetType="{x:Type md:ColorZone}">
                             <Setter Property="Mode" Value="Accent"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Data.IsError}" Value="True">

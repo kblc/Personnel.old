@@ -66,5 +66,60 @@ namespace Personnel.Application.ViewModels.Additional
         #endregion
 
         public event EventHandler<bool> IsLoadedChanged;
+
+        protected Task ExecuteCommandAsDispatcher(Action action, Action<Task> checkAction = null)
+        {
+            //if (System.Windows.Threading.Dispatcher.CurrentDispatcher != null)
+            //{
+            //    var t = System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, action);
+            //    if (checkAction != null)
+            //        return t.Task.ContinueWith(checkAction);
+            //    else
+            //        return t.Task;
+            //}
+
+            //if (SynchronizationContext.Current == null)
+            //    SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
+            var ui = SynchronizationContext.Current != null ? TaskScheduler.FromCurrentSynchronizationContext() : null;
+            Task res = null;
+            if (ui != null)
+            {
+                res = Task.Factory.StartNew(action, CancellationToken.None, TaskCreationOptions.None, ui);
+                if (checkAction != null)
+                    res = res.ContinueWith(checkAction, ui);
+            }
+            else
+            {
+                res = Task.Factory.StartNew(action);
+                if (checkAction != null)
+                    res = res.ContinueWith(checkAction);
+            }
+
+            return res;
+        }
+
+        protected Task ExecuteEndOfCommandAsDispatcher(Action action, Action<Task> checkAction = null)
+        {
+            if (SynchronizationContext.Current == null)
+                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
+            var ui = SynchronizationContext.Current != null ? TaskScheduler.FromCurrentSynchronizationContext() : null;
+            Task res = null;
+            if (ui != null)
+            {
+                res = Task.Factory.StartNew(action);
+                if (checkAction != null)
+                    res = res.ContinueWith(checkAction, ui);
+            }
+            else
+            {
+                res = Task.Factory.StartNew(action);
+                if (checkAction != null)
+                    res = res.ContinueWith(checkAction);
+            }
+
+            return res;
+        }
     }
 }

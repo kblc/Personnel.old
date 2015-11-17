@@ -11,7 +11,8 @@ namespace Personnel.Services.Model
     /// Employee
     /// </summary>
     [DataContract]
-    public class Employee
+    [Serializable]
+    public class Employee : BaseModel
     {
         /// <summary>
         /// Employee identifier
