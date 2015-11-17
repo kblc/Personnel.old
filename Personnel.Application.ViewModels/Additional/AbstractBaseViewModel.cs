@@ -40,7 +40,21 @@ namespace Personnel.Application.ViewModels.Additional
         protected abstract void Init();
 
         private bool isLoaded = false;
-        public bool IsLoaded { get { return isLoaded; } protected set { if (isLoaded == value) return; isLoaded = value; RaisePropertyChanged(() => IsLoaded); IsLoadedChanged?.Invoke(this, value); } }
+        public bool IsLoaded
+        {
+            get { return isLoaded; }
+            protected set
+            {
+                if (isLoaded == value)
+                    return;
+                isLoaded = value;
+                Context.DoCallBack(() =>
+                {
+                    RaisePropertyChanged(() => IsLoaded);
+                    IsLoadedChanged?.Invoke(this, value);
+                });
+            }
+        }
 
         #region IDisposable Support
         private bool disposedValue = false;
@@ -98,7 +112,6 @@ namespace Personnel.Application.ViewModels.Additional
 
             return res;
         }
-
         protected Task ExecuteEndOfCommandAsDispatcher(Action action, Action<Task> checkAction = null)
         {
             if (SynchronizationContext.Current == null)

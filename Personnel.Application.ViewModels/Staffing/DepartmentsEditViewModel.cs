@@ -436,22 +436,6 @@ namespace Personnel.Application.ViewModels.Staffing
             Tree.Add(newDep);
         }
 
-        private void RaiseInsertCommandUpdate()
-        {
-            try
-            {
-                ExecuteCommandAsDispatcher(() => insertCommand?.RaiseCanExecuteChanged(),
-                    (t) => {
-                        if (t.Exception != null)
-                            Error = t.Exception.GetExceptionText();
-                    });
-            }
-            catch (Exception ex)
-            {
-                Error = ex.GetExceptionText();
-            }
-        }
-
         private string GetExceptionText(Exception ex)
         {
 #if DEBUG
@@ -466,9 +450,13 @@ namespace Personnel.Application.ViewModels.Staffing
             IsLoaded = false;
 
             if (this.IsDesignMode())
-                Task.Factory.StartNew(() => LoadTest());
-
-            SubscribeToStaffing();
+                Task.Factory.StartNew(() => ExecuteCommandAsDispatcher(() => {
+                    Tree = new ConcurrentObservableCollection<ITreeItem<DepartmentEditViewModel>>(LoadTest(this));
+                    IsLoaded = true;
+                }
+                ));
+            else
+                SubscribeToStaffing();
         }
 
         private void SubscribeToStaffing()
@@ -485,10 +473,11 @@ namespace Personnel.Application.ViewModels.Staffing
                     Static.Staffing.Current.PropertyChanged += (s, e) =>
                     {
                         if (e.PropertyName.StartsWith(nameof(Static.Staffing.Current.Rights)))
-                        {
-                            ExecuteCommandAsDispatcher(() => RaisePropertyChanged(() => CanManage));
-                            RaiseInsertCommandUpdate();
-                        }
+                            ExecuteCommandAsDispatcher(() => 
+                            {
+                                RaisePropertyChanged(() => CanManage);
+                                insertCommand?.RaiseCanExecuteChanged();
+                            });
                     };
 
                 Static.Staffing.Department.CollectionChanged += (s, e) =>
@@ -563,32 +552,26 @@ namespace Personnel.Application.ViewModels.Staffing
             return res;
         }
 
-        private void LoadTest()
+        private static IEnumerable<ITreeItem<DepartmentEditViewModel>> LoadTest(ITreeItem<DepartmentEditViewModel> parent)
         {
-            ExecuteCommandAsDispatcher(() =>
-            {
-                var top1 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Top 1", Id = 1 }, Parent = this };
-                var top2 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Top 2", Id = 2 }, Parent = this };
+            var top1 = (new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Top 1", Id = 1 }, Parent = parent }) as ITreeItem<DepartmentEditViewModel>;
+            var top2 = (new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Top 2", Id = 2 }, Parent = parent }) as ITreeItem<DepartmentEditViewModel>;
 
-                var sTop1 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 1 top 1", Id = 3, ParentId = 1 }, Parent = top1 };
-                var sTop2 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 4, ParentId = 1 }, Parent = top1 };
-                var sTop3 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 5, ParentId = 1 }, Parent = top1 };
+            var sTop1 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 1 top 1", Id = 3, ParentId = 1 }, Parent = top1 };
+            var sTop2 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 4, ParentId = 1 }, Parent = top1 };
+            var sTop3 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 5, ParentId = 1 }, Parent = top1 };
 
-                var sTop21 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 1 top 1", Id = 6, ParentId = 2 }, Parent = top2 };
-                var sTop22 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 7, ParentId = 2 }, Parent = top2 };
+            var sTop21 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 1 top 1", Id = 6, ParentId = 2 }, Parent = top2 };
+            var sTop22 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 7, ParentId = 2 }, Parent = top2 };
 
-                top1.Childs.Add(sTop1);
-                top1.Childs.Add(sTop2);
-                top1.Childs.Add(sTop3);
+            top1.Childs.Add(sTop1);
+            top1.Childs.Add(sTop2);
+            top1.Childs.Add(sTop3);
 
-                top2.Childs.Add(sTop21);
-                top2.Childs.Add(sTop22);
+            top2.Childs.Add(sTop21);
+            top2.Childs.Add(sTop22);
 
-                Tree.Add(top1);
-                Tree.Add(top2);
-
-                IsLoaded = true;
-            });
+            return new ITreeItem<DepartmentEditViewModel>[] { top1, top2 };
         }
 
         private static void LoadChilds(IEnumerable<StaffingService.Department> allDeps, DepartmentEditViewModel viewModel)
