@@ -39,6 +39,7 @@ namespace Personnel.Application.ViewModels.Staffing
                     return;
                 current = value;
                 RaisePropertyChanged(() => Current);
+                CurrentChanged?.Invoke(this, new EventArgs());
             }
         }
 
@@ -192,6 +193,8 @@ namespace Personnel.Application.ViewModels.Staffing
         {
             Changed?.Invoke(this, new EventArgs());
         }
+
         public event EventHandler Changed;
+        public event EventHandler CurrentChanged;
     }
 }
