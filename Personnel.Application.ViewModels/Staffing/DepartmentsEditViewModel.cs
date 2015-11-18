@@ -96,9 +96,9 @@ namespace Personnel.Application.ViewModels.Staffing
                 if (owner != null)
                     owner.PropertyChanged += (s,e) =>
                     {
-                        if (e.PropertyName == nameof(CanManage))
+                        if (e.PropertyName == nameof(owner.CanManageDepartments))
                             RaisePropertyChanged(() => CanManage);
-                        if (e.PropertyName == nameof(IsDebugView))
+                        if (e.PropertyName == nameof(owner.IsDebugView))
                             RaisePropertyChanged(() => IsDebugView);
                     };
 
@@ -156,11 +156,14 @@ namespace Personnel.Application.ViewModels.Staffing
 
         private void RaiseAllComamnds()
         {
-            saveCommand?.RaiseCanExecuteChanged();
-            cancelCommand?.RaiseCanExecuteChanged();
-            deleteCommand?.RaiseCanExecuteChanged();
-            addChildCommand?.RaiseCanExecuteChanged();
-            setToEditModeCommand?.RaiseCanExecuteChanged();
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
+            {
+                saveCommand?.RaiseCanExecuteChanged();
+                cancelCommand?.RaiseCanExecuteChanged();
+                deleteCommand?.RaiseCanExecuteChanged();
+                addChildCommand?.RaiseCanExecuteChanged();
+                setToEditModeCommand?.RaiseCanExecuteChanged();
+            }));
         }
 
         private bool isEditMode = false;
@@ -230,126 +233,48 @@ namespace Personnel.Application.ViewModels.Staffing
                 );
         }
 
-        private void RaiseOnChange()
+        private async void RaiseOnChange()
         {
             IsBusy = true;
-            var srvc = new StaffingService.StaffingServiceClient();
             try
             {
                 Data.Name = DepartmentName;
-
-                var res = (Data.Id == 0)
-                    ? srvc.DepartmentInsertAsync(Data)
-                    : srvc.DepartmentUpdateAsync(Data);
-
-                var depAction = new Action<Task<StaffingService.DepartmentResult>>(dep =>
+                if (await RaiseOnChangeAsync())
                 {
-                    try
-                    {
-                        if (dep.Exception != null)
-                        {
-                            Error = GetExceptionText(nameof(RaiseOnChange), res.Exception);
-                        }
-                        else
-                        {
-                            if (dep.Result.Error != null)
-                            {
-                                Error = dep.Result.Error;
-                            }
-                            else
-                            {
-                                this.Data.CopyObjectFrom(dep.Result.Value);
-                                IsEditMode = false;
-                                Error = null;
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        IsBusy = false;
-                        try { srvc.Close(); } catch { }
-                    }
-                });
-
-                var ui = TaskScheduler.FromCurrentSynchronizationContext();
-                if (ui != null)
-                    res.ContinueWith(depAction, ui);
-                else
-                    res.ContinueWith(depAction);
+                    IsEditMode = false;
+                    Error = null;
+                }
             }
             catch (Exception ex)
             {
-                try { srvc.Close(); } catch { }
                 IsBusy = false;
                 Error = GetExceptionText(nameof(RaiseOnChange), ex);
             }
         }
-        private void RaiseOnDelete()
+        private async Task<bool> RaiseOnChangeAsync()
         {
-            IsBusy = true;
+            var srvc = new StaffingService.StaffingServiceClient();
 
-            if (IsNew)
-            {
-                IsDeleted = true;
+            var act = (Data.Id == 0)
+                    ? srvc.DepartmentInsertAsync(Data)
+                    : srvc.DepartmentUpdateAsync(Data);
 
-                var delTask = Task.Factory.StartNew(() =>
-                {
-                    if (Parent != null && Parent.Childs.Contains(this))
-                        Parent.Childs.Remove(this);
-                });
-
-                var afterDelTask = new Action<Task>(t =>
+            var res = act
+                .ContinueWith<bool>(t =>
                 {
                     try
                     {
                         if (t.Exception != null)
-                        {
                             Error = GetExceptionText(nameof(RaiseOnDelete), t.Exception);
-                        }
-                    }
-                    finally
-                    {
-                        IsBusy = false;
-                    }
-                });
-
-                var ui = TaskScheduler.FromCurrentSynchronizationContext();
-                if (ui != null)
-                    delTask.ContinueWith(afterDelTask, ui);
-                else
-                    delTask.ContinueWith(afterDelTask);
-            }
-
-
-            var srvc = new StaffingService.StaffingServiceClient();
-            try
-            {
-                var allDepsToDelete = this.Traverse<ITreeItem<DepartmentEditViewModel, Department>>(i => i.Childs);
-                var allDepsIdsToDelete = allDepsToDelete.Select(i => i.Data.Id).ToArray();
-                var res = srvc.DepartmentRemoveRangeAsync(allDepsIdsToDelete);
-
-                var depAction = new Action<Task<StaffingService.Result>>(dep =>
-                {
-                    try
-                    {
-                        if (dep.Exception != null)
-                        {
-                            Error = GetExceptionText(nameof(RaiseOnDelete), res.Exception);
-                        }
+                        else
+                        if (!string.IsNullOrWhiteSpace(t.Result.Error))
+                            Error = t.Result.Error;
                         else
                         {
-                            if (dep.Result.Error != null)
-                            {
-                                Error = dep.Result.Error;
-                            }
-                            else
-                            {
-                                if (Parent != null && Parent.Childs.Contains(this))
-                                    Parent.Childs.Remove(this);
-
-                                Error = null;
-                            }
+                            this.Data.CopyObjectFrom(t.Result.Value);
+                            return true;
                         }
+                        return false;
                     }
                     finally
                     {
@@ -357,20 +282,59 @@ namespace Personnel.Application.ViewModels.Staffing
                         try { srvc.Close(); } catch { }
                     }
                 });
+            return await res;
+        }
 
-                var ui = TaskScheduler.FromCurrentSynchronizationContext();
-                if (ui != null)
-                    res.ContinueWith(depAction, ui);
-                else
-                    res.ContinueWith(depAction);
+        private async void RaiseOnDelete()
+        {
+            IsBusy = true;
+            IsDeleted = true;
+            try
+            {
+                var deleted = (IsNew)
+                    ? true
+                    : await RaiseOnDeleteAsync();
+                
+                if (deleted && Parent != null && Parent.Childs.Contains(this))
+                    Parent.Childs.Remove(this);
+
+                IsBusy = false;
             }
             catch (Exception ex)
             {
-                try { srvc.Close(); } catch { }
                 Error = GetExceptionText(nameof(RaiseOnDelete), ex);
-                IsBusy = false;
             }
         }
+        private async Task<bool> RaiseOnDeleteAsync()
+        {
+            var allDepsToDelete = this.Traverse<ITreeItem<DepartmentEditViewModel, Department>>(i => i.Childs);
+            var allDepsIdsToDelete = allDepsToDelete.Select(i => i.Data.Id).ToArray();
+
+            var srvc = new StaffingService.StaffingServiceClient();
+            var res = srvc.DepartmentRemoveRangeAsync(allDepsIdsToDelete)
+                .ContinueWith<bool>(t =>
+                {
+                    try
+                    {
+                        if (t.Exception != null)
+                            Error = GetExceptionText(nameof(RaiseOnDelete), t.Exception);
+                        else
+                        if (!string.IsNullOrWhiteSpace(t.Result.Error))
+                            Error = t.Result.Error;
+                        else
+                            return true;
+
+                        return false;
+                    }
+                    finally
+                    {
+                        IsBusy = false;
+                        try { srvc.Close(); } catch { }
+                    }
+                });
+            return await res;
+        }
+
         private void RaiseOnAddChild()
         {
             IsBusy = true;
@@ -384,6 +348,7 @@ namespace Personnel.Application.ViewModels.Staffing
                         Name = Properties.Resources.DEPARTMENTEDIT_NewDepartmentName
                     },
                     Parent = this,
+                    Owner = this.Owner,
                     IsSelected = true
                 };
                 Childs.Add(newDep);
@@ -391,7 +356,7 @@ namespace Personnel.Application.ViewModels.Staffing
             }
             catch (Exception ex)
             {
-                Error = GetExceptionText(System.Reflection.MethodBase.GetCurrentMethod().Name, ex);
+                Error = GetExceptionText(nameof(RaiseOnAddChild), ex);
             }
             finally
             {

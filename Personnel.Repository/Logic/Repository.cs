@@ -164,10 +164,18 @@ namespace Personnel.Repository.Logic
             return Type.DefaultBinder.SelectMethod(flags, methods.ToArray(), argTypes, null);
         }
 
-        public void AddOrUpdate<T>(T entityElement, bool takeChilds = true, string[] ignoreClollectionNames = null, EntityState state = EntityState.Unchanged)
+        public void AddOrUpdate<T>(T entityElement, bool takeChilds = true, string[] ignoreClollectionNames = null, EntityState state = EntityState.Unchanged, T original = null)
             where T : class
         {
-            GetDbSet<T>().Attach(entityElement);
+            var dbSet = GetDbSet<T>();
+
+            if (original != null)
+            {
+                var originalEntry = Context.Entry<T>(original);
+                if (originalEntry != null)
+                    originalEntry.State = EntityState.Detached;
+            }
+            dbSet.Attach(entityElement);
             var saveFailed = false;
             do
             {

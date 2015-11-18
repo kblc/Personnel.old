@@ -50,8 +50,8 @@
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
                 <!--<ResourceDictionary Source="Templates/Notifications/NotificationTemplates.xaml" />
-                <ResourceDictionary Source="Templates/Birthdays/BirthdaysTemplates.xaml" />
-                <ResourceDictionary Source="Templates/Staffing/DepartmentsTemplates.xaml" />-->
+                <ResourceDictionary Source="Templates/Birthdays/BirthdaysTemplates.xaml" />-->
+                <ResourceDictionary Source="Templates/Staffing/DepartmentsTemplates.xaml" />
                 <ResourceDictionary>
                     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
                     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter"/>
@@ -65,31 +65,28 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <md:DialogHost Identifier="RootDialog" Grid.Column="1" Grid.Row="1">
-        <md:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
-            <md:DrawerHost.LeftDrawerContent>
-                <StackPanel Orientation="Vertical">
-                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
-                            HorizontalAlignment="Right" Margin="16"
-                            IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                    <ListBox x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="0"                         
-                            PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="{x:Type controls:ContentStorageControl}">
-                                <ContentPresenter Content="{Binding Header}"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <!--<controls:ContentStorageControl IsLoaded="{Binding Source={x:Static static:Static.Departments}, Path=IsLoaded}"
-                                                        Caption="Отделы">
-                            <controls:ContentStorageControl.Header>
-                                <TextBlock Text="Отделы" Margin="32 0 32 0" />
-                            </controls:ContentStorageControl.Header>
-                            <controls:ContentStorageControl.Content>
-                                <ContentPresenter Content="{x:Static static:Static.Departments}" 
-                                                  ContentTemplate="{DynamicResource DepartmentsViewTemplate}"/>
-                            </controls:ContentStorageControl.Content>
-                        </controls:ContentStorageControl>
-                        <controls:ContentStorageControl IsLoaded="{Binding Source={x:Static static:Static.Birthdays}, Path=IsLoaded}"
+    <Grid>
+        <md:DialogHost Identifier="RootDialog">
+            <md:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+                <md:DrawerHost.LeftDrawerContent>
+                    <StackPanel Orientation="Vertical">
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                                      HorizontalAlignment="Right" Margin="16"
+                                      IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
+                        <ListBox x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="0"                         
+                                 PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type controls:ContentStorageControl}">
+                                    <ContentPresenter Content="{Binding Header}" Margin="32,4" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <controls:ContentStorageControl IsLoaded="{Binding Source={StaticResource history}, Path=IsLoaded}"
+                                                            Caption="Departments" Header="Departments">
+                                <controls:ContentStorageControl.Content>
+                                    <ContentPresenter Content="{StaticResource staffing}" ContentTemplate="{DynamicResource DepartmentsViewTemplate}"/>
+                                </controls:ContentStorageControl.Content>
+                            </controls:ContentStorageControl>
+                            <!--<controls:ContentStorageControl IsLoaded="{Binding Source={x:Static static:Static.Birthdays}, Path=IsLoaded}"
                                                         Caption="{Binding Source={x:Static static:Static.Birthdays}, Path=Today.Count, StringFormat=Дни рождения ({0})}">
                             <controls:ContentStorageControl.Header>
                                 <TextBlock Text="{Binding Source={x:Static static:Static.Birthdays}, Path=Today.Count, StringFormat=Дни рождения ({0})}" Margin="32 0 32 0" />
@@ -157,45 +154,52 @@
                                 </Grid>
                             </controls:ContentStorageControl.Content>
                         </controls:ContentStorageControl>-->
-                    </ListBox>
-                </StackPanel>
-            </md:DrawerHost.LeftDrawerContent>
-            <DockPanel>
-                <md:ColorZone Padding="8" md:ShadowAssist.ShadowDepth="Depth2"
+                        </ListBox>
+                    </StackPanel>
+                </md:DrawerHost.LeftDrawerContent>
+                <DockPanel>
+                    <md:ColorZone Padding="8" md:ShadowAssist.ShadowDepth="Depth2"
                             Mode="PrimaryLight" DockPanel.Dock="Top">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
                                     x:Name="MenuToggleButton" VerticalAlignment="Center"/>
 
-                        <TextBlock Text="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBlock Text="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                    Grid.Column="1" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="23"/>
-                        
-                        <!--<ContentPresenter Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Header, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          Grid.Column="1" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
-                        
-                        <Border Grid.Column="2" DataContext="{StaticResource history}" VerticalAlignment="Center" Width="60">
-                            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
+
+                            <Border Grid.Column="2" DataContext="{StaticResource history}" VerticalAlignment="Center" Width="60">
+                                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
                                         IsIndeterminate="True"
                                         VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <ProgressBar.Visibility>
-                                    <MultiBinding Converter="{StaticResource MultiBooleanORToVisibilityConverter}">
-                                        <!--<Binding Path="IsConnecting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="True"/>-->
-                                        <Binding Path="IsWaiting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
-                                        <Binding Path="IsLoaded" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
-                                        <Binding ElementName="DemoItemsListBox" Path="SelectedItem.IsLoaded" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
-                                    </MultiBinding>
-                                </ProgressBar.Visibility>
-                            </ProgressBar>
-                        </Border>
-                    </Grid>
-                </md:ColorZone>
-                <ContentControl Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Content, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
-            </DockPanel>
-        </md:DrawerHost>
-    </md:DialogHost>
+                                    <ProgressBar.Visibility>
+                                        <MultiBinding Converter="{StaticResource MultiBooleanORToVisibilityConverter}">
+                                            <!--<Binding Path="IsConnecting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="True"/>-->
+                                            <Binding Path="IsWaiting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
+                                            <Binding Path="IsLoaded" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
+                                            <Binding ElementName="DemoItemsListBox" Path="SelectedItem.IsLoaded" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
+                                        </MultiBinding>
+                                    </ProgressBar.Visibility>
+                                </ProgressBar>
+                            </Border>
+                        </Grid>
+                    </md:ColorZone>
+                    <ContentControl Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Content, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+            </md:DrawerHost>
+        </md:DialogHost>
+
+        <Border Background="#99000000" Visibility="{Binding Source={StaticResource history}, Path=IsLoaded, Converter={StaticResource ReverseBooleanToVisibilityConverter}}">
+            <md:ColorZone Mode="Light" Padding="16" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True" VerticalAlignment="Center"/>
+                    <TextBlock Text="Connecting..." VerticalAlignment="Center" Margin="8"/>
+                </StackPanel>
+            </md:ColorZone>
+        </Border>
+    </Grid>
 </Window>

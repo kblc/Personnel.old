@@ -23,14 +23,14 @@ namespace Personnel.Application.ViewModels.Staffing
 
         private readonly ServiceWorkers.StaffingWorker worker = new ServiceWorkers.StaffingWorker();
 
-        private ObservableCollection<Right> rights = new ObservableCollection<Right>();
-        public IReadOnlyNotifyCollection<Right> Rights => (IReadOnlyNotifyCollection<Right>)rights;
+        private NotifyCollection<Right> rights = new NotifyCollection<Right>();
+        public IReadOnlyNotifyCollection<Right> Rights => rights;
 
-        private ObservableCollection<ITreeItem<DepartmentEditViewModel, Department>> departments = new ObservableCollection<ITreeItem<DepartmentEditViewModel, Department>>();
-        public IReadOnlyNotifyCollection<ITreeItem<DepartmentEditViewModel, Department>> Departments => (IReadOnlyNotifyCollection<ITreeItem<DepartmentEditViewModel, Department>>)departments;
+        private NotifyCollection<ITreeItem<DepartmentEditViewModel, Department>> departments = new NotifyCollection<ITreeItem<DepartmentEditViewModel, Department>>();
+        public IReadOnlyNotifyCollection<ITreeItem<DepartmentEditViewModel, Department>> Departments => departments;
 
-        private ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
-        public IReadOnlyNotifyCollection<Employee> Employees => (IReadOnlyNotifyCollection<Employee>)employees;
+        private NotifyCollection<Employee> employees = new NotifyCollection<Employee>();
+        public IReadOnlyNotifyCollection<Employee> Employees => employees;
 
         #region Notifications
 
@@ -172,7 +172,12 @@ namespace Personnel.Application.ViewModels.Staffing
         #region IsDebugView
 
         public static readonly DependencyProperty IsDebugViewProperty = DependencyProperty.Register(nameof(IsDebugView), typeof(bool),
-            typeof(StaffingViewModel), new PropertyMetadata(true, (s, e) => { }));
+            typeof(StaffingViewModel), new PropertyMetadata(true, (s, e) => 
+            {
+                var model = s as StaffingViewModel;
+                if (model != null)
+                    model.RaisePropertyChanged(e.Property.Name);
+            }));
 
         public bool IsDebugView
         {
@@ -186,7 +191,15 @@ namespace Personnel.Application.ViewModels.Staffing
             = DependencyProperty.RegisterReadOnly(nameof(CanManageDepartments), typeof(bool), typeof(StaffingViewModel),
                 new FrameworkPropertyMetadata(false,
                     FrameworkPropertyMetadataOptions.None,
-                    new PropertyChangedCallback((s, e) => { })));
+                    new PropertyChangedCallback((s, e) => 
+                    {
+                        var model = s as StaffingViewModel;
+                        if (model != null)
+                        { 
+                            model.RaisePropertyChanged(e.Property.Name);
+                            model.UpdateCommands();
+                        }
+                    })));
         public static readonly DependencyProperty ReadOnlyCanManageDepartmentsProperty = ReadOnlyCanManageDepartmentsPropertyKey.DependencyProperty;
 
         public bool CanManageDepartments
@@ -244,6 +257,7 @@ namespace Personnel.Application.ViewModels.Staffing
                     Name = Properties.Resources.DEPARTMENTEDIT_NewDepartmentName,
                 },
                 Parent = this,
+                Owner = this,
                 IsSelected = true,
             };
             departments.Add(newDep);
@@ -310,7 +324,7 @@ namespace Personnel.Application.ViewModels.Staffing
                             var existedParent = departments.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Data.Id == d.ParentId);
                             if (existedParent != null)
                             {
-                                var newDep = new DepartmentEditViewModel() { Data = d, Parent = existedParent };
+                                var newDep = new DepartmentEditViewModel() { Data = d, Parent = existedParent, Owner = this };
                                 var existedChildsInTop = departments.Where(i => i.Data.ParentId == d.Id);
                                 foreach (var c in existedChildsInTop)
                                 {
@@ -321,7 +335,7 @@ namespace Personnel.Application.ViewModels.Staffing
                             }
                             else
                             {
-                                departments.Add(new DepartmentEditViewModel() { Data = d, Parent = this });
+                                departments.Add(new DepartmentEditViewModel() { Data = d, Parent = this, Owner = this });
                             }
                         }
                     }

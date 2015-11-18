@@ -169,11 +169,11 @@ namespace Personnel.Application.ViewModels.Birthdays
 
         #endregion
 
-        private ObservableCollection<EmployeeViewModel> today = new ObservableCollection<EmployeeViewModel>();
-        public IReadOnlyNotifyCollection<EmployeeViewModel> Today => (IReadOnlyNotifyCollection<EmployeeViewModel>)today;
+        private NotifyCollection<EmployeeViewModel> today = new NotifyCollection<EmployeeViewModel>();
+        public IReadOnlyNotifyCollection<EmployeeViewModel> Today => today;
 
-        private ObservableCollection<LevelViewModel> levels = new ObservableCollection<LevelViewModel>();
-        public IReadOnlyNotifyCollection<LevelViewModel> Levels => (IReadOnlyNotifyCollection<LevelViewModel>)levels;
+        private NotifyCollection<LevelViewModel> levels = new NotifyCollection<LevelViewModel>();
+        public IReadOnlyNotifyCollection<LevelViewModel> Levels => levels;
 
         //private float levelsHorizontalPosition = 50;
         //public float LevelsHorizontalPosition

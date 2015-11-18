@@ -491,6 +491,8 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                         Task.WaitAll(tasks.ToArray());
                         tasks.ForEach(t => checkAggregateExceptions(null, t.Exception));
                         inited = tasks.All(t => t.Exception == null && t.Result);
+                        if (inited)
+                            SetError((string)null);
                     }
                 }
                 catch (Exception ex)

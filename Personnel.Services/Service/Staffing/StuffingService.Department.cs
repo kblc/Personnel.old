@@ -275,7 +275,7 @@ namespace Personnel.Services.Service.Staffing
                             throw new Exception(string.Format(Properties.Resources.STUFFINGSERVICE_DepartmentNotFound, department.Id));
 
                         var updating = AutoMapper.Mapper.Map<Repository.Model.Department>(department);
-                        rep.AddOrUpdate(updating);
+                        rep.AddOrUpdate(updating, takeChilds: false, original: res);
                     }
 
                     return DepartmentGet(department.Id);

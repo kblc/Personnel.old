@@ -128,7 +128,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
 
         protected void SetError(string ex)
         {
-            Error = ex;
+            Error = string.IsNullOrWhiteSpace(ex) ? null : ex;
         }
         protected void SetError(Exception ex)
         {

@@ -17,9 +17,8 @@ namespace Personnel.Application.ViewModels.Notifications
     {
         private readonly ServiceWorkers.NotificationsWorker worker = new ServiceWorkers.NotificationsWorker();
 
-        private ObservableCollection<NotificationDataViewModel> notifications = new ObservableCollection<NotificationDataViewModel>();
-        public IReadOnlyNotifyCollection<NotificationDataViewModel> Notifications => 
-            (IReadOnlyNotifyCollection<NotificationDataViewModel>)notifications;
+        private NotifyCollection<NotificationDataViewModel> notifications = new NotifyCollection<NotificationDataViewModel>();
+        public IReadOnlyNotifyCollection<NotificationDataViewModel> Notifications => notifications;
 
         #region SelectedNotification
 

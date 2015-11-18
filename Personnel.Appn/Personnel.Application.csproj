@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Controls\ContentStorageControl.cs" />
     <Compile Include="Converters\ImagePathToImageSourceConverter.cs" />
+    <Compile Include="Converters\IsNotEmptyStringConverter.cs" />
     <Compile Include="Converters\ScaleFromActualSizeConverter.cs" />
     <Compile Include="Converters\SizesToPointConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
