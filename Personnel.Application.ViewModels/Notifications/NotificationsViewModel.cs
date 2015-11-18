@@ -9,11 +9,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Helpers.WPF;
 using System.Windows.Input;
+using Personnel.Application.ViewModels.AdditionalModels;
 
 namespace Personnel.Application.ViewModels.Notifications
 {
-    public interface IReadOnlyNotifyCollection<out T> : IReadOnlyCollection<T>, INotifyCollectionChanged { }
-
     public class NotificationsViewModel : DependencyObject
     {
         private readonly ServiceWorkers.NotificationsWorker worker = new ServiceWorkers.NotificationsWorker();
@@ -73,7 +72,7 @@ namespace Personnel.Application.ViewModels.Notifications
                 new FrameworkPropertyMetadata(ServiceWorkers.WorkerState.None,
                     FrameworkPropertyMetadataOptions.None,
                     new PropertyChangedCallback((s, e) => { })));
-        public static readonly DependencyProperty ReadOnlyStateProperty = ReadOnlyErrorPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty ReadOnlyStateProperty = ReadOnlyStatePropertyKey.DependencyProperty;
 
         public ServiceWorkers.WorkerState State
         {

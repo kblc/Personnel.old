@@ -105,7 +105,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
         public string Error
         {
             get { return error; }
-            protected set
+            private set
             {
                 if (error == value)
                     return;
