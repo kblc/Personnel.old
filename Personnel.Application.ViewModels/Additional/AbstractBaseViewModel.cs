@@ -14,13 +14,18 @@ namespace Personnel.Application.ViewModels.Additional
     {
         #region INotifyPropertyChanged
 
-        protected void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpression)
+        protected virtual void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpression)
         {
             var memberExpr = propertyExpression.Body as MemberExpression;
             if (memberExpr == null)
                 throw new ArgumentException("propertyExpression should represent access to a member");
             string memberName = memberExpr.Member.Name;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(memberName));
+        }
+
+        protected virtual void RaisePropertyChanged([ParenthesizePropertyName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

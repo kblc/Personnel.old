@@ -123,8 +123,20 @@
   <data name="ERROR" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="LOADED" xml:space="preserve">
+    <value>Loaded</value>
+  </data>
   <data name="NOTIFICATION" xml:space="preserve">
     <value>Notification</value>
+  </data>
+  <data name="STARTED" xml:space="preserve">
+    <value>Started</value>
+  </data>
+  <data name="STOPED" xml:space="preserve">
+    <value>Stoped</value>
+  </data>
+  <data name="UNLOADED" xml:space="preserve">
+    <value>Unloaded</value>
   </data>
   <data name="VMBIRTHDAYS_BYDAY" xml:space="preserve">
     <value>By day</value>

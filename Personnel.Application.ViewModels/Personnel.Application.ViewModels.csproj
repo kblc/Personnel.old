@@ -41,6 +41,7 @@
       <HintPath>..\..\Helpers\Helpers.WPF\bin\Release\Helpers.WPF.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -55,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalModels\LimitedObservableCollection.cs" />
+    <Compile Include="History\HistoryViewModel.cs" />
     <Compile Include="Notifications\NotificationDataViewModel.cs" />
     <Compile Include="AdditionalModels\TempData.cs" />
     <Compile Include="Additional\AbstractBaseViewModel.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Birthdays\ViewModel.cs" />
     <Compile Include="History\ViewModel.cs" />
     <Compile Include="Notifications\NotificationItemViewModel.cs" />
+    <Compile Include="Notifications\NotificationsViewModel.cs" />
     <Compile Include="Notifications\ViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -87,6 +90,7 @@
     </Compile>
     <Compile Include="ServiceWorkers\AbstractBaseWorker.cs" />
     <Compile Include="ServiceWorkers\HistoryWorker.cs" />
+    <Compile Include="ServiceWorkers\NotificationsWorker.cs" />
     <Compile Include="Staffing\DepartmentsEditViewModel.cs" />
     <Compile Include="Staffing\EmployeeViewModel.cs" />
     <Compile Include="Staffing\ViewModel.cs" />

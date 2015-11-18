@@ -8,71 +8,40 @@ using System.Windows.Input;
 
 namespace Personnel.Application.ViewModels.Notifications
 {
-    public class NotificationDataViewModel : NotifyPropertyChangedBase
+    public class NotificationDataViewModel
     {
-        public NotificationDataViewModel(string header, string message, bool isError, string iconUrl)
+        public NotificationDataViewModel(ServiceWorkers.NotificationItem notification)
         {
-            this.header = header;
-            this.message = message;
-            this.isError = isError;
-            this.iconUrl = iconUrl;
-            OpenCommand = new Helpers.WPF.DelegateCommand((o) => OnOpenCommand?.Invoke(this, new EventArgs()));
-            CloseCommand = new Helpers.WPF.DelegateCommand((o) => OnCloseCommand?.Invoke(this, new EventArgs()));
+            if (notification == null)
+                throw new ArgumentNullException(nameof(notification));
+            Notification = notification;
         }
 
-        private string header = string.Empty;
-        /// <summary>
-        /// Notification header
-        /// </summary>
-        public string Header { get { return header; } private set { if (header == value) return; header = value; RaisePropertyChanged(() => Header); } }
-
-        private string message = string.Empty;
-        /// <summary>
-        /// Notification body message
-        /// </summary>
-        public string Message { get { return message; } private set { if (message == value) return; message = value; RaisePropertyChanged(() => Message); } }
-
-        private bool isError = false;
-        /// <summary>
-        /// Is error notification
-        /// </summary>
-        public bool IsError { get { return isError; } private set { if (isError == value) return; isError = value; RaisePropertyChanged(() => IsError); } }
-
-        private string iconUrl = null;
-        /// <summary>
-        /// Icon url
-        /// </summary>
-        public string IconUrl { get { return iconUrl; } private set { if (iconUrl == value) return; iconUrl = value; RaisePropertyChanged(() => IconUrl); RaisePropertyChanged(() => HasIcon); } }
+        public ServiceWorkers.NotificationItem Notification { get; private set; }
 
         /// <summary>
         /// Has notification icon
         /// </summary>
-        public bool HasIcon
-        {
-            get
-            {
-                return !string.IsNullOrWhiteSpace(IconUrl);
-            }
-        }
+        public bool HasIcon => !string.IsNullOrWhiteSpace(Notification.IconUrl);
 
         /// <summary>
         /// Has notification body message
         /// </summary>
-        public bool HasMessage { get { return !string.IsNullOrWhiteSpace(message); } }
+        public bool HasMessage => !string.IsNullOrWhiteSpace(Notification.Message);
 
         /// <summary>
         /// Close command
         /// </summary>
         private ICommand closeCommand = null;
-        public ICommand CloseCommand { get { return closeCommand; } private set { if (closeCommand == value) return; closeCommand = value; RaisePropertyChanged(() => CloseCommand); } }
+        public ICommand CloseCommand { get { return closeCommand ?? (closeCommand = new Helpers.WPF.DelegateCommand((o) => OnCloseClick?.Invoke(this, new EventArgs()))); } }
 
         /// <summary>
         /// Open command
         /// </summary>
         private ICommand openCommand = null;
-        public ICommand OpenCommand { get { return openCommand; } private set { if (openCommand == value) return; openCommand = value; RaisePropertyChanged(() => OpenCommand); } }
+        public ICommand OpenCommand { get { return openCommand ?? (openCommand = new Helpers.WPF.DelegateCommand((o) => OnOpenClick?.Invoke(this, new EventArgs()))); } }
 
-        public event EventHandler OnCloseCommand;
-        public event EventHandler OnOpenCommand;
+        public event EventHandler OnCloseClick;
+        public event EventHandler OnOpenClick;
     }
 }

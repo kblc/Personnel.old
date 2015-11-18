@@ -90,8 +90,8 @@ namespace Personnel.Application.ViewModels.Notifications
                         item.OnEnd += (s2, e2) => removeFunc(s2 as NotificationItemViewModel, false);
                         if (item.Data != null)
                         { 
-                            item.Data.OnCloseCommand += (s2, e2) => removeFunc(getItemFunc(s2 as NotificationDataViewModel), true);
-                            item.Data.OnOpenCommand += (s2, e2) =>
+                            item.Data.OnCloseClick += (s2, e2) => removeFunc(getItemFunc(s2 as NotificationDataViewModel), true);
+                            item.Data.OnOpenClick += (s2, e2) =>
                             {
                                 var itm = getItemFunc(s2 as NotificationDataViewModel);
                                 ChangeSelectedTo(itm);

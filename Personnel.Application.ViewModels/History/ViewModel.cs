@@ -41,8 +41,6 @@ namespace Personnel.Application.ViewModels.History
             IsConnecting = value;
         }
 
-
-
         private NotificationDataViewModel[] RaiseAddNotificationForChange(HistoryService.HistoryUpdateInfo updateInfo, string defaultHeader, string message = null)
         {
             if (updateInfo == null)

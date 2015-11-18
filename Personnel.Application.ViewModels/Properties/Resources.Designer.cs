@@ -79,11 +79,47 @@ namespace Personnel.Application.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loaded.
+        /// </summary>
+        internal static string LOADED {
+            get {
+                return ResourceManager.GetString("LOADED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notification.
         /// </summary>
         internal static string NOTIFICATION {
             get {
                 return ResourceManager.GetString("NOTIFICATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Started.
+        /// </summary>
+        internal static string STARTED {
+            get {
+                return ResourceManager.GetString("STARTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stoped.
+        /// </summary>
+        internal static string STOPED {
+            get {
+                return ResourceManager.GetString("STOPED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unloaded.
+        /// </summary>
+        internal static string UNLOADED {
+            get {
+                return ResourceManager.GetString("UNLOADED", resourceCulture);
             }
         }
         
