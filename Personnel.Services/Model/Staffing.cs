@@ -35,7 +35,7 @@ namespace Personnel.Services.Model
         /// Appoint
         /// </summary>
         [DataMember(IsRequired = false)]
-        public long AppointId { get; set; }
+        public string Appoint { get; set; }
     }
 
     [DataContract(Name = "StaffingResult")]

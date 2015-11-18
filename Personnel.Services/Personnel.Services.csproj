@@ -95,7 +95,6 @@
     <Compile Include="Service\Staffing\IStaffingService.Staffing.cs" />
     <Compile Include="Service\Staffing\IStaffingService.Department.cs" />
     <Compile Include="Service\Staffing\IStuffingService.cs" />
-    <Compile Include="Service\Staffing\IStaffingService.Appoint.cs" />
     <Compile Include="Service\Staffing\IStuffingService.Employee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\History.cs" />
@@ -107,7 +106,6 @@
     <Compile Include="Service\Staffing\StuffingService.Staffing.cs" />
     <Compile Include="Service\Staffing\StuffingService.Department.cs" />
     <Compile Include="Service\Staffing\StuffingService.cs" />
-    <Compile Include="Service\Staffing\StuffingService.Appoint.cs" />
     <Compile Include="Service\Staffing\StuffingService.Employee.cs" />
     <Compile Include="Service\Staffing\StuffingService.EmployeeRight.cs" />
   </ItemGroup>

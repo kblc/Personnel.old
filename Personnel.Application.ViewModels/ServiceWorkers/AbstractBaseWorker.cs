@@ -42,6 +42,11 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
 
     public abstract class AbstractBaseWorker : Additional.NotifyPropertyChangedBase, IDisposable
     {
+        static AbstractBaseWorker()
+        {
+            Automapper.Init();
+        }
+
         public const int DefaultConnectionTimeIntervalIsSeconds = 5;
 
         public System.Runtime.Remoting.Contexts.Context Context { get; } = Thread.CurrentContext;
@@ -116,8 +121,10 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
             }
         }
 
-        private static string IconUrlByType(Type type, CultureInfo cultureInfo)
+        internal static string IconUrlByType(Type type, CultureInfo cultureInfo)
             => Properties.Resources.ResourceManager.GetString($"{type.Name.ToUpper()}_NOTIFICATIONICONURL", cultureInfo);
+
+        internal static string GetExceptionText(Exception ex) => ex.GetExceptionText();
 
         protected void SetError(string ex)
         {
@@ -125,7 +132,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
         }
         protected void SetError(Exception ex)
         {
-            SetError(ex.GetExceptionText());
+            SetError(GetExceptionText(ex));
         }
 
         private CultureInfo serviceCultureInfo = Thread.CurrentThread.CurrentUICulture;

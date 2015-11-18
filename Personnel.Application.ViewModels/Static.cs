@@ -7,11 +7,17 @@ using Helpers;
 
 namespace Personnel.Application.ViewModels
 {
-    public static class Static
+    public static class Automapper
     {
-        static Static()
+        private static bool isInitialized = false;
+
+        internal static void Init()
         {
             //Init automapper
+
+            if (isInitialized)
+                return;
+
             System.Reflection.Assembly.GetCallingAssembly().GetTypes()
                 .Where(t => t.Namespace != null &&
                     ( t.Namespace.StartsWith(typeof(HistoryService.HistoryServiceClient).Namespace)
@@ -33,27 +39,8 @@ namespace Personnel.Application.ViewModels
                                 });
                         });
                 });
+
+            isInitialized = true;
         }
-
-        private static ViewModels.Notifications.ViewModel notifications = null;
-        public static ViewModels.Notifications.ViewModel Notifications { get { return notifications ?? (notifications = new ViewModels.Notifications.ViewModel()); } }
-
-        private static ViewModels.History.ViewModel history = null;
-        public static ViewModels.History.ViewModel History
-        {
-            get
-            {
-                return history ?? (history = new ViewModels.History.ViewModel());
-            }
-        }
-
-        private static ViewModels.Staffing.ViewModel staffing = null;
-        public static ViewModels.Staffing.ViewModel Staffing { get { return staffing ?? (staffing = new ViewModels.Staffing.ViewModel()); } }
-
-        private static ViewModels.Staffing.DepartmentsEditViewModel departments = null;
-        public static ViewModels.Staffing.DepartmentsEditViewModel Departments { get { return departments ?? (departments = new ViewModels.Staffing.DepartmentsEditViewModel()); } }
-
-        private static ViewModels.Birthdays.ViewModel birthdays = null;
-        public static ViewModels.Birthdays.ViewModel Birthdays { get { return birthdays ?? (birthdays = new ViewModels.Birthdays.ViewModel()); } }
     }
 }

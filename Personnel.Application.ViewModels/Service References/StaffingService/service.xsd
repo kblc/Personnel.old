@@ -202,102 +202,6 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="AppointsGet">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointsGetResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="AppointsGetResult" nillable="true" type="q23:AppointResults" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointGetRange">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q24="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q24:ArrayOflong" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointGetRangeResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="AppointGetRangeResult" nillable="true" type="q25:AppointResults" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointGet">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="appointId" type="xs:long" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointGetResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="AppointGetResult" nillable="true" type="q26:AppointResult" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointRemove">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="appointId" type="xs:long" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointRemoveResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="AppointRemoveResult" nillable="true" type="q27:Result" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointRemoveRange">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q28="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q28:ArrayOflong" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointRemoveRangeResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="AppointRemoveRangeResult" nillable="true" type="q29:Result" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointUpdate">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="appoint" nillable="true" type="q30:Appoint" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointUpdateResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="AppointUpdateResult" nillable="true" type="q31:AppointResult" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointInsert">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="appoint" nillable="true" type="q32:Appoint" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="AppointInsertResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="AppointInsertResult" nillable="true" type="q33:AppointResult" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="EmployeeGetCurrent">
     <xs:complexType>
       <xs:sequence />
@@ -306,21 +210,21 @@
   <xs:element name="EmployeeGetCurrentResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeGetCurrentResult" nillable="true" type="q34:EmployeeResult" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeGetCurrentResult" nillable="true" type="q23:EmployeeResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeGetRange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q35="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q35:ArrayOflong" />
+        <xs:element xmlns:q24="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q24:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeGetRangeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeGetRangeResult" nillable="true" type="q36:EmployeeResults" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeGetRangeResult" nillable="true" type="q25:EmployeeResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -332,7 +236,7 @@
   <xs:element name="EmployeesGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeesGetResult" nillable="true" type="q37:EmployeeResults" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeesGetResult" nillable="true" type="q26:EmployeeResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -346,7 +250,7 @@
   <xs:element name="EmployeeGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeGetResult" nillable="true" type="q38:EmployeeResult" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeGetResult" nillable="true" type="q27:EmployeeResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -360,49 +264,49 @@
   <xs:element name="EmployeeRemoveResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRemoveResult" nillable="true" type="q39:Result" />
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRemoveResult" nillable="true" type="q28:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeRemoveRange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q40="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="employeeIds" nillable="true" type="q40:ArrayOflong" />
+        <xs:element xmlns:q29="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="employeeIds" nillable="true" type="q29:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeRemoveRangeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRemoveRangeResult" nillable="true" type="q41:Result" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRemoveRangeResult" nillable="true" type="q30:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeUpdate">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="employee" nillable="true" type="q42:Employee" />
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="employee" nillable="true" type="q31:Employee" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeUpdateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeUpdateResult" nillable="true" type="q43:EmployeeResult" />
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeUpdateResult" nillable="true" type="q32:EmployeeResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeInsert">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="employee" nillable="true" type="q44:Employee" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="employee" nillable="true" type="q33:Employee" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeInsertResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeInsertResult" nillable="true" type="q45:EmployeeResult" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeInsertResult" nillable="true" type="q34:EmployeeResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -416,7 +320,7 @@
   <xs:element name="EmployeePhotosGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeePhotosGetResult" nillable="true" type="q46:EmployeePhotoResults" />
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeePhotosGetResult" nillable="true" type="q35:EmployeePhotoResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -424,14 +328,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" type="xs:long" />
-        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="photo" nillable="true" type="q47:EmployeePhoto" />
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="photo" nillable="true" type="q36:EmployeePhoto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeePhotosAddResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeePhotosAddResult" nillable="true" type="q48:EmployeePhotoResults" />
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeePhotosAddResult" nillable="true" type="q37:EmployeePhotoResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -439,14 +343,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" type="xs:long" />
-        <xs:element xmlns:q49="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="photoIdentifier" type="q49:guid" />
+        <xs:element xmlns:q38="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="photoIdentifier" type="q38:guid" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeePhotosRemoveResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeePhotosRemoveResult" nillable="true" type="q50:EmployeePhotoResults" />
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeePhotosRemoveResult" nillable="true" type="q39:EmployeePhotoResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -460,7 +364,7 @@
   <xs:element name="EmployeeLoginsGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsGetResult" nillable="true" type="q51:LoginValueResults" />
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsGetResult" nillable="true" type="q40:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -468,14 +372,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" type="xs:long" />
-        <xs:element xmlns:q52="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="logins" nillable="true" type="q52:ArrayOfstring" />
+        <xs:element xmlns:q41="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="logins" nillable="true" type="q41:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeLoginsAddResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsAddResult" nillable="true" type="q53:LoginValueResults" />
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsAddResult" nillable="true" type="q42:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -490,7 +394,7 @@
   <xs:element name="EmployeeLoginsAddOneResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q54="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsAddOneResult" nillable="true" type="q54:LoginValueResults" />
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsAddOneResult" nillable="true" type="q43:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -498,14 +402,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" type="xs:long" />
-        <xs:element xmlns:q55="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="logins" nillable="true" type="q55:ArrayOfstring" />
+        <xs:element xmlns:q44="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="logins" nillable="true" type="q44:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeLoginsRemoveResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q56="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsRemoveResult" nillable="true" type="q56:LoginValueResults" />
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsRemoveResult" nillable="true" type="q45:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -520,7 +424,7 @@
   <xs:element name="EmployeeLoginsRemoveOneResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q57="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsRemoveOneResult" nillable="true" type="q57:LoginValueResults" />
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsRemoveOneResult" nillable="true" type="q46:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -528,14 +432,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" type="xs:long" />
-        <xs:element xmlns:q58="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q58:ArrayOfstring" />
+        <xs:element xmlns:q47="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q47:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeLoginsUpdateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsUpdateResult" nillable="true" type="q59:LoginValueResults" />
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeLoginsUpdateResult" nillable="true" type="q48:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -547,7 +451,7 @@
   <xs:element name="RightsGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q60="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RightsGetResult" nillable="true" type="q60:RightResults" />
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RightsGetResult" nillable="true" type="q49:RightResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -561,7 +465,7 @@
   <xs:element name="EmployeeRightsGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsGetResult" nillable="true" type="q61:RightValueResults" />
+        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsGetResult" nillable="true" type="q50:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -569,14 +473,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" type="xs:long" />
-        <xs:element xmlns:q62="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q62:ArrayOflong" />
+        <xs:element xmlns:q51="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q51:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeRightsAddResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsAddResult" nillable="true" type="q63:RightValueResults" />
+        <xs:element xmlns:q52="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsAddResult" nillable="true" type="q52:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -591,7 +495,7 @@
   <xs:element name="EmployeeRightsAddByNameResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q64="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsAddByNameResult" nillable="true" type="q64:RightValueResults" />
+        <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsAddByNameResult" nillable="true" type="q53:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -599,14 +503,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" type="xs:long" />
-        <xs:element xmlns:q65="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q65:ArrayOflong" />
+        <xs:element xmlns:q54="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q54:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeRightsRemoveResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q66="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsRemoveResult" nillable="true" type="q66:RightValueResults" />
+        <xs:element xmlns:q55="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsRemoveResult" nillable="true" type="q55:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -621,7 +525,7 @@
   <xs:element name="EmployeeRightsRemoveByNameResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q67="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsRemoveByNameResult" nillable="true" type="q67:RightValueResults" />
+        <xs:element xmlns:q56="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsRemoveByNameResult" nillable="true" type="q56:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -629,14 +533,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" type="xs:long" />
-        <xs:element xmlns:q68="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q68:ArrayOflong" />
+        <xs:element xmlns:q57="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q57:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="EmployeeRightsUpdateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q69="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsUpdateResult" nillable="true" type="q69:RightValueResults" />
+        <xs:element xmlns:q58="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="EmployeeRightsUpdateResult" nillable="true" type="q58:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -648,21 +552,21 @@
   <xs:element name="RESTStaffingsGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q70="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingsGetResult" nillable="true" type="q70:StaffingResults" />
+        <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingsGetResult" nillable="true" type="q59:StaffingResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTStaffingGetRange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q71="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q71:ArrayOfstring" />
+        <xs:element xmlns:q60="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q60:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTStaffingGetRangeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q72="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingGetRangeResult" nillable="true" type="q72:StaffingResults" />
+        <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingGetRangeResult" nillable="true" type="q61:StaffingResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -676,7 +580,7 @@
   <xs:element name="RESTStaffingGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q73="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingGetResult" nillable="true" type="q73:StaffingResult" />
+        <xs:element xmlns:q62="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingGetResult" nillable="true" type="q62:StaffingResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -690,49 +594,49 @@
   <xs:element name="RESTStaffingRemoveResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q74="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingRemoveResult" nillable="true" type="q74:Result" />
+        <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingRemoveResult" nillable="true" type="q63:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTStaffingRemoveRange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q75="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="staffingIds" nillable="true" type="q75:ArrayOfstring" />
+        <xs:element xmlns:q64="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="staffingIds" nillable="true" type="q64:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTStaffingRemoveRangeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q76="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingRemoveRangeResult" nillable="true" type="q76:Result" />
+        <xs:element xmlns:q65="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingRemoveRangeResult" nillable="true" type="q65:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTStaffingUpdate">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q77="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="stuffing" nillable="true" type="q77:Staffing" />
+        <xs:element xmlns:q66="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="stuffing" nillable="true" type="q66:Staffing" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTStaffingUpdateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q78="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingUpdateResult" nillable="true" type="q78:StaffingResult" />
+        <xs:element xmlns:q67="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingUpdateResult" nillable="true" type="q67:StaffingResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTStaffingInsert">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q79="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="stuffing" nillable="true" type="q79:Staffing" />
+        <xs:element xmlns:q68="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="stuffing" nillable="true" type="q68:Staffing" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTStaffingInsertResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q80="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingInsertResult" nillable="true" type="q80:StaffingResult" />
+        <xs:element xmlns:q69="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTStaffingInsertResult" nillable="true" type="q69:StaffingResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -744,21 +648,21 @@
   <xs:element name="RESTDepartmentsGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q81="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentsGetResult" nillable="true" type="q81:DepartmentResults" />
+        <xs:element xmlns:q70="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentsGetResult" nillable="true" type="q70:DepartmentResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTDepartmentGetRange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q82="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q82:ArrayOfstring" />
+        <xs:element xmlns:q71="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q71:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTDepartmentGetRangeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q83="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentGetRangeResult" nillable="true" type="q83:DepartmentResults" />
+        <xs:element xmlns:q72="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentGetRangeResult" nillable="true" type="q72:DepartmentResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -772,7 +676,7 @@
   <xs:element name="RESTDepartmentGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q84="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentGetResult" nillable="true" type="q84:DepartmentResult" />
+        <xs:element xmlns:q73="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentGetResult" nillable="true" type="q73:DepartmentResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -786,145 +690,49 @@
   <xs:element name="RESTDepartmentRemoveResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q85="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentRemoveResult" nillable="true" type="q85:Result" />
+        <xs:element xmlns:q74="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentRemoveResult" nillable="true" type="q74:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTDepartmentRemoveRange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q86="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="departmentIds" nillable="true" type="q86:ArrayOfstring" />
+        <xs:element xmlns:q75="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="departmentIds" nillable="true" type="q75:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTDepartmentRemoveRangeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q87="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentRemoveRangeResult" nillable="true" type="q87:Result" />
+        <xs:element xmlns:q76="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentRemoveRangeResult" nillable="true" type="q76:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTDepartmentUpdate">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q88="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="department" nillable="true" type="q88:Department" />
+        <xs:element xmlns:q77="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="department" nillable="true" type="q77:Department" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTDepartmentUpdateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q89="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentUpdateResult" nillable="true" type="q89:DepartmentResult" />
+        <xs:element xmlns:q78="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentUpdateResult" nillable="true" type="q78:DepartmentResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTDepartmentInsert">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q90="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="department" nillable="true" type="q90:Department" />
+        <xs:element xmlns:q79="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="department" nillable="true" type="q79:Department" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTDepartmentInsertResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q91="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentInsertResult" nillable="true" type="q91:DepartmentResult" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointsGet">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointsGetResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q92="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTAppointsGetResult" nillable="true" type="q92:AppointResults" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointGetRange">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q93="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q93:ArrayOfstring" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointGetRangeResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q94="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTAppointGetRangeResult" nillable="true" type="q94:AppointResults" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointGet">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="appointId" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointGetResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q95="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTAppointGetResult" nillable="true" type="q95:AppointResult" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointRemove">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="appointId" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointRemoveResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q96="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTAppointRemoveResult" nillable="true" type="q96:Result" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointRemoveRange">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q97="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q97:ArrayOfstring" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointRemoveRangeResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q98="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTAppointRemoveRangeResult" nillable="true" type="q98:Result" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointUpdate">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q99="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="appoint" nillable="true" type="q99:Appoint" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointUpdateResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q100="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTAppointUpdateResult" nillable="true" type="q100:AppointResult" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointInsert">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q101="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="appoint" nillable="true" type="q101:Appoint" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RESTAppointInsertResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q102="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTAppointInsertResult" nillable="true" type="q102:AppointResult" />
+        <xs:element xmlns:q80="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTDepartmentInsertResult" nillable="true" type="q80:DepartmentResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -936,21 +744,21 @@
   <xs:element name="RESTEmployeeGetCurrentResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q103="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeGetCurrentResult" nillable="true" type="q103:EmployeeResult" />
+        <xs:element xmlns:q81="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeGetCurrentResult" nillable="true" type="q81:EmployeeResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeGetRange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q104="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q104:ArrayOfstring" />
+        <xs:element xmlns:q82="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q82:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeGetRangeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q105="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeGetRangeResult" nillable="true" type="q105:EmployeeResults" />
+        <xs:element xmlns:q83="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeGetRangeResult" nillable="true" type="q83:EmployeeResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -962,7 +770,7 @@
   <xs:element name="RESTEmployeesGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q106="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeesGetResult" nillable="true" type="q106:EmployeeResults" />
+        <xs:element xmlns:q84="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeesGetResult" nillable="true" type="q84:EmployeeResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -976,7 +784,7 @@
   <xs:element name="RESTEmployeeGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q107="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeGetResult" nillable="true" type="q107:EmployeeResult" />
+        <xs:element xmlns:q85="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeGetResult" nillable="true" type="q85:EmployeeResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -990,49 +798,49 @@
   <xs:element name="RESTEmployeeRemoveResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q108="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRemoveResult" nillable="true" type="q108:Result" />
+        <xs:element xmlns:q86="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRemoveResult" nillable="true" type="q86:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeRemoveRange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q109="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="employeeIds" nillable="true" type="q109:ArrayOfstring" />
+        <xs:element xmlns:q87="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="employeeIds" nillable="true" type="q87:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeRemoveRangeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q110="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRemoveRangeResult" nillable="true" type="q110:Result" />
+        <xs:element xmlns:q88="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRemoveRangeResult" nillable="true" type="q88:Result" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeUpdate">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q111="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="employee" nillable="true" type="q111:Employee" />
+        <xs:element xmlns:q89="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="employee" nillable="true" type="q89:Employee" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeUpdateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q112="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeUpdateResult" nillable="true" type="q112:EmployeeResult" />
+        <xs:element xmlns:q90="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeUpdateResult" nillable="true" type="q90:EmployeeResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeInsert">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q113="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="employee" nillable="true" type="q113:Employee" />
+        <xs:element xmlns:q91="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="employee" nillable="true" type="q91:Employee" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeInsertResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q114="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeInsertResult" nillable="true" type="q114:EmployeeResult" />
+        <xs:element xmlns:q92="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeInsertResult" nillable="true" type="q92:EmployeeResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1046,7 +854,7 @@
   <xs:element name="RESTEmployeePhotosGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q115="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeePhotosGetResult" nillable="true" type="q115:EmployeePhotoResults" />
+        <xs:element xmlns:q93="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeePhotosGetResult" nillable="true" type="q93:EmployeePhotoResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1054,14 +862,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" nillable="true" type="xs:string" />
-        <xs:element xmlns:q116="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="photo" nillable="true" type="q116:EmployeePhoto" />
+        <xs:element xmlns:q94="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="photo" nillable="true" type="q94:EmployeePhoto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeePhotosAddResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q117="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeePhotosAddResult" nillable="true" type="q117:EmployeePhotoResults" />
+        <xs:element xmlns:q95="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeePhotosAddResult" nillable="true" type="q95:EmployeePhotoResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1076,7 +884,7 @@
   <xs:element name="RESTEmployeePhotosRemoveResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q118="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeePhotosRemoveResult" nillable="true" type="q118:EmployeePhotoResults" />
+        <xs:element xmlns:q96="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeePhotosRemoveResult" nillable="true" type="q96:EmployeePhotoResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1090,7 +898,7 @@
   <xs:element name="RESTEmployeeLoginsGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q119="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsGetResult" nillable="true" type="q119:LoginValueResults" />
+        <xs:element xmlns:q97="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsGetResult" nillable="true" type="q97:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1098,14 +906,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" nillable="true" type="xs:string" />
-        <xs:element xmlns:q120="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="logins" nillable="true" type="q120:ArrayOfstring" />
+        <xs:element xmlns:q98="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="logins" nillable="true" type="q98:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeLoginsAddResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q121="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsAddResult" nillable="true" type="q121:LoginValueResults" />
+        <xs:element xmlns:q99="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsAddResult" nillable="true" type="q99:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1120,7 +928,7 @@
   <xs:element name="RESTEmployeeLoginsAddOneResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q122="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsAddOneResult" nillable="true" type="q122:LoginValueResults" />
+        <xs:element xmlns:q100="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsAddOneResult" nillable="true" type="q100:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1128,14 +936,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" nillable="true" type="xs:string" />
-        <xs:element xmlns:q123="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="logins" nillable="true" type="q123:ArrayOfstring" />
+        <xs:element xmlns:q101="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="logins" nillable="true" type="q101:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeLoginsRemoveResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q124="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsRemoveResult" nillable="true" type="q124:LoginValueResults" />
+        <xs:element xmlns:q102="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsRemoveResult" nillable="true" type="q102:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1150,7 +958,7 @@
   <xs:element name="RESTEmployeeLoginsRemoveOneResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q125="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsRemoveOneResult" nillable="true" type="q125:LoginValueResults" />
+        <xs:element xmlns:q103="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsRemoveOneResult" nillable="true" type="q103:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1158,14 +966,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" nillable="true" type="xs:string" />
-        <xs:element xmlns:q126="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="logins" nillable="true" type="q126:ArrayOfstring" />
+        <xs:element xmlns:q104="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="logins" nillable="true" type="q104:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeLoginsUpdateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q127="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsUpdateResult" nillable="true" type="q127:LoginValueResults" />
+        <xs:element xmlns:q105="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeLoginsUpdateResult" nillable="true" type="q105:LoginValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1177,7 +985,7 @@
   <xs:element name="RESTRightsGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q128="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTRightsGetResult" nillable="true" type="q128:RightResults" />
+        <xs:element xmlns:q106="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTRightsGetResult" nillable="true" type="q106:RightResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1191,7 +999,7 @@
   <xs:element name="RESTEmployeeRightsGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q129="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsGetResult" nillable="true" type="q129:RightValueResults" />
+        <xs:element xmlns:q107="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsGetResult" nillable="true" type="q107:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1199,14 +1007,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" nillable="true" type="xs:string" />
-        <xs:element xmlns:q130="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q130:ArrayOflong" />
+        <xs:element xmlns:q108="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q108:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeRightsAddResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q131="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsAddResult" nillable="true" type="q131:RightValueResults" />
+        <xs:element xmlns:q109="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsAddResult" nillable="true" type="q109:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1221,7 +1029,7 @@
   <xs:element name="RESTEmployeeRightsAddByNameResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q132="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsAddByNameResult" nillable="true" type="q132:RightValueResults" />
+        <xs:element xmlns:q110="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsAddByNameResult" nillable="true" type="q110:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1229,14 +1037,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" nillable="true" type="xs:string" />
-        <xs:element xmlns:q133="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q133:ArrayOflong" />
+        <xs:element xmlns:q111="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q111:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeRightsRemoveResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q134="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsRemoveResult" nillable="true" type="q134:RightValueResults" />
+        <xs:element xmlns:q112="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsRemoveResult" nillable="true" type="q112:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1251,7 +1059,7 @@
   <xs:element name="RESTEmployeeRightsRemoveByNameResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q135="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsRemoveByNameResult" nillable="true" type="q135:RightValueResults" />
+        <xs:element xmlns:q113="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsRemoveByNameResult" nillable="true" type="q113:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -1259,14 +1067,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="employeeId" nillable="true" type="xs:string" />
-        <xs:element xmlns:q136="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q136:ArrayOflong" />
+        <xs:element xmlns:q114="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="rightIds" nillable="true" type="q114:ArrayOflong" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTEmployeeRightsUpdateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q137="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsUpdateResult" nillable="true" type="q137:RightValueResults" />
+        <xs:element xmlns:q115="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTEmployeeRightsUpdateResult" nillable="true" type="q115:RightValueResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

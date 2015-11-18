@@ -42,7 +42,7 @@ namespace Swordfish.NET.Collections {
     /// <summary>
     /// An observable list of key value pairs
     /// </summary>
-    protected ObservableCollection<KeyValuePair<TKey, TValue>> _masterList;
+    protected System.Collections.ObjectModel.ObservableCollection<KeyValuePair<TKey, TValue>> _masterList;
     /// <summary>
     /// The last node of the link list, used for adding new nodes to the end
     /// </summary>
@@ -70,7 +70,7 @@ namespace Swordfish.NET.Collections {
     /// </summary>
     public ObservableDictionary() {
       _keyToIndex = new Dictionary<TKey, DoubleLinkListIndexNode>();
-      _masterList = new ObservableCollection<KeyValuePair<TKey, TValue>>();
+            _masterList = new System.Collections.ObjectModel.ObservableCollection<KeyValuePair<TKey, TValue>>();
       _masterList.CollectionChanged += new NotifyCollectionChangedEventHandler(masterList_CollectionChanged);
 
       _keys = new KeyCollection<TKey, TValue>(this);

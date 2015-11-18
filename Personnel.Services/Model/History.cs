@@ -29,13 +29,6 @@ namespace Personnel.Services.Model
         public Department[] Department { get; set; }
 
         /// <summary>
-        /// Appoints
-        /// </summary>
-        [DataMember(IsRequired = false)]
-        [RepositoryResolving(typeof(Repository.Model.Appoint))]
-        public Appoint[] Appoint { get; set; }
-
-        /// <summary>
         /// Employees
         /// </summary>
         [DataMember(IsRequired = false)]
@@ -87,13 +80,6 @@ namespace Personnel.Services.Model
         [DataMember(IsRequired = false)]
         [RepositoryResolving(typeof(Repository.Model.Department), typeof(long))]
         public long[] Departments { get; set; }
-
-        /// <summary>
-        /// Appoints
-        /// </summary>
-        [DataMember(IsRequired = false)]
-        [RepositoryResolving(typeof(Repository.Model.Appoint), typeof(long))]
-        public long[] Appoints { get; set; }
 
         /// <summary>
         /// Employees

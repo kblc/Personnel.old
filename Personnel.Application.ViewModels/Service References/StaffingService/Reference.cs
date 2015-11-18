@@ -23,10 +23,6 @@ namespace Personnel.Application.ViewModels.StaffingService {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.DepartmentResults))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultOfDepartment3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.DepartmentResult))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfAppoint3XPrIsxh))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.AppointResults))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultOfAppoint3XPrIsxh))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.AppointResult))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultOfEmployee3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.EmployeeResult))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfEmployee3XPrIsxh))]
@@ -173,68 +169,6 @@ namespace Personnel.Application.ViewModels.StaffingService {
     [System.Runtime.Serialization.DataContractAttribute(Name="DepartmentResult", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
     public partial class DepartmentResult : Personnel.Application.ViewModels.StaffingService.BaseExecutionResultOfDepartment3XPrIsxh {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="BaseExecutionResultsOfAppoint3XPrIsxh", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
-    [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.AppointResults))]
-    public partial class BaseExecutionResultsOfAppoint3XPrIsxh : Personnel.Application.ViewModels.StaffingService.Result {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Personnel.Application.ViewModels.StaffingService.Appoint[] ValuesField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public Personnel.Application.ViewModels.StaffingService.Appoint[] Values {
-            get {
-                return this.ValuesField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ValuesField, value) != true)) {
-                    this.ValuesField = value;
-                    this.RaisePropertyChanged("Values");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="AppointResults", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
-    [System.SerializableAttribute()]
-    public partial class AppointResults : Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfAppoint3XPrIsxh {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="BaseExecutionResultOfAppoint3XPrIsxh", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
-    [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.AppointResult))]
-    public partial class BaseExecutionResultOfAppoint3XPrIsxh : Personnel.Application.ViewModels.StaffingService.Result {
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Personnel.Application.ViewModels.StaffingService.Appoint ValueField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public Personnel.Application.ViewModels.StaffingService.Appoint Value {
-            get {
-                return this.ValueField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ValueField, value) != true)) {
-                    this.ValueField = value;
-                    this.RaisePropertyChanged("Value");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="AppointResult", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
-    [System.SerializableAttribute()]
-    public partial class AppointResult : Personnel.Application.ViewModels.StaffingService.BaseExecutionResultOfAppoint3XPrIsxh {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -464,7 +398,7 @@ namespace Personnel.Application.ViewModels.StaffingService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long AppointIdField;
+        private string AppointField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long DepartmentIdField;
@@ -486,14 +420,14 @@ namespace Personnel.Application.ViewModels.StaffingService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public long AppointId {
+        public string Appoint {
             get {
-                return this.AppointIdField;
+                return this.AppointField;
             }
             set {
-                if ((this.AppointIdField.Equals(value) != true)) {
-                    this.AppointIdField = value;
-                    this.RaisePropertyChanged("AppointId");
+                if ((object.ReferenceEquals(this.AppointField, value) != true)) {
+                    this.AppointField = value;
+                    this.RaisePropertyChanged("Appoint");
                 }
             }
         }
@@ -551,10 +485,7 @@ namespace Personnel.Application.ViewModels.StaffingService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Department", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
-    public partial class Department : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+    public partial class Department : Personnel.Application.ViewModels.StaffingService.BaseModel {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long IdField;
@@ -564,16 +495,6 @@ namespace Personnel.Application.ViewModels.StaffingService {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<long> ParentIdField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public long Id {
@@ -613,31 +534,18 @@ namespace Personnel.Application.ViewModels.StaffingService {
                 }
             }
         }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Appoint", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseModel", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
-    public partial class Appoint : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.Employee))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.Department))]
+    public partial class BaseModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -646,32 +554,6 @@ namespace Personnel.Application.ViewModels.StaffingService {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public long Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
-                }
             }
         }
         
@@ -689,10 +571,7 @@ namespace Personnel.Application.ViewModels.StaffingService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Employee", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
-    public partial class Employee : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+    public partial class Employee : Personnel.Application.ViewModels.StaffingService.BaseModel {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<System.DateTime> BirthdayField;
@@ -726,16 +605,6 @@ namespace Personnel.Application.ViewModels.StaffingService {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string SurnameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Nullable<System.DateTime> Birthday {
@@ -877,15 +746,6 @@ namespace Personnel.Application.ViewModels.StaffingService {
                     this.SurnameField = value;
                     this.RaisePropertyChanged("Surname");
                 }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
     }
@@ -1591,48 +1451,6 @@ namespace Personnel.Application.ViewModels.StaffingService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/DepartmentInsert", ReplyAction="http://tempuri.org/IStaffingService/DepartmentInsertResponse")]
         System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.DepartmentResult> DepartmentInsertAsync(Personnel.Application.ViewModels.StaffingService.Department department);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointsGet", ReplyAction="http://tempuri.org/IStaffingService/AppointsGetResponse")]
-        Personnel.Application.ViewModels.StaffingService.AppointResults AppointsGet();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointsGet", ReplyAction="http://tempuri.org/IStaffingService/AppointsGetResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResults> AppointsGetAsync();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointGetRange", ReplyAction="http://tempuri.org/IStaffingService/AppointGetRangeResponse")]
-        Personnel.Application.ViewModels.StaffingService.AppointResults AppointGetRange(long[] identifiers);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointGetRange", ReplyAction="http://tempuri.org/IStaffingService/AppointGetRangeResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResults> AppointGetRangeAsync(long[] identifiers);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointGet", ReplyAction="http://tempuri.org/IStaffingService/AppointGetResponse")]
-        Personnel.Application.ViewModels.StaffingService.AppointResult AppointGet(long appointId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointGet", ReplyAction="http://tempuri.org/IStaffingService/AppointGetResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> AppointGetAsync(long appointId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointRemove", ReplyAction="http://tempuri.org/IStaffingService/AppointRemoveResponse")]
-        Personnel.Application.ViewModels.StaffingService.Result AppointRemove(long appointId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointRemove", ReplyAction="http://tempuri.org/IStaffingService/AppointRemoveResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.Result> AppointRemoveAsync(long appointId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointRemoveRange", ReplyAction="http://tempuri.org/IStaffingService/AppointRemoveRangeResponse")]
-        Personnel.Application.ViewModels.StaffingService.Result AppointRemoveRange(long[] identifiers);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointRemoveRange", ReplyAction="http://tempuri.org/IStaffingService/AppointRemoveRangeResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.Result> AppointRemoveRangeAsync(long[] identifiers);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointUpdate", ReplyAction="http://tempuri.org/IStaffingService/AppointUpdateResponse")]
-        Personnel.Application.ViewModels.StaffingService.AppointResult AppointUpdate(Personnel.Application.ViewModels.StaffingService.Appoint appoint);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointUpdate", ReplyAction="http://tempuri.org/IStaffingService/AppointUpdateResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> AppointUpdateAsync(Personnel.Application.ViewModels.StaffingService.Appoint appoint);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointInsert", ReplyAction="http://tempuri.org/IStaffingService/AppointInsertResponse")]
-        Personnel.Application.ViewModels.StaffingService.AppointResult AppointInsert(Personnel.Application.ViewModels.StaffingService.Appoint appoint);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/AppointInsert", ReplyAction="http://tempuri.org/IStaffingService/AppointInsertResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> AppointInsertAsync(Personnel.Application.ViewModels.StaffingService.Appoint appoint);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeeGetCurrent", ReplyAction="http://tempuri.org/IStaffingService/EmployeeGetCurrentResponse")]
         Personnel.Application.ViewModels.StaffingService.EmployeeResult EmployeeGetCurrent();
         
@@ -1925,62 +1743,6 @@ namespace Personnel.Application.ViewModels.StaffingService {
             return base.Channel.DepartmentInsertAsync(department);
         }
         
-        public Personnel.Application.ViewModels.StaffingService.AppointResults AppointsGet() {
-            return base.Channel.AppointsGet();
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResults> AppointsGetAsync() {
-            return base.Channel.AppointsGetAsync();
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.AppointResults AppointGetRange(long[] identifiers) {
-            return base.Channel.AppointGetRange(identifiers);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResults> AppointGetRangeAsync(long[] identifiers) {
-            return base.Channel.AppointGetRangeAsync(identifiers);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.AppointResult AppointGet(long appointId) {
-            return base.Channel.AppointGet(appointId);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> AppointGetAsync(long appointId) {
-            return base.Channel.AppointGetAsync(appointId);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.Result AppointRemove(long appointId) {
-            return base.Channel.AppointRemove(appointId);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.Result> AppointRemoveAsync(long appointId) {
-            return base.Channel.AppointRemoveAsync(appointId);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.Result AppointRemoveRange(long[] identifiers) {
-            return base.Channel.AppointRemoveRange(identifiers);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.Result> AppointRemoveRangeAsync(long[] identifiers) {
-            return base.Channel.AppointRemoveRangeAsync(identifiers);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.AppointResult AppointUpdate(Personnel.Application.ViewModels.StaffingService.Appoint appoint) {
-            return base.Channel.AppointUpdate(appoint);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> AppointUpdateAsync(Personnel.Application.ViewModels.StaffingService.Appoint appoint) {
-            return base.Channel.AppointUpdateAsync(appoint);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.AppointResult AppointInsert(Personnel.Application.ViewModels.StaffingService.Appoint appoint) {
-            return base.Channel.AppointInsert(appoint);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> AppointInsertAsync(Personnel.Application.ViewModels.StaffingService.Appoint appoint) {
-            return base.Channel.AppointInsertAsync(appoint);
-        }
-        
         public Personnel.Application.ViewModels.StaffingService.EmployeeResult EmployeeGetCurrent() {
             return base.Channel.EmployeeGetCurrent();
         }
@@ -2267,48 +2029,6 @@ namespace Personnel.Application.ViewModels.StaffingService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTDepartmentInsert", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTDepartmentInsertResponse")]
         System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.DepartmentResult> RESTDepartmentInsertAsync(Personnel.Application.ViewModels.StaffingService.Department department);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointsGet", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointsGetResponse")]
-        Personnel.Application.ViewModels.StaffingService.AppointResults RESTAppointsGet();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointsGet", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointsGetResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResults> RESTAppointsGetAsync();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointGetRange", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointGetRangeResponse")]
-        Personnel.Application.ViewModels.StaffingService.AppointResults RESTAppointGetRange(string[] identifiers);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointGetRange", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointGetRangeResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResults> RESTAppointGetRangeAsync(string[] identifiers);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointGet", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointGetResponse")]
-        Personnel.Application.ViewModels.StaffingService.AppointResult RESTAppointGet(string appointId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointGet", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointGetResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> RESTAppointGetAsync(string appointId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointRemove", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointRemoveResponse")]
-        Personnel.Application.ViewModels.StaffingService.Result RESTAppointRemove(string appointId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointRemove", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointRemoveResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.Result> RESTAppointRemoveAsync(string appointId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointRemoveRange", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointRemoveRangeResponse")]
-        Personnel.Application.ViewModels.StaffingService.Result RESTAppointRemoveRange(string[] identifiers);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointRemoveRange", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointRemoveRangeResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.Result> RESTAppointRemoveRangeAsync(string[] identifiers);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointUpdate", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointUpdateResponse")]
-        Personnel.Application.ViewModels.StaffingService.AppointResult RESTAppointUpdate(Personnel.Application.ViewModels.StaffingService.Appoint appoint);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointUpdate", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointUpdateResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> RESTAppointUpdateAsync(Personnel.Application.ViewModels.StaffingService.Appoint appoint);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointInsert", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointInsertResponse")]
-        Personnel.Application.ViewModels.StaffingService.AppointResult RESTAppointInsert(Personnel.Application.ViewModels.StaffingService.Appoint appoint);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTAppointInsert", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTAppointInsertResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> RESTAppointInsertAsync(Personnel.Application.ViewModels.StaffingService.Appoint appoint);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeGetCurrent", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeeGetCurrentResponse")]
         Personnel.Application.ViewModels.StaffingService.EmployeeResult RESTEmployeeGetCurrent();
@@ -2600,62 +2320,6 @@ namespace Personnel.Application.ViewModels.StaffingService {
         
         public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.DepartmentResult> RESTDepartmentInsertAsync(Personnel.Application.ViewModels.StaffingService.Department department) {
             return base.Channel.RESTDepartmentInsertAsync(department);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.AppointResults RESTAppointsGet() {
-            return base.Channel.RESTAppointsGet();
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResults> RESTAppointsGetAsync() {
-            return base.Channel.RESTAppointsGetAsync();
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.AppointResults RESTAppointGetRange(string[] identifiers) {
-            return base.Channel.RESTAppointGetRange(identifiers);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResults> RESTAppointGetRangeAsync(string[] identifiers) {
-            return base.Channel.RESTAppointGetRangeAsync(identifiers);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.AppointResult RESTAppointGet(string appointId) {
-            return base.Channel.RESTAppointGet(appointId);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> RESTAppointGetAsync(string appointId) {
-            return base.Channel.RESTAppointGetAsync(appointId);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.Result RESTAppointRemove(string appointId) {
-            return base.Channel.RESTAppointRemove(appointId);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.Result> RESTAppointRemoveAsync(string appointId) {
-            return base.Channel.RESTAppointRemoveAsync(appointId);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.Result RESTAppointRemoveRange(string[] identifiers) {
-            return base.Channel.RESTAppointRemoveRange(identifiers);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.Result> RESTAppointRemoveRangeAsync(string[] identifiers) {
-            return base.Channel.RESTAppointRemoveRangeAsync(identifiers);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.AppointResult RESTAppointUpdate(Personnel.Application.ViewModels.StaffingService.Appoint appoint) {
-            return base.Channel.RESTAppointUpdate(appoint);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> RESTAppointUpdateAsync(Personnel.Application.ViewModels.StaffingService.Appoint appoint) {
-            return base.Channel.RESTAppointUpdateAsync(appoint);
-        }
-        
-        public Personnel.Application.ViewModels.StaffingService.AppointResult RESTAppointInsert(Personnel.Application.ViewModels.StaffingService.Appoint appoint) {
-            return base.Channel.RESTAppointInsert(appoint);
-        }
-        
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.AppointResult> RESTAppointInsertAsync(Personnel.Application.ViewModels.StaffingService.Appoint appoint) {
-            return base.Channel.RESTAppointInsertAsync(appoint);
         }
         
         public Personnel.Application.ViewModels.StaffingService.EmployeeResult RESTEmployeeGetCurrent() {

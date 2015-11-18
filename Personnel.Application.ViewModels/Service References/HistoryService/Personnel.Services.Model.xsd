@@ -44,7 +44,6 @@
   <xs:element name="History" nillable="true" type="tns:History" />
   <xs:complexType name="HistoryUpdateInfo">
     <xs:sequence>
-      <xs:element minOccurs="0" name="Appoint" nillable="true" type="tns:ArrayOfAppoint" />
       <xs:element minOccurs="0" name="Department" nillable="true" type="tns:ArrayOfDepartment" />
       <xs:element minOccurs="0" name="Employee" nillable="true" type="tns:ArrayOfEmployee" />
       <xs:element minOccurs="0" name="EmployeeLogin" nillable="true" type="tns:ArrayOfEmployeeLogin" />
@@ -55,19 +54,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="HistoryUpdateInfo" nillable="true" type="tns:HistoryUpdateInfo" />
-  <xs:complexType name="ArrayOfAppoint">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Appoint" nillable="true" type="tns:Appoint" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfAppoint" nillable="true" type="tns:ArrayOfAppoint" />
-  <xs:complexType name="Appoint">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Id" type="xs:long" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Appoint" nillable="true" type="tns:Appoint" />
   <xs:complexType name="ArrayOfDepartment">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Department" nillable="true" type="tns:Department" />
@@ -75,13 +61,21 @@
   </xs:complexType>
   <xs:element name="ArrayOfDepartment" nillable="true" type="tns:ArrayOfDepartment" />
   <xs:complexType name="Department">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Id" type="xs:long" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="ParentId" nillable="true" type="xs:long" />
-    </xs:sequence>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Id" type="xs:long" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ParentId" nillable="true" type="xs:long" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:element name="Department" nillable="true" type="tns:Department" />
+  <xs:complexType name="BaseModel">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="BaseModel" nillable="true" type="tns:BaseModel" />
   <xs:complexType name="ArrayOfEmployee">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Employee" nillable="true" type="tns:Employee" />
@@ -89,19 +83,23 @@
   </xs:complexType>
   <xs:element name="ArrayOfEmployee" nillable="true" type="tns:ArrayOfEmployee" />
   <xs:complexType name="Employee">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Birthday" nillable="true" type="xs:dateTime" />
-      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Id" type="xs:long" />
-      <xs:element minOccurs="0" name="Logins" nillable="true" type="tns:ArrayOfEmployeeLogin" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Patronymic" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Phone" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Photos" nillable="true" type="tns:ArrayOfEmployeePhoto" />
-      <xs:element minOccurs="0" name="Rights" nillable="true" type="tns:ArrayOfEmployeeRight" />
-      <xs:element minOccurs="0" name="Stuffing" nillable="true" type="tns:Staffing" />
-      <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
-    </xs:sequence>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseModel">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Birthday" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Id" type="xs:long" />
+          <xs:element minOccurs="0" name="Logins" nillable="true" type="tns:ArrayOfEmployeeLogin" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Patronymic" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Phone" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Photos" nillable="true" type="tns:ArrayOfEmployeePhoto" />
+          <xs:element minOccurs="0" name="Rights" nillable="true" type="tns:ArrayOfEmployeeRight" />
+          <xs:element minOccurs="0" name="Stuffing" nillable="true" type="tns:Staffing" />
+          <xs:element minOccurs="0" name="Surname" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:element name="Employee" nillable="true" type="tns:Employee" />
   <xs:complexType name="ArrayOfEmployeeLogin">
@@ -182,7 +180,7 @@
   <xs:element name="EmployeeRight" nillable="true" type="tns:EmployeeRight" />
   <xs:complexType name="Staffing">
     <xs:sequence>
-      <xs:element minOccurs="0" name="AppointId" type="xs:long" />
+      <xs:element minOccurs="0" name="Appoint" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="DepartmentId" type="xs:long" />
       <xs:element minOccurs="0" name="Id" type="xs:long" />
       <xs:element minOccurs="0" name="Position" type="xs:long" />
@@ -203,14 +201,13 @@
   <xs:element name="ArrayOfStaffing" nillable="true" type="tns:ArrayOfStaffing" />
   <xs:complexType name="HistoryRemoveInfo">
     <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Appoints" nillable="true" type="q1:ArrayOflong" />
-      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Departments" nillable="true" type="q2:ArrayOflong" />
-      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeeLogins" nillable="true" type="q3:ArrayOflong" />
-      <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeePhotos" nillable="true" type="q4:ArrayOfguid" />
-      <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeeRights" nillable="true" type="q5:ArrayOflong" />
-      <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Employees" nillable="true" type="q6:ArrayOflong" />
-      <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="File" nillable="true" type="q7:ArrayOflong" />
-      <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Stuffing" nillable="true" type="q8:ArrayOflong" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Departments" nillable="true" type="q1:ArrayOflong" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeeLogins" nillable="true" type="q2:ArrayOflong" />
+      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeePhotos" nillable="true" type="q3:ArrayOfguid" />
+      <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EmployeeRights" nillable="true" type="q4:ArrayOflong" />
+      <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Employees" nillable="true" type="q5:ArrayOflong" />
+      <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="File" nillable="true" type="q6:ArrayOflong" />
+      <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Stuffing" nillable="true" type="q7:ArrayOflong" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="HistoryRemoveInfo" nillable="true" type="tns:HistoryRemoveInfo" />

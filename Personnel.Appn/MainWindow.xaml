@@ -12,6 +12,11 @@
         xmlns:controls="clr-namespace:Personnel.Appn.Controls"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        
+        xmlns:notification="clr-namespace:Personnel.Application.ViewModels.Notifications;assembly=Personnel.Application.ViewModels"
+        xmlns:history="clr-namespace:Personnel.Application.ViewModels.History;assembly=Personnel.Application.ViewModels"
+        xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels"
+        
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         TextOptions.TextFormattingMode="Ideal" 
@@ -26,14 +31,27 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary >
+                    <notification:NotificationsViewModel x:Key="notifications"
+                                                         MaxNotificationsCount="50"
+                                                         IsActive="True"/>
+                    <history:HistoryViewModel x:Key="history"
+                                              Notifications="{StaticResource notifications}"
+                                              IsActive="True"/>
+                    <staffing:StaffingViewModel x:Key="staffing"
+                                                History="{StaticResource history}"
+                                                Notifications="{StaticResource notifications}"
+                                                IsActive="True"
+                                                IsDebugView="True"/>
+                </ResourceDictionary>
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
-                <ResourceDictionary Source="Templates/Notifications/NotificationTemplates.xaml" />
+                <!--<ResourceDictionary Source="Templates/Notifications/NotificationTemplates.xaml" />
                 <ResourceDictionary Source="Templates/Birthdays/BirthdaysTemplates.xaml" />
-                <ResourceDictionary Source="Templates/Staffing/DepartmentsTemplates.xaml" />
+                <ResourceDictionary Source="Templates/Staffing/DepartmentsTemplates.xaml" />-->
                 <ResourceDictionary>
                     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
                     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter"/>
@@ -61,7 +79,7 @@
                                 <ContentPresenter Content="{Binding Header}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                        <controls:ContentStorageControl IsLoaded="{Binding Source={x:Static static:Static.Departments}, Path=IsLoaded}"
+                        <!--<controls:ContentStorageControl IsLoaded="{Binding Source={x:Static static:Static.Departments}, Path=IsLoaded}"
                                                         Caption="Отделы">
                             <controls:ContentStorageControl.Header>
                                 <TextBlock Text="Отделы" Margin="32 0 32 0" />
@@ -138,7 +156,7 @@
                                     </Border>
                                 </Grid>
                             </controls:ContentStorageControl.Content>
-                        </controls:ContentStorageControl>
+                        </controls:ContentStorageControl>-->
                     </ListBox>
                 </StackPanel>
             </md:DrawerHost.LeftDrawerContent>
@@ -160,13 +178,13 @@
                         <!--<ContentPresenter Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Header, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           Grid.Column="1" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                         
-                        <Border Grid.Column="2" DataContext="{x:Static static:Static.History}" VerticalAlignment="Center" Width="60">
+                        <Border Grid.Column="2" DataContext="{StaticResource history}" VerticalAlignment="Center" Width="60">
                             <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
                                         IsIndeterminate="True"
                                         VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <ProgressBar.Visibility>
                                     <MultiBinding Converter="{StaticResource MultiBooleanORToVisibilityConverter}">
-                                        <Binding Path="IsConnecting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="True"/>
+                                        <!--<Binding Path="IsConnecting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="True"/>-->
                                         <Binding Path="IsWaiting" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
                                         <Binding Path="IsLoaded" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>
                                         <Binding ElementName="DemoItemsListBox" Path="SelectedItem.IsLoaded" Converter="{StaticResource IsEqualsConverter}" ConverterParameter="False"/>

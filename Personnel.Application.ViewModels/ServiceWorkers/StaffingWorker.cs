@@ -33,7 +33,6 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
         private readonly List<StaffingService.Staffing> Staffing = new List<StaffingService.Staffing>();
         private readonly List<StaffingService.Employee> Employees = new List<StaffingService.Employee>();
         private readonly List<StaffingService.Department> Departments = new List<StaffingService.Department>();
-        private readonly List<StaffingService.Appoint> Appoints = new List<StaffingService.Appoint>();
         private StaffingService.Employee current = null;
         public StaffingService.Employee Current
         {
@@ -62,18 +61,31 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                 return (IList<T>)Employees;
             if (typeof(T) == typeof(StaffingService.Department))
                 return (IList<T>)Departments;
-            if (typeof(T) == typeof(StaffingService.Appoint))
-                return (IList<T>)Appoints;
+            return null;
+        }
+        private Action<IList<T>, StaffingListsAction> GetEvent<T>()
+        {
+            if (typeof(T) == typeof(StaffingService.Right))
+                return new Action<IList<T>, StaffingListsAction>((items, action) => this.RaiseOnRightsChanged(items.Cast<StaffingService.Right>(), action));
+            if (typeof(T) == typeof(StaffingService.Staffing))
+                return new Action<IList<T>, StaffingListsAction>((items, action) => this.RaiseOnStaffingChanged(items.Cast<StaffingService.Staffing>(), action));
+            if (typeof(T) == typeof(StaffingService.Employee))
+                return new Action<IList<T>, StaffingListsAction>((items, action) => this.RaiseOnEmployeesChanged(items.Cast<StaffingService.Employee>(), action));
+            if (typeof(T) == typeof(StaffingService.Department))
+                return new Action<IList<T>, StaffingListsAction>((items, action) => this.RaiseOnDepartmentsChanged(items.Cast<StaffingService.Department>(), action));
             return null;
         }
         private void RaiseItemsInitialize<T>(T[] items)
         {
             IList<T> list = GetList<T>();
+            var evnt = GetEvent<T>();
             if (list != null)
             {
                 list.Clear();
+                evnt?.Invoke(list, StaffingListsAction.Remove);
                 foreach (var item in items)
                     list.Add(item);
+                evnt?.Invoke(list, StaffingListsAction.Add);
             }
         }
 
@@ -92,53 +104,6 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
             if (change == null)
                 return;
 
-            if (change.Appoint != null)
-            {
-                var updStf = new List<StaffingService.Staffing>();
-                var updEmp = new List<StaffingService.Employee>();
-                var updApp = new List<StaffingService.Appoint>();
-                var insApp = new List<StaffingService.Appoint>();
-                lock (Appoints)
-                {
-                    var upd = Appoints.FullOuterJoin(change.Appoint,
-                        a => a.Id,
-                        a => a.Id,
-                        (Existed, New) => new
-                        {
-                            Existed,
-                            New = AutoMapper.Mapper.Map<StaffingService.Appoint>(New)
-                        }).ToArray();
-                    foreach (var i in upd)
-                    {
-                        if (i.Existed == null)
-                        {
-                            Appoints.Add(i.New);
-                            insApp.Add(i.New);
-                        }
-                        else
-                        {
-                            i.Existed.CopyObjectFrom(i.New);
-                            updApp.Add(i.Existed);
-                        }
-                    }
-                }
-
-                lock (Staffing)
-                {
-                    var items = updApp.Union(insApp).Select(s => s.Id);
-                    updStf.AddRange(Staffing.Where(s => items.Contains(s.AppointId)));
-                }
-                lock (Employees)
-                {
-                    var items = Employees.Join(updStf, e => e.Stuffing?.Id, s => s.Id, (Employee, NewStaffing) => new { Employee, NewStaffing }).ToList();
-                    items.ForEach(i => i.Employee.Stuffing = i.NewStaffing);
-                    updEmp.AddRange(items.Select(i => i.Employee));
-                }
-                RaiseOnAppointsChanged(updApp, StaffingListsAction.Change);
-                RaiseOnAppointsChanged(insApp, StaffingListsAction.Add);
-                RaiseOnStaffingChanged(updStf, StaffingListsAction.Change);
-                RaiseOnEmployeesChanged(updEmp, StaffingListsAction.Change);
-            }
             if (change.Department != null)
             {
                 var updStf = new List<StaffingService.Staffing>();
@@ -337,17 +302,25 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
             if (remove == null)
                 return;
 
-            if (remove.Appoints != null)
-            {
-                var del = Appoints.Join(remove.Appoints, a => a.Id, id => id, (a, id) => a).ToArray();
-                lock(Appoints) foreach (var i in del) Appoints.Remove(i);
-                RaiseOnAppointsChanged(del, StaffingListsAction.Remove);
-            }
             if (remove.Departments != null)
-            {
-                var del = Departments.Join(remove.Departments, a => a.Id, id => id, (a, id) => a).ToArray();
-                lock (Departments) foreach (var i in del) Departments.Remove(i);
-                RaiseOnDepartmentsChanged(del, StaffingListsAction.Remove);
+            { 
+                lock(Departments)
+                {
+                    var stfDel = new List<StaffingService.Staffing>();
+                    var del = Departments.Join(remove.Departments, a => a.Id, id => id, (a, id) => a).ToArray();
+                    foreach (var i in del) Departments.Remove(i);
+                    var delIds = del.Select(i => i.Id).ToArray();
+                    lock(Staffing)
+                    {
+                        stfDel.AddRange(Staffing.Where(i => delIds.Contains(i.DepartmentId)));
+                        foreach (var s in stfDel)
+                            Staffing.Remove(s);
+                    }
+                    var empChg = Employees.Where(e => delIds.Contains(e.Stuffing?.DepartmentId ?? 0)).ToList();
+                    RaiseOnStaffingChanged(stfDel, StaffingListsAction.Remove);
+                    RaiseOnDepartmentsChanged(del, StaffingListsAction.Remove);
+                    RaiseOnEmployeesChanged(empChg, StaffingListsAction.Change);
+                }
             }
             if (remove.Employees != null)
             {
@@ -515,16 +488,6 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                             return false;
                         }));
 
-                        tasks.Add(sClient.AppointsGetAsync().ContinueWith<bool>(t =>
-                        {
-                            if (checkAggregateExceptions(typeof(StaffingService.Appoint), t.Exception))
-                            {
-                                modelLevelThContext.DoCallBack(() => RaiseItemsInitialize(t.Result.Values));
-                                return true;
-                            }
-                            return false;
-                        }));
-
                         Task.WaitAll(tasks.ToArray());
                         tasks.ForEach(t => checkAggregateExceptions(null, t.Exception));
                         inited = tasks.All(t => t.Exception == null && t.Result);
@@ -543,11 +506,6 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
         }
 
         private void RaiseOnCurrentChanged() => Context.DoCallBack(() => OnCurrentChanged?.Invoke(this, Current));
-        private void RaiseOnAppointsChanged(IEnumerable<StaffingService.Appoint> items, StaffingListsAction action) 
-            => Context.DoCallBack(() => {
-                if (items.Any())
-                    OnAppointsChanged?.Invoke(this, new StaffingListItemsEventArgs<StaffingService.Appoint>(items.ToArray(), action));
-            });
         private void RaiseOnDepartmentsChanged(IEnumerable<StaffingService.Department> items, StaffingListsAction action)
             => Context.DoCallBack(() => {
                 if (items.Any())
@@ -582,6 +540,5 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
         public event EventHandler<StaffingListItemsEventArgs<StaffingService.Staffing>> OnStaffingChanged;
         public event EventHandler<StaffingListItemsEventArgs<StaffingService.Employee>> OnEmployeesChanged;
         public event EventHandler<StaffingListItemsEventArgs<StaffingService.Department>> OnDepartmentsChanged;
-        public event EventHandler<StaffingListItemsEventArgs<StaffingService.Appoint>> OnAppointsChanged;
     }
 }

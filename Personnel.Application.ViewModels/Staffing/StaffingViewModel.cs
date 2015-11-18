@@ -10,17 +10,27 @@ using System.Collections.ObjectModel;
 using Personnel.Application.ViewModels.AdditionalModels;
 using Personnel.Application.ViewModels.ServiceWorkers;
 using Personnel.Application.ViewModels.StaffingService;
+using System.ComponentModel;
+using System.Windows.Input;
+using Helpers.WPF;
+using Helpers.Linq;
 
 namespace Personnel.Application.ViewModels.Staffing
 {
-    public class StaffingViewModel : DependencyObject
+    public class StaffingViewModel : DependencyObject, ITreeDepartmentItem, ITreeOwner<DepartmentEditViewModel>
     {
         private const string MANAGEDEPARTMENTS = "MANAGEDEPARTMENTS";
 
         private readonly ServiceWorkers.StaffingWorker worker = new ServiceWorkers.StaffingWorker();
 
-        private ObservableCollection<StaffingService.Right> rights = new ObservableCollection<StaffingService.Right>();
-        public IReadOnlyNotifyCollection<StaffingService.Right> Rights => (IReadOnlyNotifyCollection<StaffingService.Right>)rights;
+        private ObservableCollection<Right> rights = new ObservableCollection<Right>();
+        public IReadOnlyNotifyCollection<Right> Rights => (IReadOnlyNotifyCollection<Right>)rights;
+
+        private ObservableCollection<ITreeItem<DepartmentEditViewModel, Department>> departments = new ObservableCollection<ITreeItem<DepartmentEditViewModel, Department>>();
+        public IReadOnlyNotifyCollection<ITreeItem<DepartmentEditViewModel, Department>> Departments => (IReadOnlyNotifyCollection<ITreeItem<DepartmentEditViewModel, Department>>)departments;
+
+        private ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
+        public IReadOnlyNotifyCollection<Employee> Employees => (IReadOnlyNotifyCollection<Employee>)employees;
 
         #region Notifications
 
@@ -167,25 +177,25 @@ namespace Personnel.Application.ViewModels.Staffing
         public bool IsDebugView
         {
             get { return (bool)GetValue(IsDebugViewProperty); }
-            set { SetValue(IsDebugViewProperty, value); }
+            set { SetValue(IsDebugViewProperty, value); RaisePropertyChanged(); }
         }
         #endregion
-        #region CanManage
+        #region CanManageDepartments
 
-        private static readonly DependencyPropertyKey ReadOnlyCanManagePropertyKey
-            = DependencyProperty.RegisterReadOnly(nameof(CanManage), typeof(bool), typeof(StaffingViewModel),
+        private static readonly DependencyPropertyKey ReadOnlyCanManageDepartmentsPropertyKey
+            = DependencyProperty.RegisterReadOnly(nameof(CanManageDepartments), typeof(bool), typeof(StaffingViewModel),
                 new FrameworkPropertyMetadata(false,
                     FrameworkPropertyMetadataOptions.None,
                     new PropertyChangedCallback((s, e) => { })));
-        public static readonly DependencyProperty ReadOnlyCanManageProperty = ReadOnlyIsLoadedPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty ReadOnlyCanManageDepartmentsProperty = ReadOnlyCanManageDepartmentsPropertyKey.DependencyProperty;
 
-        public bool CanManage
+        public bool CanManageDepartments
         {
-            get { return (bool)GetValue(ReadOnlyCanManageProperty); }
-            private set { SetValue(ReadOnlyCanManagePropertyKey, value); }
+            get { return (bool)GetValue(ReadOnlyCanManageDepartmentsProperty); }
+            private set { SetValue(ReadOnlyCanManageDepartmentsPropertyKey, value); RaisePropertyChanged(); UpdateCommands(); }
         }
 
-        private bool GetCanManageProperty()
+        private bool GetCanManageDepartmentsProperty()
         {
             var res = false;
             if (Rights != null && Current != null)
@@ -214,43 +224,136 @@ namespace Personnel.Application.ViewModels.Staffing
         }
 
         #endregion
+        #region Commands
 
-        private void OnHistoryChanged(object sender, HistoryService.History e) => worker.ApplyHistoryChanges(e);
-
-        public StaffingViewModel()
+        private void UpdateCommands()
         {
-            worker.CopyObjectTo(this);
-            worker.OnErrorChanged += (s, e) => Error = e;
-            worker.OnLoadedChanged += (s, e) => IsLoaded = e;
-            worker.OnStateChanged += (s, e) => State = e;
-            worker.OnNotification += (s, e) => Notifications?.Add(e);
-            worker.OnCurrentChanged += (s, e) =>
-            {
-                Current = e;
-                CanManage = GetCanManageProperty();
-            };
-            worker.OnRightsChanged += (s, e) =>
-            {
-                OnRightsChanged(s, e);
-                CanManage = GetCanManageProperty();
-            };
-
-            //worker.OnCurrentChanged += (s,e) => 
+            insertDepartmentCommand?.RaiseCanExecuteChanged();
         }
+
+        private DelegateCommand insertDepartmentCommand = null;
+        public ICommand InsertDepartmentCommand { get { return insertDepartmentCommand ?? (insertDepartmentCommand = new DelegateCommand(o => Insert(), o => CanManageDepartments)); } }
+
+        private void Insert()
+        {
+            var newDep = new DepartmentEditViewModel(true)
+            {
+                Data = new Department()
+                {
+                    ParentId = null,
+                    Name = Properties.Resources.DEPARTMENTEDIT_NewDepartmentName,
+                },
+                Parent = this,
+                IsSelected = true,
+            };
+            departments.Add(newDep);
+        }
+
+        #endregion
+        #region ITreeItem<DepartmentEditViewModel>
+
+        ITreeItem<DepartmentEditViewModel, Department> ITreeItem<DepartmentEditViewModel, Department>.Parent { get { return null; } set { throw new NotImplementedException(); } }
+        Department ITreeItem<DepartmentEditViewModel, Department>.Data { get { return null; } set { throw new NotImplementedException(); } }
+        ObservableCollection<ITreeItem<DepartmentEditViewModel, Department>> ITreeItem<DepartmentEditViewModel, Department>.Childs => departments;
+        ITreeOwner<DepartmentEditViewModel> ITreeItem<DepartmentEditViewModel, Department>.Owner => this;
+
+        private void RaisePropertyChanged([ParenthesizePropertyName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
 
         private void RunUnderDispatcher(Delegate a)
         {
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, a);
         }
 
+        public StaffingViewModel()
+        {
+            worker.CopyObjectTo(this);
+            worker.OnErrorChanged += (s, e) => RunUnderDispatcher(new Action(() => Error = e));
+            worker.OnLoadedChanged += (s, e) => RunUnderDispatcher(new Action(() => IsLoaded = e));
+            worker.OnStateChanged += (s, e) => RunUnderDispatcher(new Action(() => State = e));
+            worker.OnNotification += (s, e) => RunUnderDispatcher(new Action(() => Notifications?.Add(e)));
+            worker.OnDepartmentsChanged += (s,e) => RunUnderDispatcher(new Action(() => OnDepartmentsChanged(s, e)));
+            worker.OnEmployeesChanged += (s, e) => RunUnderDispatcher(new Action(() => OnEmployeeChanged(s, e)));
+            worker.OnCurrentChanged += (s, e) => RunUnderDispatcher(new Action(() =>
+            {
+                Current = e;
+                CanManageDepartments = GetCanManageDepartmentsProperty();
+            }));
+            worker.OnRightsChanged += (s, e) => RunUnderDispatcher(new Action(() =>
+            {
+                OnRightsChanged(s, e);
+                CanManageDepartments = GetCanManageDepartmentsProperty();
+            }));
+        }
+
+        private void OnHistoryChanged(object sender, HistoryService.History e) => worker.ApplyHistoryChanges(e);
+
+        private void OnDepartmentsChanged(object sender, StaffingListItemsEventArgs<Department> e)
+        {
+            if (new[] { StaffingListsAction.Add, StaffingListsAction.Change }.Contains(e.Action))
+                foreach (var d in e.Items)
+                {
+                    if (d.Id != 0)
+                    {
+                        var existed = departments.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Data.Id == d.Id);
+                        if (existed != null)
+                        {
+                            existed.Data.CopyObjectFrom(d);
+                        }
+                        else
+                        {
+                            var existedParent = departments.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Data.Id == d.ParentId);
+                            if (existedParent != null)
+                            {
+                                var newDep = new DepartmentEditViewModel() { Data = d, Parent = existedParent };
+                                var existedChildsInTop = departments.Where(i => i.Data.ParentId == d.Id);
+                                foreach (var c in existedChildsInTop)
+                                {
+                                    c.Parent = newDep;
+                                    newDep.Childs.Add(c);
+                                }
+                                existedParent.Childs.Add(newDep);
+                            }
+                            else
+                            {
+                                departments.Add(new DepartmentEditViewModel() { Data = d, Parent = this });
+                            }
+                        }
+                    }
+                }
+            else
+                foreach (var d in e.Items)
+                    if (d.Id != 0)
+                    {
+                        var existed = departments.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Data.Id == d.Id);
+                        if (existed != null)
+                            existed.Parent?.Childs.Remove(existed);
+                    }
+        }
+
         private void OnRightsChanged(object s, StaffingListItemsEventArgs<Right> e)
         {
             if (e.Action == StaffingListsAction.Add)
-                RunUnderDispatcher(new Action(() => e.Items.ToList().ForEach(i => rights.Add(i))));
+                e.Items.ToList().ForEach(i => rights.Add(i));
             else if (e.Action == StaffingListsAction.Change)
-                RunUnderDispatcher(new Action(() => e.Items.Join(rights, i => i.Id, n => n.Id, (i, n) => new { New = i, Old = n }).ToList().ForEach(i => i.New.CopyObjectTo(i.Old))));
+                e.Items.Join(rights, i => i.Id, n => n.Id, (i, n) => new { New = i, Old = n }).ToList().ForEach(i => i.New.CopyObjectTo(i.Old));
             else if (e.Action == StaffingListsAction.Remove)
-                RunUnderDispatcher(new Action(() => e.Items.Join(rights, i => i.Id, n => n.Id, (i, n) => n).ToList().ForEach(i => rights.Remove(i))));
+                e.Items.Join(rights, i => i.Id, n => n.Id, (i, n) => n).ToList().ForEach(i => rights.Remove(i));
+        }
+
+        private void OnEmployeeChanged(object s, StaffingListItemsEventArgs<Employee> e)
+        {
+            if (e.Action == StaffingListsAction.Add)
+                e.Items.ToList().ForEach(i => employees.Add(i));
+            else if (e.Action == StaffingListsAction.Change)
+                e.Items.Join(employees, i => i.Id, n => n.Id, (i, n) => new { New = i, Old = n }).ToList().ForEach(i => i.New.CopyObjectTo(i.Old));
+            else if (e.Action == StaffingListsAction.Remove)
+                e.Items.Join(employees, i => i.Id, n => n.Id, (i, n) => n).ToList().ForEach(i => employees.Remove(i));
         }
     }
 }

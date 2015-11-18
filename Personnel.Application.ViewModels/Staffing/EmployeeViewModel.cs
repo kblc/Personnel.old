@@ -35,19 +35,6 @@ namespace Personnel.Application.ViewModels.Staffing
             }
         }
 
-        private StaffingService.Appoint appoint = null;
-        public StaffingService.Appoint Appoint
-        {
-            get { return appoint; }
-            set
-            {
-                if (appoint == value)
-                    return;
-                appoint = value;
-                RaisePropertyChanged(() => Appoint);
-            }
-        }
-
         private StaffingService.Picture photo = null;
         public StaffingService.Picture Photo
         {

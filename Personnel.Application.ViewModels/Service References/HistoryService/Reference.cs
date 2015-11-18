@@ -193,9 +193,6 @@ namespace Personnel.Application.ViewModels.HistoryService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Personnel.Application.ViewModels.HistoryService.Appoint[] AppointField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private Personnel.Application.ViewModels.HistoryService.Department[] DepartmentField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -223,19 +220,6 @@ namespace Personnel.Application.ViewModels.HistoryService {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public Personnel.Application.ViewModels.HistoryService.Appoint[] Appoint {
-            get {
-                return this.AppointField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.AppointField, value) != true)) {
-                    this.AppointField = value;
-                    this.RaisePropertyChanged("Appoint");
-                }
             }
         }
         
@@ -350,9 +334,6 @@ namespace Personnel.Application.ViewModels.HistoryService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long[] AppointsField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long[] DepartmentsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -380,19 +361,6 @@ namespace Personnel.Application.ViewModels.HistoryService {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public long[] Appoints {
-            get {
-                return this.AppointsField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.AppointsField, value) != true)) {
-                    this.AppointsField = value;
-                    this.RaisePropertyChanged("Appoints");
-                }
             }
         }
         
@@ -499,73 +467,9 @@ namespace Personnel.Application.ViewModels.HistoryService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Appoint", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
-    [System.SerializableAttribute()]
-    public partial class Appoint : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public long Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Department", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
-    public partial class Department : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+    public partial class Department : Personnel.Application.ViewModels.HistoryService.BaseModel {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long IdField;
@@ -575,16 +479,6 @@ namespace Personnel.Application.ViewModels.HistoryService {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<long> ParentIdField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public long Id {
@@ -624,25 +518,13 @@ namespace Personnel.Application.ViewModels.HistoryService {
                 }
             }
         }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Employee", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
-    public partial class Employee : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+    public partial class Employee : Personnel.Application.ViewModels.HistoryService.BaseModel {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<System.DateTime> BirthdayField;
@@ -676,16 +558,6 @@ namespace Personnel.Application.ViewModels.HistoryService {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string SurnameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Nullable<System.DateTime> Birthday {
@@ -827,15 +699,6 @@ namespace Personnel.Application.ViewModels.HistoryService {
                     this.SurnameField = value;
                     this.RaisePropertyChanged("Surname");
                 }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
     }
@@ -1238,7 +1101,7 @@ namespace Personnel.Application.ViewModels.HistoryService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long AppointIdField;
+        private string AppointField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long DepartmentIdField;
@@ -1260,14 +1123,14 @@ namespace Personnel.Application.ViewModels.HistoryService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public long AppointId {
+        public string Appoint {
             get {
-                return this.AppointIdField;
+                return this.AppointField;
             }
             set {
-                if ((this.AppointIdField.Equals(value) != true)) {
-                    this.AppointIdField = value;
-                    this.RaisePropertyChanged("AppointId");
+                if ((object.ReferenceEquals(this.AppointField, value) != true)) {
+                    this.AppointField = value;
+                    this.RaisePropertyChanged("Appoint");
                 }
             }
         }
@@ -1308,6 +1171,37 @@ namespace Personnel.Application.ViewModels.HistoryService {
                     this.PositionField = value;
                     this.RaisePropertyChanged("Position");
                 }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseModel", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.HistoryService.Employee))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.HistoryService.Department))]
+    public partial class BaseModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
             }
         }
         

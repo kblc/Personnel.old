@@ -26,7 +26,7 @@ namespace Swordfish.NET.Collections {
   /// dispatcher from the event listener(s).
   /// </summary>
   /// <typeparam name="T"></typeparam>
-  public class ConcurrentObservableCollection<T> : 
+  public class ObservableCollection<T> : 
     ConcurrentObservableBase<T>,
     IList<T>, 
     ICollection<T>, 
@@ -41,14 +41,14 @@ namespace Swordfish.NET.Collections {
     /// <summary>
     /// Default Constructor
     /// </summary>
-    public ConcurrentObservableCollection() {
+    public ObservableCollection() {
     }
 
     /// <summary>
     /// Constructor that takes an enumerable from which the collection is populated
     /// </summary>
     /// <param name="enumerable"></param>
-    public ConcurrentObservableCollection(IEnumerable<T> enumerable) : base(enumerable){
+    public ObservableCollection(IEnumerable<T> enumerable) : base(enumerable){
     }
 
     #endregion Constructors

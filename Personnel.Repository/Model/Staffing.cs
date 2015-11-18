@@ -55,14 +55,10 @@ namespace Personnel.Repository.Model
         #endregion
         #region Appoint
         /// <summary>
-        /// Идентификатор структурного подразделения
+        /// Должность
         /// </summary>
-        [ForeignKey("Appoint"), Column("appoint_id"), Required]
-        public long AppointId { get; set; }
-        /// <summary>
-        /// Структурное подразделение
-        /// </summary>
-        public virtual Appoint Appoint { get; set; }
+        [Column("appoint"), Required, MaxLength(200)]
+        public string Appoint { get; set; }
         #endregion
         #region Employees
         /// <summary>

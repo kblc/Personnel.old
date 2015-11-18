@@ -60,8 +60,7 @@
     <Compile Include="Logic\EmployeeLogin.cs" />
     <Compile Include="Logic\Employee.cs" />
     <Compile Include="Logic\Department.cs" />
-    <Compile Include="Logic\Appoint.cs" />
-    <Compile Include="Logic\Stuffing.cs" />
+    <Compile Include="Logic\Staffing.cs" />
     <Compile Include="Logic\Right.cs" />
     <Compile Include="Logic\Templated.cs" />
     <Compile Include="Logic\File.cs" />
@@ -90,6 +89,10 @@
     <Compile Include="Migrations\201511091153230_Migration_SmallChanges.Designer.cs">
       <DependentUpon>201511091153230_Migration_SmallChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511181310196_Migration_DeleteAppointTable.cs" />
+    <Compile Include="Migrations\201511181310196_Migration_DeleteAppointTable.Designer.cs">
+      <DependentUpon>201511181310196_Migration_DeleteAppointTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\History.cs" />
@@ -97,7 +100,6 @@
     <Compile Include="Model\IHistoryRecord.cs" />
     <Compile Include="Model\Staffing.cs" />
     <Compile Include="Model\Department.cs" />
-    <Compile Include="Model\Appoint.cs" />
     <Compile Include="Model\EmployeeRight.cs" />
     <Compile Include="Model\EmployeePhoto.cs" />
     <Compile Include="Model\EmployeeLogin.cs" />
@@ -136,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511091153230_Migration_SmallChanges.resx">
       <DependentUpon>201511091153230_Migration_SmallChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511181310196_Migration_DeleteAppointTable.resx">
+      <DependentUpon>201511181310196_Migration_DeleteAppointTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -48,7 +48,7 @@ namespace Swordfish.NET.Collections {
     /// used for creating an immutable collection from which an enumerator
     /// can be obtained.
     /// </summary>
-    private ObservableCollection<T> _baseCollection;
+    private System.Collections.ObjectModel.ObservableCollection<T> _baseCollection;
 
     // Could do with a more performant enumerable implementation
     // but this is what I have so far. I create a snapshot of the collection
@@ -108,8 +108,8 @@ namespace Swordfish.NET.Collections {
     /// </summary>
     protected ConcurrentObservableBase(IEnumerable<T> enumerable) {
       _subscribers = new Dictionary<int, IObserver<NotifyCollectionChangedEventArgs>>();
-      
-      _baseCollection = new ObservableCollection<T>(enumerable);
+
+            _baseCollection = new System.Collections.ObjectModel.ObservableCollection<T>(enumerable);
       _baseSnapshot = new ImmutableCollection<T>(enumerable);
 
       // subscribers must be initialized befor calling this as it may

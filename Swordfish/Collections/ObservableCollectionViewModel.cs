@@ -25,7 +25,7 @@ namespace Swordfish.NET.Collections {
   /// This is exposed by ConcurrentObservableCollectionBase when it is used from the Dispatcher thread.
   /// </summary>
   /// <typeparam name="T"></typeparam>
-  public class ObservableCollectionViewModel<T> : ObservableCollection<T>, IObserver<NotifyCollectionChangedEventArgs>, IDisposable {
+  public class ObservableCollectionViewModel<T> : System.Collections.ObjectModel.ObservableCollection<T>, IObserver<NotifyCollectionChangedEventArgs>, IDisposable {
 
     #region Private Fields
 

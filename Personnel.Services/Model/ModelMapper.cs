@@ -82,14 +82,6 @@ namespace Personnel.Services.Model
             if (isInited)
                 return;
 
-            #region Appoint
-
-            AutoMapper.Mapper.CreateMap<Repository.Model.Appoint, Model.Appoint>()
-                .ForMember(dst => dst.Id, e => e.MapFrom(src => src.AppointId));
-            AutoMapper.Mapper.CreateMap<Model.Appoint, Repository.Model.Appoint>()
-                .ForMember(dst => dst.AppointId, e => e.MapFrom(src => src.Id));
-
-            #endregion
             #region Department
 
             AutoMapper.Mapper.CreateMap<Repository.Model.Department, Model.Department>()

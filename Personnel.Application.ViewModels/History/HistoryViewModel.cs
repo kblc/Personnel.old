@@ -159,22 +159,25 @@ namespace Personnel.Application.ViewModels.History
 
         #endregion
 
+        private void RunUnderDispatcher(Delegate a)
+        {
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, a);
+        }
+
         public HistoryViewModel()
         {
             worker.CopyObjectTo(this);
-            worker.OnErrorChanged += (s, e) => Error = e;
-            worker.OnLoadedChanged += (s, e) => IsLoaded = e;
-            worker.OnConnectingChanged += (s, e) => IsConnecting = e;
-            worker.OnWaitingChanged += (s, e) => IsWaiting = e;
-            worker.OnStateChanged += (s, e) => State = e;
-            worker.OnNotification += (s, e) => Notifications?.Add(e);
-            worker.Changed += OnHistoryChanged;
-        }
-
-        private void OnHistoryChanged(object sender, HistoryService.History e)
-        {
-            AsyncChanged?.Invoke(this, e);
-            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() => Changed?.Invoke(this, e)));
+            worker.OnErrorChanged += (s, e) => RunUnderDispatcher(new Action(() => Error = e));
+            worker.OnLoadedChanged += (s, e) => RunUnderDispatcher(new Action(() => IsLoaded = e));
+            worker.OnConnectingChanged += (s, e) => RunUnderDispatcher(new Action(() => IsConnecting = e));
+            worker.OnWaitingChanged += (s, e) => RunUnderDispatcher(new Action(() => IsWaiting = e));
+            worker.OnStateChanged += (s, e) => RunUnderDispatcher(new Action(() => State = e));
+            worker.OnNotification += (s, e) => RunUnderDispatcher(new Action(() => Notifications?.Add(e)));
+            worker.Changed += (s,e) =>
+            {
+                AsyncChanged?.Invoke(this, e);
+                RunUnderDispatcher(new Action(() => Changed?.Invoke(this, e)));
+            };
         }
 
         public event EventHandler<HistoryService.History> AsyncChanged;

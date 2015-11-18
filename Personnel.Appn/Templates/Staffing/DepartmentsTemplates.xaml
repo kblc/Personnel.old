@@ -13,7 +13,7 @@
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Viewbox Width="20" Height="20" x:Key="plusContent" Stretch="UniformToFill" x:Shared="False">
+    <!--<Viewbox Width="20" Height="20" x:Key="plusContent" Stretch="UniformToFill" x:Shared="False">
         <Path Style="{StaticResource plusPathStyle}"/>
     </Viewbox>
     <Viewbox Width="20" Height="20" x:Key="plusContent2" Stretch="UniformToFill" x:Shared="False">
@@ -117,9 +117,9 @@
                                 ToolTip="Add new department"
                                 ToolTipService.IsEnabled="True"
                                 Content="{StaticResource plusContent}">
-                            <!--
+                            --><!--
                             Content="{StaticResource plusViewBox}"
-                            <TextBlock Text="+" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                            <TextBlock Text="+" HorizontalAlignment="Center" VerticalAlignment="Center"/>--><!--
                         </Button>
                         <Button VerticalAlignment="Center" 
                                 Margin="8"
@@ -133,13 +133,13 @@
                                 <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
                             </Button.LayoutTransform>
                             
-                            <!--<TextBlock Text="-" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                            --><!--<TextBlock Text="-" HorizontalAlignment="Center" VerticalAlignment="Center"/>--><!--
                         </Button>
                     </StackPanel>
 
                 </StackPanel>
 
-                <!--<StackPanel x:Name="PART_Error" Grid.Row="1" Visibility="Collapsed">
+                --><!--<StackPanel x:Name="PART_Error" Grid.Row="1" Visibility="Collapsed">
                     <TextBlock Text="Error:"/>
                     <TextBox IsReadOnly="True" Margin="4"
                          Text="{Binding Error, Mode=OneWay}" MaxLines="5" MinLines="1" AcceptsReturn="True"
@@ -149,7 +149,7 @@
                          Width="{Binding ElementName=RootItemGrid, Path=ActualWidth, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-20}"
                          FontSize="{Binding ElementName=PART_DepartmentName, Path=FontSize, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-4}">
                     </TextBox>
-                </StackPanel>-->
+                </StackPanel>--><!--
             </Grid>
         </Grid>
         <HierarchicalDataTemplate.Triggers>
@@ -224,6 +224,6 @@
                               ContentTemplate="{DynamicResource DepartmentsTreeViewTemplate}"
                               Visibility="{Binding IsLoaded, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"/>
         </Grid>
-    </DataTemplate>
+    </DataTemplate>-->
 
 </ResourceDictionary>

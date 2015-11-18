@@ -7,78 +7,114 @@ using Helpers;
 using Helpers.Linq;
 using Helpers.WPF;
 using System.ComponentModel;
-using Swordfish.NET.Collections;
+using System.Collections.ObjectModel;
+using Personnel.Application.ViewModels.StaffingService;
 
 namespace Personnel.Application.ViewModels.Staffing
 {
-    public interface ITreeItem<T> : INotifyPropertyChanged
+    public interface ITreeOwner<T> : INotifyPropertyChanged
     {
-        ITreeItem<T> Parent { get; set; }
-        ConcurrentObservableCollection<ITreeItem<T>> Childs { get; }
-        StaffingService.Department Department { get; set; }
-        bool CanManage { get; }
-        bool ShowDebugInfo { get; }
+        bool CanManageDepartments { get; }
+        bool IsDebugView { get; }
     }
 
-    public class DepartmentEditViewModel : Additional.NotifyPropertyChangedBase, ITreeItem<DepartmentEditViewModel>
+    public interface ITreeItem<T, TStore>
+    {
+        /// <summary>
+        /// Tree owner
+        /// </summary>
+        ITreeOwner<T> Owner { get; }
+
+        /// <summary>
+        /// Current item parent
+        /// </summary>
+        ITreeItem<T, TStore> Parent { get; set; }
+
+        /// <summary>
+        /// Childs for current item
+        /// </summary>
+        ObservableCollection<ITreeItem<T, TStore>> Childs { get; }
+
+        /// <summary>
+        /// Stored data
+        /// </summary>
+        TStore Data { get; set; }
+    }
+
+    public interface ITreeDepartmentItem : ITreeItem<DepartmentEditViewModel, StaffingService.Department> { }
+
+    public class DepartmentEditViewModel : Additional.NotifyPropertyChangedBase, ITreeDepartmentItem
     {
         public DepartmentEditViewModel() : this(false) { }
         public DepartmentEditViewModel(bool createEdited) { IsEditMode = createEdited; }
 
-        private StaffingService.Department department = null;
-        public StaffingService.Department Department
+        private StaffingService.Department data = null;
+        public StaffingService.Department Data
         {
-            get { return department; }
+            get { return data; }
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException(nameof(Department));
+                    throw new ArgumentNullException(nameof(Data));
 
-                if (department == value)
+                if (data == value)
                     return;
-                department = value;
-                if (department != null)
-                    DepartmentName = department.Name;
-                RaisePropertyChanged(() => Department);
+                data = value;
+                if (data != null)
+                    DepartmentName = data.Name;
+                RaisePropertyChanged(() => Data);
                 RaiseAllComamnds();
             }
         }
 
-        private ITreeItem<DepartmentEditViewModel> parent = null;
-        public ITreeItem<DepartmentEditViewModel> Parent
+        private ITreeItem<DepartmentEditViewModel, Department> parent = null;
+        public ITreeItem<DepartmentEditViewModel, Department> Parent
         {
             get { return parent; }
             set
             {
                 if (parent == value)
                     return;
-
-                if (parent != null)
-                    parent.PropertyChanged -= Parent_PropertyChanged;
                 parent = value;
-                if (parent != null)
-                    parent.PropertyChanged += Parent_PropertyChanged;
-
                 RaisePropertyChanged(() => Parent);
             }
         }
 
-        private void Parent_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private ITreeOwner<DepartmentEditViewModel> owner = null;
+        public ITreeOwner<DepartmentEditViewModel> Owner
         {
-            if (e.PropertyName == nameof(CanManage))
-                RaisePropertyChanged(() => CanManage);
-            if (e.PropertyName == nameof(ShowDebugInfo))
-                RaisePropertyChanged(() => ShowDebugInfo);
+            get { return owner; }
+            set
+            {
+                if (owner == value)
+                    return;
+
+                if (owner != null)
+                    throw new ArgumentException(nameof(Owner));
+                owner = value;
+
+                if (owner != null)
+                    owner.PropertyChanged += (s,e) =>
+                    {
+                        if (e.PropertyName == nameof(CanManage))
+                            RaisePropertyChanged(() => CanManage);
+                        if (e.PropertyName == nameof(IsDebugView))
+                            RaisePropertyChanged(() => IsDebugView);
+                    };
+
+                RaisePropertyChanged(() => Owner);
+            }
         }
 
-        public ConcurrentObservableCollection<ITreeItem<DepartmentEditViewModel>> Childs { get; } = new ConcurrentObservableCollection<ITreeItem<DepartmentEditViewModel>> ();
+        public ObservableCollection<ITreeItem<DepartmentEditViewModel, Department>> Childs { get; } = 
+            new ObservableCollection<ITreeItem<DepartmentEditViewModel, Department>> ();
 
         private Helpers.WPF.DelegateCommand deleteCommand = null;
         public ICommand DeleteCommand
         {
             get
             {
-                return deleteCommand ?? (deleteCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnDelete(); }, (o) => Static.Departments.CanManage && !IsBusy && !IsDeleted));
+                return deleteCommand ?? (deleteCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnDelete(); }, (o) => CanManage && !IsBusy && !IsDeleted));
             }
         }
 
@@ -87,7 +123,7 @@ namespace Personnel.Application.ViewModels.Staffing
         {
             get
             {
-                return saveCommand ?? (saveCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnChange(); }, (o) => Static.Departments.CanManage && !IsBusy && !IsDeleted && IsEditMode));
+                return saveCommand ?? (saveCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnChange(); }, (o) => CanManage && !IsBusy && !IsDeleted && IsEditMode));
             }
         }
 
@@ -102,20 +138,20 @@ namespace Personnel.Application.ViewModels.Staffing
                         RaiseOnDelete();
                     else
                         IsEditMode = false;
-                }, (o) => Static.Departments.CanManage && !IsBusy && !IsDeleted && IsEditMode));
+                }, (o) => CanManage && !IsBusy && !IsDeleted && IsEditMode));
             }
         }
 
         private Helpers.WPF.DelegateCommand setToEditModeCommand = null;
         public ICommand SetToEditModeCommand
         {
-            get { return setToEditModeCommand ?? (setToEditModeCommand = new DelegateCommand(o => { IsEditMode = true; }, (o) => Static.Departments.CanManage && !IsBusy && !IsDeleted)); }
+            get { return setToEditModeCommand ?? (setToEditModeCommand = new DelegateCommand(o => { IsEditMode = true; }, (o) => CanManage && !IsBusy && !IsDeleted)); }
         }
 
         private Helpers.WPF.DelegateCommand addChildCommand = null;
         public ICommand AddChildCommand
         {
-            get { return addChildCommand ?? (addChildCommand = new Helpers.WPF.DelegateCommand((o) => RaiseOnAddChild(), (o) => Static.Departments.CanManage && !IsBusy && !IsNew && !IsDeleted && !IsEditMode)); }
+            get { return addChildCommand ?? (addChildCommand = new Helpers.WPF.DelegateCommand((o) => RaiseOnAddChild(), (o) => CanManage && !IsBusy && !IsNew && !IsDeleted && !IsEditMode)); }
         }
 
         private void RaiseAllComamnds()
@@ -136,7 +172,7 @@ namespace Personnel.Application.ViewModels.Staffing
                 if (isEditMode == value)
                     return;
                 isEditMode = value;
-                DepartmentName = Department?.Name;
+                DepartmentName = Data?.Name;
                 RaisePropertyChanged(() => IsEditMode);
                 RaiseAllComamnds();
             }
@@ -149,7 +185,7 @@ namespace Personnel.Application.ViewModels.Staffing
             private set { if (isBusy == value) return; isBusy = value; RaisePropertyChanged(() => IsBusy); RaiseAllComamnds(); }
         }
 
-        public bool IsNew { get { return Department?.Id == 0; } }
+        public bool IsNew { get { return Data?.Id == 0; } }
 
         private bool isDeleted = false;
         public bool IsDeleted
@@ -181,8 +217,8 @@ namespace Personnel.Application.ViewModels.Staffing
             set { if (departmentName == value) return; departmentName = value; RaisePropertyChanged(() => DepartmentName); }
         }
 
-        public bool CanManage => Parent?.CanManage ?? false;
-        public bool ShowDebugInfo => Parent?.ShowDebugInfo ?? false;
+        public bool CanManage => Owner?.CanManageDepartments ?? false;
+        public bool IsDebugView => Owner?.IsDebugView ?? false;
 
         private string GetExceptionText(string whereCatched, Exception ex)
         {
@@ -200,11 +236,11 @@ namespace Personnel.Application.ViewModels.Staffing
             var srvc = new StaffingService.StaffingServiceClient();
             try
             {
-                Department.Name = DepartmentName;
+                Data.Name = DepartmentName;
 
-                var res = (Department.Id == 0)
-                    ? srvc.DepartmentInsertAsync(Department)
-                    : srvc.DepartmentUpdateAsync(Department);
+                var res = (Data.Id == 0)
+                    ? srvc.DepartmentInsertAsync(Data)
+                    : srvc.DepartmentUpdateAsync(Data);
 
                 var depAction = new Action<Task<StaffingService.DepartmentResult>>(dep =>
                 {
@@ -222,7 +258,7 @@ namespace Personnel.Application.ViewModels.Staffing
                             }
                             else
                             {
-                                this.Department.CopyObjectFrom(dep.Result.Value);
+                                this.Data.CopyObjectFrom(dep.Result.Value);
                                 IsEditMode = false;
                                 Error = null;
                             }
@@ -288,8 +324,8 @@ namespace Personnel.Application.ViewModels.Staffing
             var srvc = new StaffingService.StaffingServiceClient();
             try
             {
-                var allDepsToDelete = this.Traverse<ITreeItem<DepartmentEditViewModel>>(i => i.Childs);
-                var allDepsIdsToDelete = allDepsToDelete.Select(i => i.Department.Id).ToArray();
+                var allDepsToDelete = this.Traverse<ITreeItem<DepartmentEditViewModel, Department>>(i => i.Childs);
+                var allDepsIdsToDelete = allDepsToDelete.Select(i => i.Data.Id).ToArray();
                 var res = srvc.DepartmentRemoveRangeAsync(allDepsIdsToDelete);
 
                 var depAction = new Action<Task<StaffingService.Result>>(dep =>
@@ -342,9 +378,9 @@ namespace Personnel.Application.ViewModels.Staffing
             {
                 var newDep = new DepartmentEditViewModel(true)
                 {
-                    Department = new StaffingService.Department()
+                    Data = new StaffingService.Department()
                     {
-                        ParentId = Department.Id,
+                        ParentId = Data.Id,
                         Name = Properties.Resources.DEPARTMENTEDIT_NewDepartmentName
                     },
                     Parent = this,
@@ -360,225 +396,6 @@ namespace Personnel.Application.ViewModels.Staffing
             finally
             {
                 IsBusy = false;
-            }
-        }
-    }
-
-    public class DepartmentsEditViewModel : Additional.AbstractBaseViewModel, ITreeItem<DepartmentEditViewModel>
-    {
-        private const string MANAGEDEPARTMENTS = "MANAGEDEPARTMENTS";
-
-        public bool HasError { get { return !string.IsNullOrWhiteSpace(Error); } }
-
-        private string error = string.Empty;
-        public string Error
-        {
-            get { return error; }
-            internal set { if (error == value) return; error = value; RaisePropertyChanged(() => Error); RaisePropertyChanged(() => HasError); }
-        }
-
-        public bool CanManage
-        {
-            get
-            {
-                return true;
-
-                var canDeleteRightId = Static.Staffing.Rights.Where(r => r.SystemName == MANAGEDEPARTMENTS).Select(r => r.Id).FirstOrDefault();
-                return (Static.Staffing.Current != null && Static.Staffing.Current.Rights.Any(r => r.RightId == canDeleteRightId));
-            }
-        }
-
-        private bool showDebugInfo
-#if DEBUG
-            = true;
-#else
-            = false;
-#endif
-        public bool ShowDebugInfo
-        {
-            get { return showDebugInfo; }
-            set { if (showDebugInfo == value) return; showDebugInfo = value; RaisePropertyChanged(() => ShowDebugInfo); }
-        }
-
-        private DelegateCommand insertCommand = null;
-        public ICommand InsertCommand { get { return insertCommand ?? (insertCommand = new DelegateCommand(o => Insert(), o => CanManage )); } }
-
-        private ConcurrentObservableCollection<ITreeItem<DepartmentEditViewModel>> tree = null;
-        public ConcurrentObservableCollection<ITreeItem<DepartmentEditViewModel>> Tree
-        {
-            get { return tree ?? (tree = new Swordfish.NET.Collections.ConcurrentObservableCollection<ITreeItem<DepartmentEditViewModel>>()); }
-            private set { if (tree == value) return; tree = value; RaisePropertyChanged(() => Tree); }
-        }
-
-        #region ITreeItem<DepartmentEditViewModel>
-
-        ITreeItem<DepartmentEditViewModel> ITreeItem<DepartmentEditViewModel>.Parent { get { return null; } set { throw new NotImplementedException(); } }
-        StaffingService.Department ITreeItem<DepartmentEditViewModel>.Department { get { return null; } set { throw new NotImplementedException(); } }
-        ConcurrentObservableCollection<ITreeItem<DepartmentEditViewModel>> ITreeItem<DepartmentEditViewModel>.Childs => Tree;
-
-        #endregion
-
-        private void Insert()
-        {
-            var newDep = new DepartmentEditViewModel(true)
-            {
-                Department = new StaffingService.Department()
-                {
-                    ParentId = null,
-                    Name = Properties.Resources.DEPARTMENTEDIT_NewDepartmentName,
-                },
-                Parent = this,
-                IsSelected = true,
-            };
-            Tree.Add(newDep);
-        }
-
-        private string GetExceptionText(Exception ex)
-        {
-#if DEBUG
-            return ex.GetExceptionText();
-#else
-            return ex.GetExceptionText(clearText: true, includeStackTrace: false);
-#endif
-        }
-
-        protected override void Init()
-        {
-            IsLoaded = false;
-
-            if (this.IsDesignMode())
-                Task.Factory.StartNew(() => ExecuteCommandAsDispatcher(() => {
-                    Tree = new ConcurrentObservableCollection<ITreeItem<DepartmentEditViewModel>>(LoadTest(this));
-                    IsLoaded = true;
-                }
-                ));
-            else
-                SubscribeToStaffing();
-        }
-
-        private void SubscribeToStaffing()
-        {
-            Static.Staffing.IsLoadedChanged += (s, isLoaded) => { if (isLoaded) SubscribeToStaffingAfterLoading(); };
-            if (Static.Staffing.IsLoaded)
-                SubscribeToStaffingAfterLoading();
-        }
-        private void SubscribeToStaffingAfterLoading()
-        {
-            try
-            {
-                if (Static.Staffing.Current != null)
-                    Static.Staffing.Current.PropertyChanged += (s, e) =>
-                    {
-                        if (e.PropertyName.StartsWith(nameof(Static.Staffing.Current.Rights)))
-                            ExecuteCommandAsDispatcher(() => 
-                            {
-                                RaisePropertyChanged(() => CanManage);
-                                insertCommand?.RaiseCanExecuteChanged();
-                            });
-                    };
-
-                Static.Staffing.Department.CollectionChanged += (s, e) =>
-                {
-                    if (e.NewItems != null)
-                        foreach (var d in e.NewItems.Cast<StaffingService.Department>())
-                        {
-                            if (d.Id != 0)
-                            {
-                                var existed = Tree.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Department.Id == d.Id);
-                                if (existed != null)
-                                {
-                                    existed.Department = d;
-                                }
-                                else
-                                {
-                                    var existedParent = Tree.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Department.Id == d.ParentId);
-                                    if (existedParent != null)
-                                    {
-                                        var newDep = new DepartmentEditViewModel() { Department = d, Parent = existedParent };
-                                        var existedChildsInTop = Tree.Where(i => i.Department.ParentId == d.Id);
-                                        foreach (var c in existedChildsInTop)
-                                        {
-                                            c.Parent = newDep;
-                                            newDep.Childs.Add(c);
-                                        }
-                                        ExecuteCommandAsDispatcher(() => existedParent.Childs.Add(newDep));
-                                    }
-                                    else
-                                    {
-                                        ExecuteCommandAsDispatcher(() => Tree.Add(new DepartmentEditViewModel() { Department = d, Parent = this }));
-                                    }
-                                }
-                            }
-                        }
-
-                    if (e.OldItems != null)
-                        foreach (var d in e.OldItems.Cast<StaffingService.Department>())
-                            if (d.Id != 0)
-                            {
-                                var existed = Tree.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Department.Id == d.Id);
-                                if (existed != null)
-                                {
-                                    if (existed.Parent != null)
-                                        ExecuteCommandAsDispatcher(() => existed.Parent.Childs.Remove(existed));
-                                    else if (Tree.Contains(existed))
-                                        ExecuteCommandAsDispatcher(() => Tree.Remove(existed));
-                                }
-                            }
-                };
-
-
-                ExecuteCommandAsDispatcher(() => Tree = new ConcurrentObservableCollection<ITreeItem<DepartmentEditViewModel>>(Load(Static.Staffing.Department.ToArray(), this)));
-            }
-            catch(Exception ex)
-            {
-                Error = GetExceptionText(ex);
-            }
-            finally
-            {
-                IsLoaded = true;
-            }
-        }
-
-        private static IEnumerable<ITreeItem<DepartmentEditViewModel>> Load(StaffingService.Department[] departments, ITreeItem<DepartmentEditViewModel> parent)
-        {
-            var res = departments.Where(d => d.ParentId == null)
-                .Select(d => new DepartmentEditViewModel() { Department = d, Parent = parent })
-                .ToList();
-            res.ForEach(i => LoadChilds(departments, i));
-
-            return res;
-        }
-
-        private static IEnumerable<ITreeItem<DepartmentEditViewModel>> LoadTest(ITreeItem<DepartmentEditViewModel> parent)
-        {
-            var top1 = (new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Top 1", Id = 1 }, Parent = parent }) as ITreeItem<DepartmentEditViewModel>;
-            var top2 = (new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Top 2", Id = 2 }, Parent = parent }) as ITreeItem<DepartmentEditViewModel>;
-
-            var sTop1 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 1 top 1", Id = 3, ParentId = 1 }, Parent = top1 };
-            var sTop2 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 4, ParentId = 1 }, Parent = top1 };
-            var sTop3 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 5, ParentId = 1 }, Parent = top1 };
-
-            var sTop21 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 1 top 1", Id = 6, ParentId = 2 }, Parent = top2 };
-            var sTop22 = new DepartmentEditViewModel() { Department = new StaffingService.Department() { Name = "Sub 3 top 1", Id = 7, ParentId = 2 }, Parent = top2 };
-
-            top1.Childs.Add(sTop1);
-            top1.Childs.Add(sTop2);
-            top1.Childs.Add(sTop3);
-
-            top2.Childs.Add(sTop21);
-            top2.Childs.Add(sTop22);
-
-            return new ITreeItem<DepartmentEditViewModel>[] { top1, top2 };
-        }
-
-        private static void LoadChilds(IEnumerable<StaffingService.Department> allDeps, DepartmentEditViewModel viewModel)
-        {
-            var childs = allDeps.Where(i => i.ParentId == viewModel.Department.Id);
-            foreach(var c in childs)
-            {
-                var item = new DepartmentEditViewModel() { Department = c, Parent = viewModel };
-                LoadChilds(allDeps, item);
-                viewModel.Childs.Add(item);
             }
         }
     }

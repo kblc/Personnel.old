@@ -155,10 +155,6 @@
       <Project>{9bdff29b-a718-44bd-ab2e-2d2c815d7fb8}</Project>
       <Name>Personnel.Application.ViewModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Swordfish\Swordfish.NET.General.csproj">
-      <Project>{f2e1680e-1b15-4cf2-bab0-54b8c8f6abdf}</Project>
-      <Name>Swordfish.NET.General</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

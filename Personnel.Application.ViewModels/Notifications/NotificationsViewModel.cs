@@ -145,10 +145,10 @@ namespace Personnel.Application.ViewModels.Notifications
         {
             worker.CopyObjectTo(this);
             InitCollection();
-            worker.OnErrorChanged += (s, e) => Error = e;
-            worker.OnLoadedChanged += (s, e) => IsLoaded = e;
-            worker.OnStateChanged += (s, e) => State = e;
-            worker.OnMaxNotificationsChanged += (s, e) => MaxNotificationsCount = e;
+            worker.OnErrorChanged += (s, e) => RunUnderDispatcher(new Action(() => Error = e));
+            worker.OnLoadedChanged += (s, e) => RunUnderDispatcher(new Action(() => IsLoaded = e));
+            worker.OnStateChanged += (s, e) => RunUnderDispatcher(new Action(() => State = e));
+            worker.OnMaxNotificationsChanged += (s, e) => RunUnderDispatcher(new Action(() => MaxNotificationsCount = e));
             worker.OnChanged += OnNotificationsChanged;
         }
 

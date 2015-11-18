@@ -64,11 +64,9 @@
     <Compile Include="Birthdays\EmployeeViewModel.cs" />
     <Compile Include="Birthdays\LevelViewModel.cs" />
     <Compile Include="Birthdays\TimePartViewModel.cs" />
-    <Compile Include="Birthdays\ViewModel.cs" />
-    <Compile Include="History\ViewModel.cs" />
+    <Compile Include="Birthdays\BirthdaysViewModel.cs" />
     <Compile Include="Notifications\NotificationItemViewModel.cs" />
     <Compile Include="Notifications\NotificationsViewModel.cs" />
-    <Compile Include="Notifications\ViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -96,7 +94,6 @@
     <Compile Include="Staffing\DepartmentsEditViewModel.cs" />
     <Compile Include="Staffing\EmployeeViewModel.cs" />
     <Compile Include="Staffing\StaffingViewModel.cs" />
-    <Compile Include="Staffing\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Static.cs" />
   </ItemGroup>
@@ -124,12 +121,6 @@
     </None>
     <None Include="Service References\StaffingService\Arrays.xsd">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.AppointResult.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.AppointResults.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.DepartmentResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -252,12 +243,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Icons\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Swordfish\Swordfish.NET.General.csproj">
-      <Project>{f2e1680e-1b15-4cf2-bab0-54b8c8f6abdf}</Project>
-      <Name>Swordfish.NET.General</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
