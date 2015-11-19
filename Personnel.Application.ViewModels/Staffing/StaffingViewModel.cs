@@ -74,13 +74,18 @@ namespace Personnel.Application.ViewModels.Staffing
             = DependencyProperty.RegisterReadOnly(nameof(IsLoaded), typeof(bool), typeof(StaffingViewModel),
                 new FrameworkPropertyMetadata(false,
                     FrameworkPropertyMetadataOptions.None,
-                    new PropertyChangedCallback((s, e) => { })));
+                    new PropertyChangedCallback((s, e) => 
+                    {
+                        var model = s as StaffingViewModel;
+                        if (model != null)
+                            model.RaiseOnIsLoadedChanged((bool)e.NewValue);
+                    })));
         public static readonly DependencyProperty ReadOnlyIsLoadedProperty = ReadOnlyIsLoadedPropertyKey.DependencyProperty;
 
         public bool IsLoaded
         {
             get { return (bool)GetValue(ReadOnlyIsLoadedProperty); }
-            private set { SetValue(ReadOnlyIsLoadedPropertyKey, value); }
+            private set { SetValue(ReadOnlyIsLoadedPropertyKey, value); RaiseOnIsLoadedChanged(value); }
         }
 
         #endregion
@@ -369,5 +374,12 @@ namespace Personnel.Application.ViewModels.Staffing
             else if (e.Action == StaffingListsAction.Remove)
                 e.Items.Join(employees, i => i.Id, n => n.Id, (i, n) => n).ToList().ForEach(i => employees.Remove(i));
         }
+
+        private void RaiseOnIsLoadedChanged(bool value)
+        {
+            OnIsLoadedChanged?.Invoke(this, value);
+        }
+
+        public event EventHandler<bool> OnIsLoadedChanged;
     }
 }

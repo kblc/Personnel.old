@@ -18,7 +18,7 @@ namespace Personnel.Application.ViewModels.AdditionalModels
         {
             TimeToLive = timeToLive;
             Data = data;
-            timer = new Timer(TimerCallBack, new { Action = new Action(RaiseOnEnd), Context = Thread.CurrentContext }, TimeSpan.FromTicks(0), TimeToLive);
+            timer = new Timer(TimerCallBack, new { Action = new Action(RaiseOnEnd), Context = Thread.CurrentContext }, TimeToLive, TimeToLive);
         }
         public TempData(T data) : this(TimeSpan.FromSeconds(5), data) { }
         public TempData() : this(null) { }

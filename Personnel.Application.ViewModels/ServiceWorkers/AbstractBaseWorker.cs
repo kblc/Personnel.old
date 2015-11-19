@@ -8,16 +8,26 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Helpers;
+using Personnel.Application.ViewModels.Additional;
 
 namespace Personnel.Application.ViewModels.ServiceWorkers
 {
-    public class NotificationItem
+    public class NotificationItem : NotifyPropertyChangedBase
     {
-        public readonly DateTime Created;
-        public readonly string Header;
-        public readonly string Message;
-        public readonly bool IsError;
-        public readonly string IconUrl;
+        private DateTime created;
+        public DateTime Created { get { return created; } protected set { if (created == value) return; created = value; RaisePropertyChanged(); } }
+
+        private string header;
+        public string Header { get { return header; } protected set { if (header == value) return; header = value; RaisePropertyChanged(); } }
+
+        private string message;
+        public string Message { get { return message; } protected set { if (message == value) return; message = value; RaisePropertyChanged(); } }
+
+        private bool isError;
+        public bool IsError { get { return isError; } protected set { if (isError == value) return; isError = value; RaisePropertyChanged(); } }
+
+        private string iconUrl;
+        public string IconUrl { get { return iconUrl; } protected set { if (iconUrl == value) return; iconUrl = value; RaisePropertyChanged(); } }
 
         public NotificationItem(string header, string message, bool isError, string iconUrl, DateTime created)
         {
@@ -203,13 +213,14 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
         }
         private void RaiseOnErrorChanged()
         {
-            RaiseOnNotification(
-                new NotificationItem(
-                    header: Properties.Resources.ERROR,
-                    message: Error,
-                    isError: true,
-                    iconUrl: IconUrlByType(GetType(), ServiceCultureInfo)
-                ));
+            if (!string.IsNullOrWhiteSpace(Error))
+                RaiseOnNotification(
+                    new NotificationItem(
+                        header: Properties.Resources.ERROR,
+                        message: Error,
+                        isError: true,
+                        iconUrl: IconUrlByType(GetType(), ServiceCultureInfo)
+                    ));
             Context.DoCallBack(() => OnErrorChanged?.Invoke(this, Error));
         }
         private void RaiseOnStateChanged()

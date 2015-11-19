@@ -46,7 +46,22 @@ namespace Personnel.Application.ViewModels.Birthdays
             typeof(BirthdaysViewModel), new PropertyMetadata(null, (s, e) => 
             {
                 var model = s as BirthdaysViewModel;
-                model?.Load(e.NewValue as Staffing.StaffingViewModel);
+                var staffingNew = e.NewValue as Staffing.StaffingViewModel;
+                var staffingOld = e.OldValue as Staffing.StaffingViewModel;
+                if (model != null)
+                {
+                    if (staffingOld != null)
+                    {
+                        staffingOld.OnIsLoadedChanged -= model.RaiseStaffingModelLoaded;
+                        staffingOld.Employees.CollectionChanged -= model.RaiseStaffingEmployeeChanged;
+                    }
+                    model.Load(staffingNew);
+                    if (staffingNew != null)
+                    { 
+                        staffingNew.OnIsLoadedChanged += model.RaiseStaffingModelLoaded;
+                        staffingNew.Employees.CollectionChanged += model.RaiseStaffingEmployeeChanged;
+                    }
+                }
             }));
 
         public Staffing.StaffingViewModel Staffing
@@ -188,6 +203,21 @@ namespace Personnel.Application.ViewModels.Birthdays
         //    }
         //}
 
+        private void RaiseStaffingModelLoaded(object sender, bool isLoaded)
+        {
+            RunUnderDispatcher(new Action(() => Load(Staffing)));
+        }
+
+        private void RaiseStaffingEmployeeChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            RunUnderDispatcher(new Action(() => Load(Staffing)));
+        }
+
+        private void RunUnderDispatcher(Delegate a)
+        {
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, a);
+        }
+
         public BirthdaysViewModel()
         {
             if (this.IsDesignMode())
@@ -292,6 +322,141 @@ namespace Personnel.Application.ViewModels.Birthdays
             SelectedLevel = null;
         }
 
+        private static LevelViewModel GetWeekLevel(Staffing.StaffingViewModel model, TimeSpan period)
+        {
+            var level1 = new LevelViewModel() { Name = Properties.Resources.VMBIRTHDAYS_BYWEEK };
+
+            if (model == null)
+                return level1;
+
+            var dtNow = DateTime.Now;
+            var now = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day);
+            var start = now - TimeSpan.FromDays(period.TotalDays / 2d);
+            var end = start + period;
+            var departments = model.Departments.AsEnumerable().Traverse(i => i.Childs).Select(i => i.Data);
+
+            var weekStart = start - TimeSpan.FromDays((int)start.DayOfWeek + 1);
+            weekStart = new DateTime(weekStart.Year, weekStart.Month, weekStart.Day);
+
+            var getWeekNameByDate = new Func<DateTime, string>((dt) => $"{dt.Year}/{dt.DayOfYear / 7}");
+            var getWeekNameByDates = new Func<DateTime, DateTime, string>((dt0, dt1) =>
+            {
+                var nameStart = getWeekNameByDate(dt0);
+                var nameEnd = getWeekNameByDate(dt1);
+                return (nameStart == nameEnd) ? nameStart : $"{nameStart} - {nameEnd}";
+            });
+
+            while (weekStart < end)
+            {
+                var weekEnd = weekStart + TimeSpan.FromDays(7);
+                var tp = new TimePartViewModel()
+                {
+                    Start = weekStart,
+                    End = weekEnd,
+                    IsCurrent = weekStart <= now && now <= weekEnd,
+                    Name = getWeekNameByDates(weekStart, weekEnd)
+                };
+
+                var employees = model.Employees
+                    .Where(e => e.Birthday.HasValue)
+                    .Select(e => new { Employee = e, YearBirthday = GetEmployeeDateBirthFor(tp.Start, tp.End, e.Birthday.Value) })
+                    .LeftOuterJoin(departments, e => e.Employee.Stuffing?.DepartmentId, d => d.Id, (e, Department) => new { e.Employee, e.YearBirthday, Department })
+                    .Where(e => e.YearBirthday != null)
+                    .Select(e => new EmployeeViewModel()
+                    {
+                        Employee = e.Employee,
+                        Department = e.Department,
+                        Age = e.YearBirthday.Value.Year - e.Employee.Birthday.Value.Year,
+                        IsBirthdayGone = e.YearBirthday.Value < now,
+                    });
+
+                foreach (var e in employees)
+                    tp.Employee.Add(e);
+
+                level1.Parts.Add(tp);
+                weekStart = weekEnd;
+            }
+
+            for (int i = level1.Parts.Count - 1; i >= 1; i--)
+                if (level1.Parts[i].Employee.Count == 0 && level1.Parts[i - 1].Employee.Count == 0)
+                {
+                    level1.Parts[i - 1].End = level1.Parts[i].End;
+                    level1.Parts[i - 1].IsCurrent |= level1.Parts[i].IsCurrent;
+                    level1.Parts[i - 1].Name = getWeekNameByDates(level1.Parts[i - 1].Start, level1.Parts[i - 1].End);
+                    level1.Parts.RemoveAt(i);
+                }
+
+            return level1;
+        }
+        private static LevelViewModel GetMonthLevel(Staffing.StaffingViewModel model, TimeSpan period)
+        {
+            //TODO: create month level
+
+            var level1 = new LevelViewModel() { Name = Properties.Resources.VMBIRTHDAYS_BYWEEK };
+
+            if (model == null)
+                return level1;
+
+            var dtNow = DateTime.Now;
+            var now = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day);
+            var start = now - TimeSpan.FromDays(period.TotalDays / 2d);
+            var end = start + period;
+            var departments = model.Departments.AsEnumerable().Traverse(i => i.Childs).Select(i => i.Data);
+
+            var weekStart = start - TimeSpan.FromDays((int)start.DayOfWeek + 1);
+            weekStart = new DateTime(weekStart.Year, weekStart.Month, weekStart.Day);
+
+            var getWeekNameByDate = new Func<DateTime, string>((dt) => $"{dt.Year}/{dt.DayOfYear / 7}");
+            var getWeekNameByDates = new Func<DateTime, DateTime, string>((dt0, dt1) =>
+            {
+                var nameStart = getWeekNameByDate(dt0);
+                var nameEnd = getWeekNameByDate(dt1);
+                return (nameStart == nameEnd) ? nameStart : $"{nameStart} - {nameEnd}";
+            });
+
+            while (weekStart < end)
+            {
+                var weekEnd = weekStart + TimeSpan.FromDays(7);
+                var tp = new TimePartViewModel()
+                {
+                    Start = weekStart,
+                    End = weekEnd,
+                    IsCurrent = weekStart <= now && now <= weekEnd,
+                    Name = getWeekNameByDates(weekStart, weekEnd)
+                };
+
+                var employees = model.Employees
+                    .Where(e => e.Birthday.HasValue)
+                    .Select(e => new { Employee = e, YearBirthday = GetEmployeeDateBirthFor(tp.Start, tp.End, e.Birthday.Value) })
+                    .LeftOuterJoin(departments, e => e.Employee.Stuffing?.DepartmentId, d => d.Id, (e, Department) => new { e.Employee, e.YearBirthday, Department })
+                    .Where(e => e.YearBirthday != null)
+                    .Select(e => new EmployeeViewModel()
+                    {
+                        Employee = e.Employee,
+                        Department = e.Department,
+                        Age = e.YearBirthday.Value.Year - e.Employee.Birthday.Value.Year,
+                        IsBirthdayGone = e.YearBirthday.Value < now,
+                    });
+
+                foreach (var e in employees)
+                    tp.Employee.Add(e);
+
+                level1.Parts.Add(tp);
+                weekStart = weekEnd;
+            }
+
+            for (int i = level1.Parts.Count - 1; i >= 1; i--)
+                if (level1.Parts[i].Employee.Count == 0 && level1.Parts[i - 1].Employee.Count == 0)
+                {
+                    level1.Parts[i - 1].End = level1.Parts[i].End;
+                    level1.Parts[i - 1].IsCurrent |= level1.Parts[i].IsCurrent;
+                    level1.Parts[i - 1].Name = getWeekNameByDates(level1.Parts[i - 1].Start, level1.Parts[i - 1].End);
+                    level1.Parts.RemoveAt(i);
+                }
+
+            return level1;
+        }
+
         private void Load(Staffing.StaffingViewModel model)
         {
             IsLoaded = false;
@@ -312,8 +477,8 @@ namespace Personnel.Application.ViewModels.Birthdays
 
                 var dtNow = DateTime.Now;
                 var now = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day);
-                var start = now - TimeSpan.FromDays(Period.TotalDays / 2d);
-                var end = start + Period;
+                //var start = now - TimeSpan.FromDays(Period.TotalDays / 2d);
+                //var end = start + Period;
                 var departments = model.Departments.AsEnumerable().Traverse(i => i.Childs).Select(i => i.Data);
 
                 #region Today
@@ -322,73 +487,25 @@ namespace Personnel.Application.ViewModels.Birthdays
                     .Where(e => e.Birthday.HasValue)
                     .Select(e => new { Employee = e, YearBirthday = GetEmployeeDateBirthFor(now, now, e.Birthday.Value) })
                     .Where(e => e.YearBirthday != null)
+                    .LeftOuterJoin(departments, e => e.Employee.Stuffing?.DepartmentId, d => d.Id, (e, Department) => new { e.Employee, e.YearBirthday, Department })
                     .Select(e => new EmployeeViewModel()
                     {
                         Employee = e.Employee,
                         Age = e.YearBirthday.Value.Year - e.Employee.Birthday.Value.Year,
-                        IsBirthdayGone = e.YearBirthday.Value < now
+                        IsBirthdayGone = e.YearBirthday.Value < now,
+                        Department = e.Department,
                     });
                 foreach(var employee in employeesToday)
                     today.Add(employee);
 
                 #endregion
-                #region Level 1
 
-                var level1 = new LevelViewModel() { Name = Properties.Resources.VMBIRTHDAYS_BYWEEK };
-                var weekStart = start - TimeSpan.FromDays((int)start.DayOfWeek + 1);
-                weekStart = new DateTime(weekStart.Year, weekStart.Month, weekStart.Day);
+                levels.Clear();
+                var weekLevel = GetWeekLevel(model, Period);
+                var monthLevel = GetMonthLevel(model, Period);
+                levels.Add(weekLevel);
+                levels.Add(monthLevel);
 
-                var getWeekNameByDate = new Func<DateTime, string>((dt) => $"{dt.Year}/{dt.DayOfYear / 7}");
-                var getWeekNameByDates = new Func<DateTime, DateTime, string>((dt0, dt1) =>
-                {
-                    var nameStart = getWeekNameByDate(dt0);
-                    var nameEnd = getWeekNameByDate(dt1);
-                    return (nameStart == nameEnd) ? nameStart : $"{nameStart} - {nameEnd}";
-                });
-
-                while (weekStart < end)
-                {
-                    var weekEnd = weekStart + TimeSpan.FromDays(7);
-                    var tp = new TimePartViewModel()
-                    {
-                        Start = weekStart,
-                        End = weekEnd,
-                        IsCurrent = weekStart <= now && now <= weekEnd,
-                        Name = getWeekNameByDates(weekStart, weekEnd)
-                    };
-
-                    var employees = model.Employees
-                        .Where(e => e.Birthday.HasValue)
-                        .Select(e => new { Employee = e, YearBirthday = GetEmployeeDateBirthFor(tp.Start, tp.End, e.Birthday.Value) })
-                        .LeftOuterJoin(departments, e => e.Employee.Stuffing?.DepartmentId, d => d.Id, (e, Department) => new { e.Employee, e.YearBirthday, Department })
-                        .Where(e => e.YearBirthday != null)
-                        .Select(e => new EmployeeViewModel()
-                        {
-                            Employee = e.Employee,
-                            Department = e.Department,
-                            Age = e.YearBirthday.Value.Year - e.Employee.Birthday.Value.Year,
-                            IsBirthdayGone = e.YearBirthday.Value < now,
-                        });
-
-                    foreach (var e in employees)
-                        tp.Employee.Add(e);
-
-                    level1.Parts.Add(tp);
-                    weekStart = weekEnd;
-                }
-
-                for(int i = level1.Parts.Count - 1; i >= 1; i--)
-                    if (level1.Parts[i].Employee.Count == 0 && level1.Parts[i - 1].Employee.Count == 0)
-                    {
-                        level1.Parts[i - 1].End = level1.Parts[i].End;
-                        level1.Parts[i - 1].IsCurrent |= level1.Parts[i].IsCurrent;
-                        level1.Parts[i - 1].Name = getWeekNameByDates(level1.Parts[i - 1].Start, level1.Parts[i - 1].End);
-                        level1.Parts.RemoveAt(i);
-                    }
-
-                #endregion
-
-                levels.Add(level1);
                 SelectedLevel = Levels.LastOrDefault();
                 IsLoaded = true;
 

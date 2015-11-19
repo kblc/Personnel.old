@@ -53,8 +53,16 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
             }
         }
 
-        protected override bool DoStart() => true;
-        protected override bool DoStop() => true;
+        protected override bool DoStart()
+        {
+            IsLoaded = true;
+            return true;
+        }
+        protected override bool DoStop()
+        {
+            IsLoaded = false;
+            return true;
+        }
 
         public IEnumerable<NotificationItem> Get()
         {
@@ -97,19 +105,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                 addItems = addItems.Except(delItems, GenericComparer).ToArray();
                 addStoredItems = addStoredItems.Except(delStoredItems, GenericStoredComparer);
 
-                addStoredItems.ToList()
-                    .ForEach(i => i.OnEnd += (s,e) => 
-                    {
-                        lock (notifications)
-                        {
-                            var itm = s as NotificationStoredItem;
-                            if (itm != null && notifications.Contains(itm))
-                            { 
-                                notifications.Remove(itm);
-                                RaiseOnChanged(new[] { itm.Data }, NotificationListAction.Remove);
-                            }
-                        }
-                    });
+                addStoredItems.ToList().ForEach(i => i.OnEnd += (s,e) => Remove(((NotificationStoredItem)s).Data));
 
                 RaiseOnChanged(delItems, NotificationListAction.Remove);
                 RaiseOnChanged(addItems, NotificationListAction.Add);

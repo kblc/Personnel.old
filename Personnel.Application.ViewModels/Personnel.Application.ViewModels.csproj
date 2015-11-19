@@ -58,14 +58,13 @@
     <Compile Include="AdditionalModels\IReadOnlyNotificationCollection.cs" />
     <Compile Include="AdditionalModels\LimitedObservableCollection.cs" />
     <Compile Include="History\HistoryViewModel.cs" />
-    <Compile Include="Notifications\NotificationDataViewModel.cs" />
+    <Compile Include="Notifications\NotificationViewModel.cs" />
     <Compile Include="AdditionalModels\TempData.cs" />
     <Compile Include="Additional\AbstractBaseViewModel.cs" />
     <Compile Include="Birthdays\EmployeeViewModel.cs" />
     <Compile Include="Birthdays\LevelViewModel.cs" />
     <Compile Include="Birthdays\TimePartViewModel.cs" />
     <Compile Include="Birthdays\BirthdaysViewModel.cs" />
-    <Compile Include="Notifications\NotificationItemViewModel.cs" />
     <Compile Include="Notifications\NotificationsViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -91,7 +90,7 @@
     <Compile Include="ServiceWorkers\HistoryWorker.cs" />
     <Compile Include="ServiceWorkers\NotificationsWorker.cs" />
     <Compile Include="ServiceWorkers\StaffingWorker.cs" />
-    <Compile Include="Staffing\DepartmentsEditViewModel.cs" />
+    <Compile Include="Staffing\DepartmentsViewModel.cs" />
     <Compile Include="Staffing\EmployeeViewModel.cs" />
     <Compile Include="Staffing\StaffingViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

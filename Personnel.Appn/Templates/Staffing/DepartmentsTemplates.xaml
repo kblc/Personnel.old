@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
-                    xmlns:helperConverterss="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
+                    xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
                     xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
@@ -9,7 +9,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-        <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />-->
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
@@ -20,13 +19,13 @@
         <Path Style="{StaticResource minusPathStyle}"/>
     </Viewbox>
 
-    <helperConverterss:ReverseBooleanToVisibilityConverter x:Key="departmentsReverseBooleanToVisibilityConverter"/>
+    <helperConverters:ReverseBooleanToVisibilityConverter x:Key="departmentsReverseBooleanToVisibilityConverter"/>
     <BooleanToVisibilityConverter x:Key="departmentsBooleanToVisibilityConverter"/>
-    <helperConverterss:MultiBooleanANDToBooleanConverter x:Key="departmentsMultiBooleanANDToBooleanConverter"/>
-    <helperConverterss:IsEqualsConverter x:Key="departmentsIsEqualsConverter"/>
-    <helperConverterss:ApplyConverter x:Key="departmentsApplyConverter"/>
-    <helperConverterss:IsNotEqualsConverter x:Key="departmentsIsNotEqualsConverter"/>
-    <helperConverterss:IsNotEqualVisibilityConverter x:Key="departmentsIsNotEqualVisibilityConverter"/>
+    <helperConverters:MultiBooleanANDToBooleanConverter x:Key="departmentsMultiBooleanANDToBooleanConverter"/>
+    <helperConverters:IsEqualsConverter x:Key="departmentsIsEqualsConverter"/>
+    <helperConverters:ApplyConverter x:Key="departmentsApplyConverter"/>
+    <helperConverters:IsNotEqualsConverter x:Key="departmentsIsNotEqualsConverter"/>
+    <helperConverters:IsNotEqualVisibilityConverter x:Key="departmentsIsNotEqualVisibilityConverter"/>
     <localConverters:IsNotEmptyStringConverter x:Key="departmentsIsNotEmptyStringConverter"/>
     <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="departmentsIsNotEmptyStringToVisibilityConverter"/>
 
@@ -159,19 +158,18 @@
 
     <DataTemplate DataType="{x:Type staffing:DepartmentEditViewModel}" x:Key="DepartmentsTreeViewTemplate">
         <Grid>
+            <Grid.Resources>
+                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                    <!--<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+                    <Setter Property="IsExpanded" Value="True"/>
+                </Style>
+            </Grid.Resources>
+            
             <!-- Tree -->
-            <ScrollViewer VerticalScrollBarVisibility="Auto" 
-                          HorizontalScrollBarVisibility="Disabled" 
-                          CanContentScroll="True"
-                          Background="Transparent">
-                <ScrollViewer.Resources>
-                    <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                        <!--<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
-                        <Setter Property="IsExpanded" Value="True"/>
-                    </Style>
-                </ScrollViewer.Resources>
-                <TreeView ItemsSource="{Binding Departments}" ItemTemplate="{StaticResource recursiveDepartmentTemplate}"/>
-            </ScrollViewer>
+            <TreeView ItemsSource="{Binding Departments}" 
+                      ItemTemplate="{StaticResource recursiveDepartmentTemplate}"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
 
             <!-- Buttons -->            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
@@ -216,7 +214,7 @@
                 <md:ColorZone Mode="Dark" Padding="16"
                               Visibility="{Binding Error, Converter={StaticResource departmentsIsNotEmptyStringToVisibilityConverter}}">
                     <WrapPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Error}" Margin="8" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Error, StringFormat={}Error: {0}}" Margin="8" VerticalAlignment="Center"/>
                     </WrapPanel>
                 </md:ColorZone>
             </StackPanel>

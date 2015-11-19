@@ -1,21 +1,39 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:staticBirthdays="clr-namespace:Personnel.Application.ViewModels.Birthdays;assembly=Personnel.Application.ViewModels"
+                    xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
                     xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
                     xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
-                    xmlns:controls="clr-namespace:Personnel.Appn.Controls"
-                    xmlns:static="clr-namespace:Personnel.Application.ViewModels;assembly=Personnel.Application.ViewModels"
-                    xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                    xmlns:birthdays="clr-namespace:Personnel.Application.ViewModels.Birthdays;assembly=Personnel.Application.ViewModels">
     
-    <helperConverters:ApplyConverter x:Key="birthdaysApplyConverter"/>
-    <localConverters:ImagePathToImageSourceConverter x:Key="birthdaysImagePathToImageSourceConverter"/>
-    <BooleanToVisibilityConverter x:Key="birthdaysBooleanToVisibilityConverter"/>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+        <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />-->
+        <ResourceDictionary Source="/Personnel.Appn;component/Styles/Icons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-    <DataTemplate x:Key="BirthdaysEmployeePartTemplate" DataType="{x:Type staticBirthdays:EmployeeViewModel}">
+    <Viewbox Width="20" Height="20" x:Key="birthdaysPlusContent" Stretch="UniformToFill" x:Shared="False">
+        <Path Style="{StaticResource plusPathStyle}"/>
+    </Viewbox>
+    <Viewbox Width="20" Height="20" x:Key="birthdaysMinusContent" Stretch="UniformToFill" x:Shared="False">
+        <Path Style="{StaticResource minusPathStyle}"/>
+    </Viewbox>
+
+    <helperConverters:ReverseBooleanToVisibilityConverter x:Key="birthdaysReverseBooleanToVisibilityConverter"/>
+    <BooleanToVisibilityConverter x:Key="birthdaysBooleanToVisibilityConverter"/>
+    <helperConverters:MultiBooleanANDToBooleanConverter x:Key="birthdaysMultiBooleanANDToBooleanConverter"/>
+    <helperConverters:IsEqualsConverter x:Key="birthdaysIsEqualsConverter"/>
+    <helperConverters:IsEqualVisibilityConverter x:Key="birthdaysIsEqualVisibilityConverter"/>
+    <helperConverters:ApplyConverter x:Key="birthdaysApplyConverter"/>
+    <helperConverters:IsNotEqualsConverter x:Key="birthdaysIsNotEqualsConverter"/>
+    <helperConverters:IsNotEqualVisibilityConverter x:Key="birthdaysIsNotEqualVisibilityConverter"/>
+    <localConverters:IsNotEmptyStringConverter x:Key="birthdaysIsNotEmptyStringConverter"/>
+    <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="birthdaysIsNotEmptyStringToVisibilityConverter"/>
+    <localConverters:ImagePathToImageSourceConverter x:Key="birthdaysImagePathToImageSourceConverter"/>
+
+    <!-- Employee -->
+    <DataTemplate x:Key="BirthdaysEmployeePartTemplate" DataType="{x:Type birthdays:EmployeeViewModel}">
         <md:Card Margin="4">
             <Grid>
                 <Grid.RowDefinitions>
@@ -44,7 +62,7 @@
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0}/{1}">
                             <Binding Path="Department.Name"/>
-                            <Binding Path="Appoint.Name"/>
+                            <Binding Path="Employee.Stuffing.Appoint"/>
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
@@ -52,8 +70,9 @@
         </md:Card>
     </DataTemplate>
 
-    <DataTemplate x:Key="BirthdaysTimePartTemplate" DataType="{x:Type staticBirthdays:TimePartViewModel}">
-        <md:ColorZone Margin="4" MaxWidth="320" MinWidth="240">
+    <!-- Vertical employees -->
+    <DataTemplate x:Key="BirthdaysTimePartTemplate" DataType="{x:Type birthdays:TimePartViewModel}">
+        <md:ColorZone Margin="4" MinWidth="240">
             <md:ColorZone.Style>
                 <Style TargetType="{x:Type md:ColorZone}">
                     <Setter Property="Mode" Value="PrimaryLight"/>
@@ -70,11 +89,15 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding Name}" Margin="4" 
-                            TextWrapping="Wrap" TextTrimming="WordEllipsis" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Name}" Margin="4" VerticalAlignment="Center"
+                           TextWrapping="Wrap" TextTrimming="WordEllipsis" HorizontalAlignment="Center"/>
+
+                <TextBlock Margin="32" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Text="No one employee"
+                           Visibility="{Binding Employee.Count, Converter={StaticResource birthdaysIsEqualVisibilityConverter}, ConverterParameter=0}"/>
                 
                 <ItemsControl ItemsSource="{Binding Employee}" Grid.Row="1"
-                              ItemTemplate="{DynamicResource BirthdaysEmployeePartTemplate}">
+                              ItemTemplate="{StaticResource BirthdaysEmployeePartTemplate}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
@@ -85,18 +108,55 @@
         </md:ColorZone>
     </DataTemplate>
 
-    <DataTemplate x:Key="BirthdaysLevelTemplate" DataType="{x:Type staticBirthdays:LevelViewModel}">
+    <!-- Horizontal parts in level -->
+    <DataTemplate x:Key="BirthdaysLevelTemplate" DataType="{x:Type birthdays:LevelViewModel}">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible">
+            <ItemsControl ItemsSource="{Binding Parts}"
+                          ItemTemplate="{StaticResource BirthdaysTimePartTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </DataTemplate>
+
+    <!-- Level list -->    
+    <DataTemplate x:Key="BirthdaysLevelListTemplate" DataType="{x:Type birthdays:BirthdaysViewModel}">
         <Grid>
-            <ScrollViewer Margin="16" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible">
-                <ItemsControl ItemsSource="{Binding Parts}"
-                              ItemTemplate="{DynamicResource BirthdaysTimePartTemplate}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
+            <ContentPresenter Content="{Binding SelectedLevel}" ContentTemplate="{DynamicResource BirthdaysLevelTemplate}"/>
+            <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="48">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding SelectedLevel.Name}" FontSize="18" FontWeight="Bold"/>
+                <Button Content="{StaticResource birthdaysPlusContent}" Grid.Column="1" Command="{Binding LevelUpCommand}"/>
+                <Button Content="{StaticResource birthdaysMinusContent}" Grid.Column="2" Command="{Binding LevelDownCommand}"/>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <!-- Birthdays window -->
+    <DataTemplate DataType="{x:Type birthdays:BirthdaysViewModel}" x:Key="BirthdaysViewTemplate">
+        <Grid>
+            <!-- Show list -->
+            <ContentPresenter Margin="16"
+                              Content="{Binding}"
+                              ContentTemplate="{StaticResource BirthdaysLevelListTemplate}"/>
+            <StackPanel>
+                <!--Loading part-->
+                <md:ColorZone Mode="Light" Padding="16"
+                              Visibility="{Binding IsLoaded, Converter={StaticResource birthdaysReverseBooleanToVisibilityConverter}}">
+                    <WrapPanel Orientation="Horizontal">
+                        <ProgressBar Style="{DynamicResource MaterialDesignCircularProgressBar}" IsIndeterminate="True" VerticalAlignment="Center"/>
+                        <TextBlock Text="Load birthdays..." Margin="8" VerticalAlignment="Center"/>
+                    </WrapPanel>
+                </md:ColorZone>
+                
+            </StackPanel>
         </Grid>
     </DataTemplate>
 

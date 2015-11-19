@@ -1,0 +1,222 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+                    xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
+                    xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                    xmlns:notifications="clr-namespace:Personnel.Application.ViewModels.Notifications;assembly=Personnel.Application.ViewModels">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Styles/Icons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Viewbox Width="20" Height="20" x:Key="notificationsCancelContent" Stretch="UniformToFill" x:Shared="False">
+        <Path Style="{StaticResource cancelPathStyle}"/>
+    </Viewbox>
+
+    <helperConverters:ReverseBooleanToVisibilityConverter x:Key="notificationsReverseBooleanToVisibilityConverter"/>
+    <BooleanToVisibilityConverter x:Key="notificationsBooleanToVisibilityConverter"/>
+    <helperConverters:MultiBooleanANDToBooleanConverter x:Key="notificationsMultiBooleanANDToBooleanConverter"/>
+    <helperConverters:IsEqualsConverter x:Key="notificationsIsEqualsConverter"/>
+    <helperConverters:ApplyConverter x:Key="notificationsApplyConverter"/>
+    <helperConverters:IsNotEqualsConverter x:Key="notificationsIsNotEqualsConverter"/>
+    <helperConverters:IsNotEqualVisibilityConverter x:Key="notificationsIsNotEqualVisibilityConverter"/>
+    <localConverters:IsNotEmptyStringConverter x:Key="notificationsIsNotEmptyStringConverter"/>
+    <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="notificationsIsNotEmptyStringToVisibilityConverter"/>
+    <localConverters:ImagePathToImageSourceConverter x:Key="notificationsImagePathToImageSourceConverter"/>
+
+    <!-- Template window for selected notification -->
+    <DataTemplate x:Key="NotificationDetailsTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+
+            <md:Card Grid.Row="1" Grid.Column="1" MinWidth="400" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsHitTestVisible="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <md:ColorZone Grid.ColumnSpan="999" Grid.RowSpan="999" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <md:ColorZone.Style>
+                                <Style TargetType="{x:Type md:ColorZone}">
+                                    <Setter Property="Mode" Value="Accent"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Notification.IsError}" Value="True">
+                                            <Setter Property="Mode" Value="Dark"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </md:ColorZone.Style>
+                        </md:ColorZone>
+
+                        <Image Width="48" Height="48" Margin="8,8" Grid.Column="0" Grid.RowSpan="999"
+                               Visibility="{Binding HasIcon, Converter={StaticResource notificationsBooleanToVisibilityConverter}}"
+                               Source="{Binding Notification.IconUrl, Converter={StaticResource notificationsImagePathToImageSourceConverter}}"/>
+
+                        <TextBlock Text="{Binding Notification.Header}" Grid.Column="1" Grid.Row="0" FontWeight="Bold" Margin="16,8,0,4"/>
+                        <TextBlock Text="{Binding Notification.Created, StringFormat=dd.MM.yyyy hh:mm:ss}" Grid.Column="1" Grid.Row="1" Margin="16,4,0,8"/>
+                        
+                        <Button Margin="8,8" Cursor="Hand" Grid.Column="2" Grid.RowSpan="999" VerticalAlignment="Center"
+                                Style="{DynamicResource MaterialDesignFloatingActionLightButton}" 
+                                Command="{Binding CloseCommand}"
+                                Content="{StaticResource notificationsCancelContent}">
+                            <Button.LayoutTransform>
+                                <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                            </Button.LayoutTransform>
+                        </Button>
+                    </Grid>
+
+                    <TextBox Text="{Binding Notification.Message, Mode=OneWay}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                             Margin="16" IsReadOnly="True" Grid.Row="1" MinLines="5" MaxLines="99"/>
+                </Grid>
+            </md:Card>
+        </Grid>
+    </DataTemplate>
+    
+    <!-- One notification template -->
+    <DataTemplate x:Key="NotificationTemplate" DataType="{x:Type notifications:NotificationViewModel}">
+        <md:Card Margin="2,2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <md:ColorZone Width="20" Grid.Column="0" VerticalAlignment="Stretch">
+                    <md:ColorZone.Style>
+                        <Style TargetType="{x:Type md:ColorZone}">
+                            <Setter Property="Mode" Value="Accent"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Notification.IsError}" Value="True">
+                                    <Setter Property="Mode" Value="Dark"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </md:ColorZone.Style>
+                </md:ColorZone>
+
+                <Image Width="48" Height="48" Margin="4,4" Grid.Column="1"
+                       Visibility="{Binding HasIcon, Converter={StaticResource notificationsBooleanToVisibilityConverter}}"
+                       Source="{Binding Notification.IconUrl, Converter={StaticResource notificationsImagePathToImageSourceConverter}}"/>
+
+                <Grid Margin="4" Grid.Column="2" x:Name="PART_Caption">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding Notification.Header}" Grid.Row="0" FontWeight="Bold" FontSize="8"/>
+                    <TextBlock Text="{Binding Notification.Message}" Grid.Row="1" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding Notification.Created, StringFormat=dd.MM.yyyy hh:mm:ss}" Grid.Row="2" FontSize="8"
+                               TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"/>
+                </Grid>
+
+                <Border Background="Transparent" Grid.ColumnSpan="999" Cursor="Hand">
+                    <Border.InputBindings>
+                        <MouseBinding MouseAction="LeftClick" Command="{Binding OpenCommand}"/>
+                    </Border.InputBindings>
+                </Border>
+
+                <Button Style="{DynamicResource MaterialDesignFloatingActionLightButton}" VerticalAlignment="Center"
+                        Margin="8,8" Cursor="Hand" Grid.Column="3"
+                        Command="{Binding CloseCommand}"
+                        Content="{StaticResource notificationsCancelContent}">
+                    <Button.LayoutTransform>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                    </Button.LayoutTransform>
+                </Button>
+            </Grid>
+        </md:Card>
+    </DataTemplate>
+
+    <!-- Notification list -->
+    <DataTemplate x:Key="NotificationsListTemplate" DataType="{x:Type notifications:NotificationsViewModel}">
+        <DataTemplate.Resources>
+            <CollectionViewSource Source="{Binding Notifications}" x:Key="sortedNotifications">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="Notification.Created" Direction="Descending"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+        </DataTemplate.Resources>
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Notifications}"
+                            ItemTemplate="{StaticResource NotificationTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" ItemWidth="320" ItemHeight="60"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </DataTemplate>
+
+    <!-- Notification window -->
+    <DataTemplate DataType="{x:Type notifications:NotificationsViewModel}" x:Key="NotificationsViewTemplate">
+        <Grid>
+            <!-- Show list -->
+            <Grid>
+                <ContentPresenter Margin="16"
+                                  Content="{Binding}"
+                                  ContentTemplate="{StaticResource NotificationsListTemplate}"/>
+                <Border Background="#99000000" Visibility="{Binding IsLoaded, Converter={StaticResource notificationsReverseBooleanToVisibilityConverter}}"/>
+
+                 <!--Selected notification--> 
+                <Border Background="#99000000"
+                        Visibility="{Binding SelectedNotification, Converter={StaticResource notificationsIsNotEqualVisibilityConverter}}">
+                    <Border.InputBindings>
+                        <MouseBinding Command="{Binding ClearSelectionCommand}" MouseAction="LeftClick"/>
+                    </Border.InputBindings>
+                    <ContentPresenter Content="{Binding SelectedNotification}"
+                                      ContentTemplate="{StaticResource NotificationDetailsTemplate}"
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center" />
+                </Border>
+            </Grid>
+
+            <StackPanel>
+                 <!--Loading part--> 
+                <md:ColorZone Mode="Light" Padding="16"
+                              Visibility="{Binding IsLoaded, Converter={StaticResource notificationsReverseBooleanToVisibilityConverter}}">
+                    <WrapPanel Orientation="Horizontal">
+                        <ProgressBar Style="{DynamicResource MaterialDesignCircularProgressBar}" IsIndeterminate="True" VerticalAlignment="Center"/>
+                        <TextBlock Text="Load notifications..." Margin="8" VerticalAlignment="Center"/>
+                    </WrapPanel>
+                </md:ColorZone>
+
+                 <!--Error--> 
+                <md:ColorZone Mode="Dark" Padding="16"
+                              Visibility="{Binding Error, Converter={StaticResource notificationsIsNotEmptyStringToVisibilityConverter}}">
+                    <WrapPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Error, StringFormat={}Error: {0}}" Margin="8" VerticalAlignment="Center"/>
+                    </WrapPanel>
+                </md:ColorZone>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

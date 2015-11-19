@@ -8,16 +8,28 @@ using System.Windows.Input;
 
 namespace Personnel.Application.ViewModels.Notifications
 {
-    public class NotificationDataViewModel
+    public class NotificationViewModel : NotifyPropertyChangedBase
     {
-        public NotificationDataViewModel(ServiceWorkers.NotificationItem notification)
+        public NotificationViewModel(ServiceWorkers.NotificationItem notification)
         {
             if (notification == null)
                 throw new ArgumentNullException(nameof(notification));
             Notification = notification;
+            notification.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(notification.IconUrl))
+                    RaisePropertyChanged(() => HasIcon);
+                if (e.PropertyName == nameof(notification.Message))
+                    RaisePropertyChanged(() => HasMessage);
+            };
         }
 
-        public ServiceWorkers.NotificationItem Notification { get; private set; }
+        private ServiceWorkers.NotificationItem notification;
+        public ServiceWorkers.NotificationItem Notification
+        {
+            get { return notification; }
+            private set { if (value == notification) return; notification = value;  RaisePropertyChanged(); }
+        }
 
         /// <summary>
         /// Has notification icon

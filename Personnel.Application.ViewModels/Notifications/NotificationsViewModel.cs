@@ -17,17 +17,17 @@ namespace Personnel.Application.ViewModels.Notifications
     {
         private readonly ServiceWorkers.NotificationsWorker worker = new ServiceWorkers.NotificationsWorker();
 
-        private NotifyCollection<NotificationDataViewModel> notifications = new NotifyCollection<NotificationDataViewModel>();
-        public IReadOnlyNotifyCollection<NotificationDataViewModel> Notifications => notifications;
+        private NotifyCollection<NotificationViewModel> notifications = new NotifyCollection<NotificationViewModel>();
+        public IReadOnlyNotifyCollection<NotificationViewModel> Notifications => notifications;
 
         #region SelectedNotification
 
-        public static readonly DependencyProperty SelectedNotificationProperty = DependencyProperty.Register(nameof(SelectedNotification), typeof(NotificationDataViewModel),
+        public static readonly DependencyProperty SelectedNotificationProperty = DependencyProperty.Register(nameof(SelectedNotification), typeof(NotificationViewModel),
             typeof(NotificationsViewModel), new PropertyMetadata(null, (s, e) => { }));
 
-        public NotificationDataViewModel SelectedNotification
+        public NotificationViewModel SelectedNotification
         {
-            get { return (NotificationDataViewModel)GetValue(SelectedNotificationProperty); }
+            get { return (NotificationViewModel)GetValue(SelectedNotificationProperty); }
             private set { SetValue(SelectedNotificationProperty, value); }
         }
 
@@ -156,11 +156,11 @@ namespace Personnel.Application.ViewModels.Notifications
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, a);
         }
 
-        private NotificationDataViewModel FromItem(ServiceWorkers.NotificationItem item)
+        private NotificationViewModel FromItem(ServiceWorkers.NotificationItem item)
         {
-            var n = new NotificationDataViewModel(item);
-            n.OnCloseClick += (s, e) => Remove(((NotificationDataViewModel)s).Notification);
-            n.OnOpenClick += (s, e) => SelectedNotification = (NotificationDataViewModel)s;
+            var n = new NotificationViewModel(item);
+            n.OnCloseClick += (s, e) => Remove(((NotificationViewModel)s).Notification);
+            n.OnOpenClick += (s, e) => SelectedNotification = (NotificationViewModel)s;
 
             return n;
         }
@@ -190,10 +190,14 @@ namespace Personnel.Application.ViewModels.Notifications
             else if (e.Action == ServiceWorkers.NotificationListAction.Remove)
             {
                 RunUnderDispatcher(new Action(() =>
-                   e.Items.Join(notifications, i => i, n => n.Notification, (i, n) => n, ServiceWorkers.NotificationsWorker.GenericComparer)
-                        .ToList()
-                        .ForEach(i => notifications.Remove(i))
-                ));
+                {
+                    if (SelectedNotification != null && e.Items.Contains(SelectedNotification.Notification, ServiceWorkers.NotificationsWorker.GenericComparer))
+                        SelectedNotification = null;
+
+                    e.Items.Join(notifications, i => i, n => n.Notification, (i, n) => n, ServiceWorkers.NotificationsWorker.GenericComparer)
+                         .ToList()
+                         .ForEach(i => notifications.Remove(i));
+                }));
             }
         }
 
