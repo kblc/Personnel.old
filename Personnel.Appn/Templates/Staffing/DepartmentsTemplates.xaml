@@ -144,7 +144,7 @@
                     </StackPanel>
                 </StackPanel>
                 
-                <ContentPresenter x:Name="PART_Staffing" Visibility="Collapsed"
+                <ContentPresenter x:Name="PART_Staffing" Visibility="Collapsed" Grid.Row="1"
                                   Content="{Binding Data}"
                                   ContentTemplate="{StaticResource DepartmentStaffingTemplate}"/>
             </Grid>
