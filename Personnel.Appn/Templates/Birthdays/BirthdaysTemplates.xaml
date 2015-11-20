@@ -4,12 +4,14 @@
                     xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
                     xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
                     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-                    xmlns:birthdays="clr-namespace:Personnel.Application.ViewModels.Birthdays;assembly=Personnel.Application.ViewModels">
+                    xmlns:birthdays="clr-namespace:Personnel.Application.ViewModels.Birthdays;assembly=Personnel.Application.ViewModels"
+                    xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
         <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />-->
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/EmployeeTemplate.xaml" />
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
@@ -30,44 +32,23 @@
     <helperConverters:IsNotEqualVisibilityConverter x:Key="birthdaysIsNotEqualVisibilityConverter"/>
     <localConverters:IsNotEmptyStringConverter x:Key="birthdaysIsNotEmptyStringConverter"/>
     <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="birthdaysIsNotEmptyStringToVisibilityConverter"/>
-    <localConverters:ImagePathToImageSourceConverter x:Key="birthdaysImagePathToImageSourceConverter"/>
+    <localConverters:StaffingPictureToImageSourceConverter x:Key="birthdaysImagePathToImageSourceConverter"/>
 
     <!-- Employee -->
     <DataTemplate x:Key="BirthdaysEmployeePartTemplate" DataType="{x:Type birthdays:EmployeeViewModel}">
-        <md:Card Margin="4">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <Grid Margin="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ContentPresenter Content="{Binding}" Grid.Column="1" Grid.RowSpan="999"
+                              ContentTemplate="{StaticResource EmployeeTemplate}"/>
 
-                <Image Grid.Column="0" Width="48" Height="48" Grid.RowSpan="2"
-                       Visibility="{Binding HasPhoto, Converter={StaticResource birthdaysBooleanToVisibilityConverter}}"
-                       Source="{Binding Photo, Converter={StaticResource birthdaysImagePathToImageSourceConverter}}"/>
-
-                <TextBlock Grid.Column="1" Grid.Row="0" Margin="4" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} {1} {2}">
-                            <Binding Path="Employee.Surname"/>
-                            <Binding Path="Employee.Name"/>
-                            <Binding Path="Employee.Patronymic"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                <TextBlock Grid.Column="1" Grid.Row="1" Margin="4" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0}/{1}">
-                            <Binding Path="Department.Name"/>
-                            <Binding Path="Employee.Stuffing.Appoint"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-            </Grid>
-        </md:Card>
+            <StackPanel Orientation="Vertical" Margin="8,16" VerticalAlignment="Center" >
+                <TextBlock Text="{Binding Age}" Grid.Row="0" FontSize="23" Margin="0,0,0,2" HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding DayOfBirthday, StringFormat=dd.MM.yyyy}" FontSize="8" HorizontalAlignment="Center" Grid.Row="1"/>
+            </StackPanel>
+        </Grid>
     </DataTemplate>
 
     <!-- Vertical employees -->
@@ -89,8 +70,15 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding Name}" Margin="4" VerticalAlignment="Center"
-                           TextWrapping="Wrap" TextTrimming="WordEllipsis" HorizontalAlignment="Center"/>
+                <TextBlock Margin="4" VerticalAlignment="Center"
+                           TextWrapping="Wrap" TextTrimming="WordEllipsis" HorizontalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} ({1})">
+                            <Binding Path="Name"/>
+                            <Binding Path="Employee.Count"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
 
                 <TextBlock Margin="32" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
                            Text="No one employee"
@@ -126,7 +114,11 @@
     <DataTemplate x:Key="BirthdaysLevelListTemplate" DataType="{x:Type birthdays:BirthdaysViewModel}">
         <Grid>
             <ContentPresenter Content="{Binding SelectedLevel}" ContentTemplate="{DynamicResource BirthdaysLevelTemplate}"/>
-            <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="48">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="48">
+                <Button Content="{StaticResource birthdaysPlusContent}" Command="{Binding LevelUpCommand}"/>
+                <Button Content="{StaticResource birthdaysMinusContent}" Command="{Binding LevelDownCommand}"/>
+            </StackPanel>
+            <!--<Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="48">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -135,7 +127,7 @@
                 <TextBlock Text="{Binding SelectedLevel.Name}" FontSize="18" FontWeight="Bold"/>
                 <Button Content="{StaticResource birthdaysPlusContent}" Grid.Column="1" Command="{Binding LevelUpCommand}"/>
                 <Button Content="{StaticResource birthdaysMinusContent}" Grid.Column="2" Command="{Binding LevelDownCommand}"/>
-            </Grid>
+            </Grid>-->
         </Grid>
     </DataTemplate>
 

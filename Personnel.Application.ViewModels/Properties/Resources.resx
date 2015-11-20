@@ -138,6 +138,9 @@
   <data name="UNLOADED" xml:space="preserve">
     <value>Unloaded</value>
   </data>
+  <data name="VMBIRTHDAYS_BY3MONTH" xml:space="preserve">
+    <value>By 3 months</value>
+  </data>
   <data name="VMBIRTHDAYS_BYDAY" xml:space="preserve">
     <value>By day</value>
   </data>

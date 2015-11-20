@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
+                    xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
+                    xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Styles/Icons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Viewbox Width="20" Height="20" x:Key="departmentStaffingPlusContent" Stretch="UniformToFill" x:Shared="False">
+        <Path Style="{StaticResource plusPathStyle}"/>
+    </Viewbox>
+    <Viewbox Width="20" Height="20" x:Key="departmentStaffingMinusContent" Stretch="UniformToFill" x:Shared="False">
+        <Path Style="{StaticResource minusPathStyle}"/>
+    </Viewbox>
+
+    <helperConverters:ReverseBooleanToVisibilityConverter x:Key="departmentStaffingReverseBooleanToVisibilityConverter"/>
+    <BooleanToVisibilityConverter x:Key="departmentStaffingBooleanToVisibilityConverter"/>
+    <helperConverters:MultiBooleanANDToBooleanConverter x:Key="departmentStaffingMultiBooleanANDToBooleanConverter"/>
+    <helperConverters:IsEqualsConverter x:Key="departmentStaffingIsEqualsConverter"/>
+    <helperConverters:ApplyConverter x:Key="departmentStaffingApplyConverter"/>
+    <helperConverters:IsNotEqualsConverter x:Key="departmentStaffingIsNotEqualsConverter"/>
+    <helperConverters:IsNotEqualVisibilityConverter x:Key="departmentStaffingIsNotEqualVisibilityConverter"/>
+    <localConverters:IsNotEmptyStringConverter x:Key="departmentStaffingIsNotEmptyStringConverter"/>
+    <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="departmentStaffingIsNotEmptyStringToVisibilityConverter"/>
+
+    <DataTemplate x:Key="DepartmentStaffingTemplate" DataType="{x:Type staffing:DepartmentAndStaffingData}">
+        <Grid DataContext="{Binding}" x:Name="DepartmentStaffingRoot" Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <ItemsControl ItemsSource="{Binding Staffing}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type staffing:EmployeeAndStaffingData}">
+                        
+                        
+                        
+                        <TextBlock Text="{Binding Employee.Employee.Surname}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

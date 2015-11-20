@@ -86,8 +86,17 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
 
-                            <controls:ContentStorageControl IsLoaded="{Binding Source={StaticResource birthdays}, Path=IsLoaded}"
-                                                            Caption="Birthdays">
+                            <controls:ContentStorageControl IsLoaded="{Binding Source={StaticResource staffing}, Path=IsLoaded}"
+                                                            Caption="Departments" Header="Departments">
+                                <controls:ContentStorageControl.Content>
+                                    <ContentPresenter Content="{StaticResource staffing}" ContentTemplate="{StaticResource DepartmentsViewTemplate}"/>
+                                </controls:ContentStorageControl.Content>
+                            </controls:ContentStorageControl>
+
+                            <controls:ContentStorageControl IsLoaded="{Binding Source={StaticResource birthdays}, Path=IsLoaded}"> <!--Caption="Birthdays">-->
+                                <controls:ContentStorageControl.Caption>
+                                    <TextBlock Text="{Binding Source={StaticResource birthdays}, Path=SelectedLevel.Name, StringFormat=Birthdays ({0})}"/>
+                                </controls:ContentStorageControl.Caption>
                                 <controls:ContentStorageControl.Header>
                                     <TextBlock Text="{Binding Source={StaticResource birthdays}, Path=Today.Count, StringFormat=Birthdays ({0})}"/>
                                 </controls:ContentStorageControl.Header>
@@ -105,13 +114,6 @@
                                     <ContentPresenter Content="{StaticResource notifications}" ContentTemplate="{DynamicResource NotificationsViewTemplate}"/>
                                 </controls:ContentStorageControl.Content>
                             </controls:ContentStorageControl>
-
-                            <controls:ContentStorageControl IsLoaded="{Binding Source={StaticResource staffing}, Path=IsLoaded}"
-                                                            Caption="Departments" Header="Departments">
-                                <controls:ContentStorageControl.Content>
-                                    <ContentPresenter Content="{StaticResource staffing}" ContentTemplate="{StaticResource DepartmentsViewTemplate}"/>
-                                </controls:ContentStorageControl.Content>
-                            </controls:ContentStorageControl>
                         </ListBox>
                     </StackPanel>
                 </md:DrawerHost.LeftDrawerContent>
@@ -127,8 +129,11 @@
                             <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
                                     x:Name="MenuToggleButton" VerticalAlignment="Center"/>
 
-                            <TextBlock Text="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                   Grid.Column="1" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="23"/>
+                            <ContentControl Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                            Grid.Column="1" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="23"/>
+                            
+                            <!--<TextBlock Text="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   Grid.Column="1" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="23"/>-->
 
                             <Border Grid.Column="2" DataContext="{StaticResource history}" VerticalAlignment="Center" Width="60">
                                 <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 

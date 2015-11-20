@@ -10,6 +10,7 @@
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Icons.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/DepartmentStaffingTemplates.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Viewbox Width="20" Height="20" x:Key="plusContent" Stretch="UniformToFill" x:Shared="False">
@@ -86,17 +87,23 @@
                             <MouseBinding MouseAction="LeftClick" Command="{Binding SetToEditModeCommand}"/>
                         </StackPanel.InputBindings>
 
-                        <TextBlock Text="{Binding Data.Id, StringFormat=[{0}]}" Margin="4" IsEnabled="False"
+                        <TextBlock Text="{Binding Data.Department.Id, StringFormat=[{0}]}" Margin="4" IsEnabled="False"
                                    Visibility="{Binding IsDebugView, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
                                    VerticalAlignment="Center"
                                    FontSize="{Binding ElementName=PART_DepartmentName, Path=FontSize, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-4}"/>
 
-                        <TextBlock Text="{Binding Data.Name}" VerticalAlignment="Center" x:Name="PART_DepartmentName"/>
+                        <TextBlock Text="{Binding Data.Department.Name}" VerticalAlignment="Center" x:Name="PART_DepartmentName"/>
 
-                        <TextBlock Text="{Binding Childs.Count, StringFormat=(childs: {0})}" Margin="8"
+                        <TextBlock Margin="8" IsEnabled="False" VerticalAlignment="Center" 
                                    Visibility="{Binding IsDebugView, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
-                                   IsEnabled="False" VerticalAlignment="Center" 
-                                   FontSize="{Binding ElementName=PART_DepartmentName, Path=FontSize, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-4}"/>
+                                   FontSize="{Binding ElementName=PART_DepartmentName, Path=FontSize, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-4}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}(departments: {0}, staffing: {1})">
+                                    <Binding Path="Childs.Count"/>
+                                    <Binding Path="Data.Staffing.Count"/> 
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </StackPanel>
 
                     <StackPanel x:Name="PART_EditBox" Margin="4" Visibility="Collapsed" Orientation="Horizontal" VerticalAlignment="Center">
@@ -136,6 +143,10 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
+                
+                <ContentPresenter x:Name="PART_Staffing" Visibility="Collapsed"
+                                  Content="{Binding Data}"
+                                  ContentTemplate="{StaticResource DepartmentStaffingTemplate}"/>
             </Grid>
         </Grid>
         <HierarchicalDataTemplate.Triggers>
@@ -152,6 +163,9 @@
             </DataTrigger>
             <DataTrigger Binding="{Binding Error, Converter={StaticResource departmentsIsNotEmptyStringConverter}}" Value="True">
                 <Setter TargetName="PART_Error" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsStaffingView}" Value="True">
+                <Setter TargetName="PART_Staffing" Property="Visibility" Value="Visible"/>
             </DataTrigger>
         </HierarchicalDataTemplate.Triggers>
     </HierarchicalDataTemplate>

@@ -124,6 +124,15 @@ namespace Personnel.Application.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By 3 months.
+        /// </summary>
+        internal static string VMBIRTHDAYS_BY3MONTH {
+            get {
+                return ResourceManager.GetString("VMBIRTHDAYS_BY3MONTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to By day.
         /// </summary>
         internal static string VMBIRTHDAYS_BYDAY {

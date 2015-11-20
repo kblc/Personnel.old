@@ -25,7 +25,7 @@
     <helperConverters:IsNotEqualVisibilityConverter x:Key="notificationsIsNotEqualVisibilityConverter"/>
     <localConverters:IsNotEmptyStringConverter x:Key="notificationsIsNotEmptyStringConverter"/>
     <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="notificationsIsNotEmptyStringToVisibilityConverter"/>
-    <localConverters:ImagePathToImageSourceConverter x:Key="notificationsImagePathToImageSourceConverter"/>
+    <localConverters:StaffingPictureToImageSourceConverter x:Key="notificationsImagePathToImageSourceConverter"/>
 
     <!-- Template window for selected notification -->
     <DataTemplate x:Key="NotificationDetailsTemplate">

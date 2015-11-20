@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Personnel.Application.ViewModels.Birthdays
 {
-    public class EmployeeViewModel : Staffing.EmployeeInfoViewMode
+    public class EmployeeViewModel : Staffing.EmployeeViewModel
     {
         private int age = default(int);
         /// <summary>
@@ -31,14 +31,22 @@ namespace Personnel.Application.ViewModels.Birthdays
         /// </summary>
         public bool IsAnniversary { get { return Age % 5 == 0; } }
 
-        private bool isBirthdayGone = true;
         /// <summary>
         /// Is birthday gone
         /// </summary>
         public bool IsBirthdayGone
         {
-            get { return isBirthdayGone; }
-            set { if (isBirthdayGone == value) return; isBirthdayGone = value; RaisePropertyChanged(() => IsBirthdayGone); }
+            get { return DayOfBirthday < DateTime.UtcNow; }
+        }
+
+        private DateTime dayOfBirthday;
+        /// <summary>
+        /// Is birthday gone
+        /// </summary>
+        public DateTime DayOfBirthday
+        {
+            get { return dayOfBirthday; }
+            set { if (dayOfBirthday == value) return; dayOfBirthday = value; RaisePropertyChanged(() => DayOfBirthday); RaisePropertyChanged(() => IsBirthdayGone); }
         }
     }
 }

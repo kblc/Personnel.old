@@ -16,6 +16,7 @@ namespace Personnel.Application.ViewModels.Staffing
     {
         bool CanManageDepartments { get; }
         bool IsDebugView { get; }
+        bool IsStaffingView { get; }
     }
 
     public interface ITreeItem<T, TStore>
@@ -41,15 +42,69 @@ namespace Personnel.Application.ViewModels.Staffing
         TStore Data { get; set; }
     }
 
-    public interface ITreeDepartmentItem : ITreeItem<DepartmentEditViewModel, StaffingService.Department> { }
+    public class EmployeeAndStaffingData : Additional.NotifyPropertyChangedBase
+    {
+        private StaffingService.Staffing staffing = null;
+        public StaffingService.Staffing Staffing
+        {
+            get { return staffing; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(Staffing));
+
+                if (staffing == value)
+                    return;
+                staffing = value;
+                RaisePropertyChanged(() => Staffing);
+            }
+        }
+
+        private EmployeeViewModel employee = null;
+        public EmployeeViewModel Employee
+        {
+            get { return employee; }
+            set
+            {
+                if (employee == value)
+                    return;
+                employee = value;
+                RaisePropertyChanged(() => Employee);
+            }
+        }
+    }
+
+    public class DepartmentAndStaffingData : Additional.NotifyPropertyChangedBase
+    {
+        private StaffingService.Department department = null;
+        public StaffingService.Department Department
+        {
+            get { return department; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(Department));
+
+                if (department == value)
+                    return;
+                department = value;
+                RaisePropertyChanged(() => Department);
+            }
+        }
+
+        public ObservableCollection<EmployeeAndStaffingData> Staffing { get; }
+            = new ObservableCollection<EmployeeAndStaffingData>();
+    }
+
+    public interface ITreeDepartmentItem : ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData> { }
 
     public class DepartmentEditViewModel : Additional.NotifyPropertyChangedBase, ITreeDepartmentItem
     {
         public DepartmentEditViewModel() : this(false) { }
         public DepartmentEditViewModel(bool createEdited) { IsEditMode = createEdited; }
 
-        private StaffingService.Department data = null;
-        public StaffingService.Department Data
+        private DepartmentAndStaffingData data = null;
+        public DepartmentAndStaffingData Data
         {
             get { return data; }
             set
@@ -61,14 +116,14 @@ namespace Personnel.Application.ViewModels.Staffing
                     return;
                 data = value;
                 if (data != null)
-                    DepartmentName = data.Name;
+                    DepartmentName = data?.Department?.Name;
                 RaisePropertyChanged(() => Data);
                 RaiseAllComamnds();
             }
         }
 
-        private ITreeItem<DepartmentEditViewModel, Department> parent = null;
-        public ITreeItem<DepartmentEditViewModel, Department> Parent
+        private ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData> parent = null;
+        public ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData> Parent
         {
             get { return parent; }
             set
@@ -106,8 +161,8 @@ namespace Personnel.Application.ViewModels.Staffing
             }
         }
 
-        public ObservableCollection<ITreeItem<DepartmentEditViewModel, Department>> Childs { get; } = 
-            new ObservableCollection<ITreeItem<DepartmentEditViewModel, Department>> ();
+        public ObservableCollection<ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>> Childs { get; } = 
+            new ObservableCollection<ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>> ();
 
         private Helpers.WPF.DelegateCommand deleteCommand = null;
         public ICommand DeleteCommand
@@ -134,13 +189,26 @@ namespace Personnel.Application.ViewModels.Staffing
             {
                 return cancelCommand ?? (cancelCommand = new Helpers.WPF.DelegateCommand(o =>
                 {
-                    if (IsNew)
+                    if (Data.Department.Id == 0)
                         RaiseOnDelete();
                     else
                         IsEditMode = false;
                 }, (o) => CanManage && !IsBusy && !IsDeleted && IsEditMode));
             }
         }
+
+        private Helpers.WPF.DelegateCommand copyErrorCommand = null;
+        public ICommand CopyErrorCommand
+        {
+            get
+            {
+                return copyErrorCommand ?? (copyErrorCommand = new Helpers.WPF.DelegateCommand(o =>
+                {
+                    System.Windows.Clipboard.SetText(Error);
+                }));
+            }
+        }
+
 
         private Helpers.WPF.DelegateCommand setToEditModeCommand = null;
         public ICommand SetToEditModeCommand
@@ -151,7 +219,7 @@ namespace Personnel.Application.ViewModels.Staffing
         private Helpers.WPF.DelegateCommand addChildCommand = null;
         public ICommand AddChildCommand
         {
-            get { return addChildCommand ?? (addChildCommand = new Helpers.WPF.DelegateCommand((o) => RaiseOnAddChild(), (o) => CanManage && !IsBusy && !IsNew && !IsDeleted && !IsEditMode)); }
+            get { return addChildCommand ?? (addChildCommand = new Helpers.WPF.DelegateCommand((o) => RaiseOnAddChild(), (o) => CanManage && !IsBusy && !IsDeleted && !IsEditMode)); }
         }
 
         private void RaiseAllComamnds()
@@ -175,7 +243,7 @@ namespace Personnel.Application.ViewModels.Staffing
                 if (isEditMode == value)
                     return;
                 isEditMode = value;
-                DepartmentName = Data?.Name;
+                DepartmentName = Data?.Department?.Name;
                 RaisePropertyChanged(() => IsEditMode);
                 RaiseAllComamnds();
             }
@@ -187,8 +255,6 @@ namespace Personnel.Application.ViewModels.Staffing
             get { return isBusy; }
             private set { if (isBusy == value) return; isBusy = value; RaisePropertyChanged(() => IsBusy); RaiseAllComamnds(); }
         }
-
-        public bool IsNew { get { return Data?.Id == 0; } }
 
         private bool isDeleted = false;
         public bool IsDeleted
@@ -222,6 +288,7 @@ namespace Personnel.Application.ViewModels.Staffing
 
         public bool CanManage => Owner?.CanManageDepartments ?? false;
         public bool IsDebugView => Owner?.IsDebugView ?? false;
+        public bool IsStaffingView => Owner?.IsStaffingView ?? false;
 
         private string GetExceptionText(string whereCatched, Exception ex)
         {
@@ -238,7 +305,7 @@ namespace Personnel.Application.ViewModels.Staffing
             IsBusy = true;
             try
             {
-                Data.Name = DepartmentName;
+                Data.Department.Name = DepartmentName;
                 if (await RaiseOnChangeAsync())
                 {
                     IsEditMode = false;
@@ -255,9 +322,9 @@ namespace Personnel.Application.ViewModels.Staffing
         {
             var srvc = new StaffingService.StaffingServiceClient();
 
-            var act = (Data.Id == 0)
-                    ? srvc.DepartmentInsertAsync(Data)
-                    : srvc.DepartmentUpdateAsync(Data);
+            var act = (Data.Department.Id == 0)
+                    ? srvc.DepartmentInsertAsync(Data.Department)
+                    : srvc.DepartmentUpdateAsync(Data.Department);
 
             var res = act
                 .ContinueWith<bool>(t =>
@@ -271,7 +338,7 @@ namespace Personnel.Application.ViewModels.Staffing
                             Error = t.Result.Error;
                         else
                         {
-                            this.Data.CopyObjectFrom(t.Result.Value);
+                            this.Data.Department.CopyObjectFrom(t.Result.Value);
                             return true;
                         }
                         return false;
@@ -291,13 +358,14 @@ namespace Personnel.Application.ViewModels.Staffing
             IsDeleted = true;
             try
             {
-                var deleted = (IsNew)
+                var deleted = (Data.Department.Id == 0)
                     ? true
                     : await RaiseOnDeleteAsync();
                 
                 if (deleted && Parent != null && Parent.Childs.Contains(this))
                     Parent.Childs.Remove(this);
 
+                IsEditMode = false;
                 IsBusy = false;
             }
             catch (Exception ex)
@@ -307,8 +375,8 @@ namespace Personnel.Application.ViewModels.Staffing
         }
         private async Task<bool> RaiseOnDeleteAsync()
         {
-            var allDepsToDelete = this.Traverse<ITreeItem<DepartmentEditViewModel, Department>>(i => i.Childs);
-            var allDepsIdsToDelete = allDepsToDelete.Select(i => i.Data.Id).ToArray();
+            var allDepsToDelete = this.Traverse<ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>>(i => i.Childs);
+            var allDepsIdsToDelete = allDepsToDelete.Select(i => i.Data.Department.Id).ToArray();
 
             var srvc = new StaffingService.StaffingServiceClient();
             var res = srvc.DepartmentRemoveRangeAsync(allDepsIdsToDelete)
@@ -342,10 +410,13 @@ namespace Personnel.Application.ViewModels.Staffing
             {
                 var newDep = new DepartmentEditViewModel(true)
                 {
-                    Data = new StaffingService.Department()
+                    Data = new DepartmentAndStaffingData()
                     {
-                        ParentId = Data.Id,
-                        Name = Properties.Resources.DEPARTMENTEDIT_NewDepartmentName
+                        Department = new StaffingService.Department()
+                        {
+                            ParentId = Data.Department.Id,
+                            Name = Properties.Resources.DEPARTMENTEDIT_NewDepartmentName
+                        }
                     },
                     Parent = this,
                     Owner = this.Owner,

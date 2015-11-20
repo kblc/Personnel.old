@@ -12,10 +12,10 @@ namespace Personnel.Appn.Controls
     {
         #region Caption
 
-        public static readonly DependencyProperty CaptionProperty = DependencyProperty.Register(nameof(Caption), typeof(string),
+        public static readonly DependencyProperty CaptionProperty = DependencyProperty.Register(nameof(Caption), typeof(object),
             typeof(ContentStorageControl), new PropertyMetadata(default(string)));
 
-        public string Caption
+        public object Caption
         {
             get { return (string)this.GetValue(CaptionProperty); }
             set { this.SetValue(CaptionProperty, value); }

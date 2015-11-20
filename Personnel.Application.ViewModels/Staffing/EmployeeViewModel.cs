@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Personnel.Application.ViewModels.Staffing
 {
-    public class EmployeeInfoViewMode : NotifyPropertyChangedBase
+    public class EmployeeViewModel : NotifyPropertyChangedBase
     {
         private StaffingService.Employee employee = null;
         public StaffingService.Employee Employee

@@ -25,5 +25,16 @@ namespace Personnel.Application.ViewModels.Birthdays
             get { return name; }
             set { if (name == value) return; name = value; RaisePropertyChanged(() => Name); }
         }
+
+        private TimeSpan period;
+        /// <summary>
+        /// Level period
+        /// </summary>
+        public TimeSpan Period
+        {
+            get { return period; }
+            set { if (period == value) return; period = value; RaisePropertyChanged(() => Period); }
+        }
+
     }
 }

@@ -9,17 +9,25 @@ using System.Windows.Media.Imaging;
 
 namespace Personnel.Appn.Converters
 {
-    public class ImagePathToImageSourceConverter : IValueConverter
+    public class StaffingPictureToImageSourceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var image = new BitmapImage();
+
+            //var pic = value as Application.ViewModels.StaffingService.Picture;
+            //if (pic != null)
+            //{
+
+            //}
+
             var str = value as string;
             if (!string.IsNullOrWhiteSpace(str))
             {
                 image.BeginInit();
                 if (!string.IsNullOrWhiteSpace(str))
                 {
+                    //image.StreamSource = 
                     image.UriSource = new Uri((string)value);
                 }
                 image.DecodePixelWidth = 50;
