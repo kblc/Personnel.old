@@ -10,6 +10,7 @@
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Icons.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/EmployeeTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Viewbox Width="20" Height="20" x:Key="departmentStaffingPlusContent" Stretch="UniformToFill" x:Shared="False">
@@ -31,18 +32,43 @@
 
     <DataTemplate x:Key="DepartmentStaffingTemplate" DataType="{x:Type staffing:DepartmentAndStaffingData}">
         <Grid DataContext="{Binding}" x:Name="DepartmentStaffingRoot" Margin="16">
-            <Grid.RowDefinitions>
+            <!--<Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+            </Grid.RowDefinitions>-->
 
-            <ItemsControl ItemsSource="{Binding Staffing}">
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                
+            </StackPanel>-->
+            
+            <ItemsControl ItemsSource="{Binding Staffing}" Grid.Row="1">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type staffing:EmployeeAndStaffingData}">
-                        
-                        
-                        
-                        <TextBlock Text="{Binding Employee.Employee.Surname}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ContentPresenter Grid.Column="0" Margin="4"
+                                              Content="{Binding Employee}" 
+                                              ContentTemplate="{StaticResource EmployeeTemplate}"
+                                              Visibility="Visible"
+                                              x:Name="PART_Employee"/>
+
+                            <md:ColorZone Mode="PrimaryLight" Grid.Column="1" Margin="8" VerticalAlignment="Center"
+                                          x:Name="PART_Appoint" Visibility="Collapsed">
+                                <TextBlock Text="{Binding Staffing.Appoint, StringFormat=Appoint: {0}}"
+                                           Margin="8"/>
+                            </md:ColorZone>
+                            
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Employee}" Value="{x:Null}">
+                                <Setter Property="Visibility" TargetName="PART_Employee" Value="Collapsed"/>
+                                <Setter Property="Visibility" TargetName="PART_Appoint" Value="Visible"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>

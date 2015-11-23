@@ -7,6 +7,7 @@
 
     <BooleanToVisibilityConverter x:Key="employeeBooleanToVisibilityConverter"/>
     <localConverters:StaffingPictureToImageSourceConverter x:Key="employeeImagePathToImageSourceConverter"/>
+    <helperConverters:ApplyConverter x:Key="employeeApplyConverter"/>
 
     <!-- Employee -->
     <DataTemplate x:Key="EmployeeTemplate" DataType="{x:Type staffing:EmployeeViewModel}">
@@ -23,9 +24,11 @@
 
                 <Image Grid.Column="0" Width="48" Height="48" Grid.RowSpan="2"
                        Visibility="{Binding HasPhoto, Converter={StaticResource employeeBooleanToVisibilityConverter}}"
-                       Source="{Binding Photo, Converter={StaticResource employeeImagePathToImageSourceConverter}}"/>
+                       Source="{Binding Photo, Converter={StaticResource employeeImagePathToImageSourceConverter}}"
+                       x:Name="PART_Photo"/>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" Margin="4" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis">
+                <TextBlock Grid.Column="1" Grid.Row="0" Margin="8,4" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center" x:Name="PART_FIO">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0} {1} {2}">
                             <Binding Path="Employee.Surname"/>
@@ -34,16 +37,40 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <TextBlock Grid.Column="1" Grid.Row="1" Margin="4" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0}/{1}">
-                            <Binding Path="Department.Name"/>
-                            <Binding Path="Employee.Stuffing.Appoint"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                <WrapPanel Grid.Column="1" Grid.Row="1" Margin="4">
+                    <WrapPanel.Resources>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="FontSize" Value="{Binding ElementName=PART_FIO, Path=FontSize, Converter={StaticResource employeeApplyConverter}, ConverterParameter=-4}"/>
+                            <Setter Property="Margin" Value="4,0"/>
+                        </Style>
+                    </WrapPanel.Resources>
+                    <TextBlock Text="{Binding Department.Name}" x:Name="PART_Department"/>
+                    <TextBlock Text="/" x:Name="PART_DepartmentDelimiter"/>
+                    <TextBlock Text="{Binding Employee.Stuffing.Appoint}" x:Name="PART_Appoint"/>
+                </WrapPanel>
             </Grid>
         </md:Card>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsPhotoVisible}" Value="False">
+                <Setter TargetName="PART_Photo" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsDepartmentVisible}" Value="False">
+                <Setter TargetName="PART_Department" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="PART_DepartmentDelimiter" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <!--<DataTrigger Binding="{Binding Department.Name}" Value="{x:Null}">
+                <Setter TargetName="PART_Department" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="PART_DepartmentDelimiter" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>-->
+            <DataTrigger Binding="{Binding IsAppointVisible}" Value="False">
+                <Setter TargetName="PART_Appoint" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="PART_DepartmentDelimiter" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <!--<DataTrigger Binding="{Binding Employee.Stuffing.Appoint}" Value="{x:Null}">
+                <Setter TargetName="PART_Appoint" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="PART_DepartmentDelimiter" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>-->
+        </DataTemplate.Triggers>
     </DataTemplate>
 
 </ResourceDictionary>
