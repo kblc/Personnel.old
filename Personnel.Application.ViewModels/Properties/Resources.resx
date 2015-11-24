@@ -129,6 +129,9 @@
   <data name="NOTIFICATION" xml:space="preserve">
     <value>Notification</value>
   </data>
+  <data name="STAFFINGEDIT_NewAppointName" xml:space="preserve">
+    <value>New appoint</value>
+  </data>
   <data name="STARTED" xml:space="preserve">
     <value>Started</value>
   </data>

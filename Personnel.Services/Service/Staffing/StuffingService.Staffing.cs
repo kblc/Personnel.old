@@ -275,7 +275,7 @@ namespace Personnel.Services.Service.Staffing
                             throw new Exception(string.Format(Properties.Resources.STUFFINGSERVICE_StaffingNotFound, staffing.Id));
 
                         var updating = AutoMapper.Mapper.Map<Repository.Model.Staffing>(staffing);
-                        rep.AddOrUpdate(updating);
+                        rep.AddOrUpdate(updating, takeChilds: false, original: res);
                     }
 
                     return StaffingGet(staffing.Id);

@@ -18,7 +18,7 @@ namespace Personnel.Appn
             base.OnStartup(e);
             this.DispatcherUnhandledException += (s, e2) =>
             {
-                //
+                
             };
         }
     }

@@ -14,7 +14,6 @@ C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Applic
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.csproj.GenerateResource.Cache
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.dll
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.pdb
-C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.csprojResolveAssemblyReference.cache
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Personnel.Application.ViewModels.dll.config
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Personnel.Application.ViewModels.dll
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Application.ViewModels\bin\Debug\Personnel.Application.ViewModels.pdb
@@ -32,3 +31,4 @@ C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Application
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.csproj.GenerateResource.Cache
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.dll
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.pdb
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Application.ViewModels\obj\Debug\Personnel.Application.ViewModels.csprojResolveAssemblyReference.cache

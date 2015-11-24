@@ -19,7 +19,6 @@ C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Reposi
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_ChangeStuffingForEmployee.resources
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_ChangeSomeEntities.resources
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_SmallChanges.resources
-C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.csprojResolveAssemblyReference.cache
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\bin\Debug\Personnel.Repository.dll.config
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\bin\Debug\Personnel.Repository.dll
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\bin\Debug\Personnel.Repository.pdb
@@ -42,3 +41,4 @@ C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.csproj.GenerateResource.Cache
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.dll
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.pdb
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_DeleteAppointTable.resources

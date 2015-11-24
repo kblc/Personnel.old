@@ -11,6 +11,7 @@ namespace Personnel.Services.Model
     /// Stuffing
     /// </summary>
     [DataContract]
+    [Serializable]
     public class Staffing
     {
         /// <summary>

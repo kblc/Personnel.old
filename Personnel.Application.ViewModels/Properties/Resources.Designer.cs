@@ -97,6 +97,15 @@ namespace Personnel.Application.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New appoint.
+        /// </summary>
+        internal static string STAFFINGEDIT_NewAppointName {
+            get {
+                return ResourceManager.GetString("STAFFINGEDIT_NewAppointName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Started.
         /// </summary>
         internal static string STARTED {

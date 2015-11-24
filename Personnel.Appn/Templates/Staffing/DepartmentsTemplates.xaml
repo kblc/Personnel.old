@@ -4,7 +4,8 @@
                     xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
                     xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
+                    xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
@@ -58,6 +59,8 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal">
+                    <!--<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=ActualWidth, StringFormat=[width:{0}]}" Margin="8"
+                               Width="100"/>-->
                     
                     <StackPanel x:Name="PART_Error" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4">
                         <Button VerticalAlignment="Center"
@@ -77,7 +80,7 @@
                         <StackPanel.Style>
                             <Style TargetType="{x:Type StackPanel}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CanManage}" Value="True">
+                                    <DataTrigger Binding="{Binding Owner.CanManageDepartments}" Value="True">
                                         <Setter Property="Cursor" Value="Hand"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -88,19 +91,19 @@
                         </StackPanel.InputBindings>
 
                         <TextBlock Text="{Binding Data.Department.Id, StringFormat=[{0}]}" Margin="4" IsEnabled="False"
-                                   Visibility="{Binding IsDebugView, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
+                                   Visibility="{Binding Owner.IsDebugView, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
                                    VerticalAlignment="Center"
                                    FontSize="{Binding ElementName=PART_DepartmentName, Path=FontSize, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-4}"/>
 
                         <TextBlock Text="{Binding Data.Department.Name}" VerticalAlignment="Center" x:Name="PART_DepartmentName"/>
 
                         <TextBlock Margin="8" IsEnabled="False" VerticalAlignment="Center" 
-                                   Visibility="{Binding IsDebugView, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
+                                   Visibility="{Binding Owner.IsDebugView, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
                                    FontSize="{Binding ElementName=PART_DepartmentName, Path=FontSize, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-4}">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}(departments: {0}, staffing: {1})">
                                     <Binding Path="Childs.Count"/>
-                                    <Binding Path="Data.Staffing.Count"/> 
+                                    <Binding Path="Data.Staffing.Count" Converter="{StaticResource departmentsApplyConverter}" ConverterParameter="-1"/> 
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
@@ -124,7 +127,7 @@
                                 Margin="8"
                                 Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
                                 Command="{Binding AddChildCommand}" 
-                                Visibility="{Binding CanManage, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
+                                Visibility="{Binding Owner.CanManageDepartments, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
                                 ToolTip="Add new department"
                                 ToolTipService.IsEnabled="True"
                                 Content="{StaticResource plusContent}">
@@ -133,7 +136,7 @@
                                 Margin="8"
                                 Style="{DynamicResource MaterialDesignFloatingActionDarkButton}"
                                 Command="{Binding DeleteCommand}" 
-                                Visibility="{Binding CanManage, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
+                                Visibility="{Binding Owner.CanManageDepartments, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"
                                 ToolTip="Remove department"
                                 ToolTipService.IsEnabled="True"
                                 Content="{StaticResource minusContent}">
@@ -143,10 +146,11 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
-                
+
                 <ContentPresenter x:Name="PART_Staffing" Visibility="Collapsed" Grid.Row="1"
                                   Content="{Binding Data}"
-                                  ContentTemplate="{StaticResource DepartmentStaffingTemplate}"/>
+                                  ContentTemplate="{StaticResource DepartmentStaffingTemplate}"
+                                  MaxWidth="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=ActualWidth, Converter={StaticResource departmentsApplyConverter}, ConverterParameter=-50}"/>
             </Grid>
         </Grid>
         <HierarchicalDataTemplate.Triggers>
@@ -164,24 +168,27 @@
             <DataTrigger Binding="{Binding Error, Converter={StaticResource departmentsIsNotEmptyStringConverter}}" Value="True">
                 <Setter TargetName="PART_Error" Property="Visibility" Value="Visible"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding IsStaffingView}" Value="True">
+            <DataTrigger Binding="{Binding Owner.IsStaffingVisible}" Value="True">
                 <Setter TargetName="PART_Staffing" Property="Visibility" Value="Visible"/>
             </DataTrigger>
         </HierarchicalDataTemplate.Triggers>
     </HierarchicalDataTemplate>
 
-    <DataTemplate DataType="{x:Type staffing:DepartmentEditViewModel}" x:Key="DepartmentsTreeViewTemplate">
+    <DataTemplate DataType="{x:Type staffing:StaffingViewModel}" x:Key="DepartmentsTreeViewTemplate">
         <Grid>
             <Grid.Resources>
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
                     <!--<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
                     <Setter Property="IsExpanded" Value="True"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
                 </Style>
             </Grid.Resources>
             
             <!-- Tree -->
             <TreeView ItemsSource="{Binding Departments}" 
                       ItemTemplate="{StaticResource recursiveDepartmentTemplate}"
+                      HorizontalContentAlignment="Stretch"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
 
@@ -196,7 +203,14 @@
                 </Button>
                 <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}"
                               Cursor="Hand" Margin="8" 
-                              IsChecked="{Binding IsDebugView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                              IsChecked="{Binding IsDebugView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ToolTip="Debug view"
+                              ToolTipService.IsEnabled="True"/>
+                <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}"
+                              Cursor="Hand" Margin="8" 
+                              IsChecked="{Binding IsStaffingVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ToolTip="Staffing visible"
+                              ToolTipService.IsEnabled="True"/>
             </StackPanel>
         </Grid>
     </DataTemplate>

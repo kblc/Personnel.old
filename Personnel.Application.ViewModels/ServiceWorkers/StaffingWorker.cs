@@ -204,7 +204,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                                 Staffing.Add(i.New);
                                 insApp.Add(i.New);
                             }
-                            else
+                            else if (i.New != null)
                             {
                                 i.Existed.CopyObjectFrom(i.New);
                                 updApp.Add(i.Existed);
@@ -365,9 +365,14 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
             {
                 var del = Staffing.Join(remove.Stuffing, a => a.Id, id => id, (a, id) => a).ToArray();
                 var delIds = del.Select(i => i.Id);
-                var empChg = Employees.Where(e => delIds.Contains(e.Stuffing.Id)).ToList();
-                empChg.ForEach(e => e.Stuffing = null);
-                lock (Employees) foreach (var i in del) Staffing.Remove(i);
+                var empChg = new List<StaffingService.Employee>();
+                lock (Employees)
+                {
+                    empChg.AddRange(Employees.Where(e => delIds.Contains(e.Stuffing?.Id ?? 0)));
+                    empChg.ForEach(e => e.Stuffing = null);
+                    foreach (var i in del)
+                        Staffing.Remove(i);
+                }
                 RaiseOnStaffingChanged(del, StaffingListsAction.Remove);
                 RaiseOnEmployeesChanged(empChg, StaffingListsAction.Change);
             }

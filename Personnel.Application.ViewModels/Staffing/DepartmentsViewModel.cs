@@ -12,11 +12,12 @@ using Personnel.Application.ViewModels.StaffingService;
 
 namespace Personnel.Application.ViewModels.Staffing
 {
-    public interface ITreeOwner<T> : INotifyPropertyChanged
+    public interface IDataOwner : INotifyPropertyChanged
     {
         bool CanManageDepartments { get; }
+        bool CanManageStaffing { get; }
         bool IsDebugView { get; }
-        bool IsStaffingView { get; }
+        bool IsStaffingVisible { get; }
     }
 
     public interface ITreeItem<T, TStore>
@@ -24,7 +25,7 @@ namespace Personnel.Application.ViewModels.Staffing
         /// <summary>
         /// Tree owner
         /// </summary>
-        ITreeOwner<T> Owner { get; }
+        IDataOwner Owner { get; }
 
         /// <summary>
         /// Current item parent
@@ -44,6 +45,92 @@ namespace Personnel.Application.ViewModels.Staffing
 
     public class EmployeeAndStaffingData : Additional.NotifyPropertyChangedBase
     {
+        private string appointName = string.Empty;
+        public string AppointName
+        {
+            get { return appointName; }
+            set { if (appointName == value) return; appointName = value; RaisePropertyChanged(() => AppointName); }
+        }
+
+        public EmployeeAndStaffingData(IDataOwner owner, bool createEdited = false)
+        {
+            Owner = owner;
+            IsEditMode = createEdited;
+        }
+
+        public static EmployeeAndStaffingData GetFake(IDataOwner owner) => new EmployeeAndStaffingData(owner, createEdited: false) { IsFake = true, Staffing = new StaffingService.Staffing() { Position = long.MaxValue } };
+
+        private bool isBusy = false;
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            private set { if (isBusy == value) return; isBusy = value; RaisePropertyChanged(() => IsBusy); RaiseAllComamnds(); }
+        }
+
+        private bool isFake = false;
+        public bool IsFake
+        {
+            get { return isFake; }
+            private set { if (isFake == value) return; isFake = value; RaisePropertyChanged(() => IsFake); RaiseAllComamnds(); }
+        }
+
+        private bool isDeleted = false;
+        public bool IsDeleted
+        {
+            get { return isDeleted; }
+            set { if (isDeleted == value) return; isDeleted = value; RaisePropertyChanged(() => IsDeleted); RaiseAllComamnds(); }
+        }
+
+        public bool HasError { get { return !string.IsNullOrWhiteSpace(Error); } }
+
+        private string error = string.Empty;
+        public string Error
+        {
+            get { return error; }
+            internal set { if (error == value) return; error = value; RaisePropertyChanged(() => Error); RaisePropertyChanged(() => HasError); RaiseAllComamnds(); }
+        }
+
+        private bool isEditMode = false;
+        public bool IsEditMode
+        {
+            get { return isEditMode; }
+            private set
+            {
+                if (isEditMode == value)
+                    return;
+                isEditMode = value;
+                AppointName = Staffing?.Appoint;
+                RaisePropertyChanged(() => IsEditMode);
+                RaiseAllComamnds();
+            }
+        }
+
+        private IDataOwner owner = null;
+        public IDataOwner Owner
+        {
+            get { return owner; }
+            private set
+            {
+                if (owner == value)
+                    return;
+
+                if (value == null)
+                    throw new ArgumentNullException(nameof(Owner));
+
+                if (owner != null)
+                    owner.PropertyChanged -= OwnerPropertyChanged;
+                owner = value;
+                owner.PropertyChanged += OwnerPropertyChanged;
+
+                RaisePropertyChanged();
+            }
+        }
+
+        private void OwnerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RaiseAllComamnds();
+        }
+
         private StaffingService.Staffing staffing = null;
         public StaffingService.Staffing Staffing
         {
@@ -56,6 +143,10 @@ namespace Personnel.Application.ViewModels.Staffing
                 if (staffing == value)
                     return;
                 staffing = value;
+
+                if (isEditMode)
+                    AppointName = staffing?.Appoint;
+
                 RaisePropertyChanged(() => Staffing);
             }
         }
@@ -72,10 +163,288 @@ namespace Personnel.Application.ViewModels.Staffing
                 RaisePropertyChanged(() => Employee);
             }
         }
+
+        private string GetExceptionText(string whereCatched, Exception ex)
+        {
+            return ex.GetExceptionText($"{GetType().Name}.{whereCatched}()"
+#if !DEBUG
+                , clearText: true, includeData: false, includeStackTrace: false
+#endif
+
+                );
+        }
+
+        private DelegateCommand fakeCommand = null;
+        public ICommand FakeCommand
+        {
+            get
+            {
+                return fakeCommand ?? (fakeCommand = new DelegateCommand(o =>
+                {
+                    FakeClick?.Invoke(this, new EventArgs());
+                }, o => IsFake));
+            }
+        }
+
+        private DelegateCommand cancelCommand = null;
+        public ICommand CancelCommand
+        {
+            get
+            {
+                return cancelCommand ?? (cancelCommand = new DelegateCommand(o => 
+                {
+                    IsEditMode = false;
+                    CancelClick?.Invoke(this, new EventArgs());
+                }, o => IsEditMode));
+            }
+        }
+
+        private DelegateCommand increasePositionCommand = null;
+        public ICommand IncreasePositionCommand
+        {
+            get
+            {
+                return increasePositionCommand ?? (increasePositionCommand = new DelegateCommand(o =>
+                {
+                    var s = new StaffingService.Staffing() { Position = Staffing.Position + 1 };
+                    s.CopyObjectFrom(Staffing, new string[] { nameof(s.Position) });
+                    SaveAsync(s);
+                }, o => !IsEditMode));
+            }
+        }
+
+        private DelegateCommand decreasePositionCommand = null;
+        public ICommand DecreasePositionCommand
+        {
+            get
+            {
+                return decreasePositionCommand ?? (decreasePositionCommand = new DelegateCommand(o =>
+                {
+                    if (Staffing.Position <= 1)
+                        return;
+                    var s = new StaffingService.Staffing() { Position = Staffing.Position - 1 };
+                    s.CopyObjectFrom(Staffing, new string[] { nameof(s.Position) });
+                    SaveAsync(s);
+                }, o => !IsEditMode && Staffing.Position > 1));
+            }
+        }
+
+        private DelegateCommand saveCommand = null;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                return saveCommand ?? (saveCommand = new DelegateCommand(o => 
+                {
+                    var s = new StaffingService.Staffing() { Appoint = AppointName };
+                    s.CopyObjectFrom(Staffing, new string[] { nameof(s.Appoint) });
+                    SaveAsync(s);
+                    SaveClick?.Invoke(this, new EventArgs());
+                }, o => Owner.CanManageStaffing && !IsBusy && !IsDeleted && IsEditMode));
+            }
+        }
+
+        private async void SaveAsync(StaffingService.Staffing staffingToSave)
+        {
+            IsBusy = true;
+            try
+            {
+                var sc = new StaffingServiceClient();
+                var waittask = Staffing.Id == 0
+                    ? sc.StaffingInsertAsync(staffingToSave)
+                    : sc.StaffingUpdateAsync(staffingToSave);
+                await waittask.ContinueWith(t => 
+                    {
+                        try
+                        {
+                            if (t.Exception != null)
+                            {
+                                Error = GetExceptionText(nameof(SaveAsync), t.Exception);
+                            } else
+                            {
+                                if (!string.IsNullOrWhiteSpace(t.Result.Error))
+                                { 
+                                    Error = t.Result.Error;
+                                }
+                                else
+                                {
+                                    Error = null;
+                                    this.Staffing.CopyObjectFrom(t.Result.Value);
+                                    RaiseAllComamnds();
+                                }
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            Error = GetExceptionText(nameof(SaveAsync), ex);
+                        }
+                        finally
+                        {
+                            try { sc.Close(); } catch { }
+                            AppointName = Staffing.Appoint;
+                            IsBusy = false;
+                            RaiseAllComamnds();
+                        }
+                    }, 
+                    System.Threading.CancellationToken.None, 
+                    TaskContinuationOptions.AttachedToParent,
+                    TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch (Exception ex)
+            {
+                IsBusy = false;
+                Error = GetExceptionText(nameof(SaveAsync), ex);
+            }
+        }
+
+        private DelegateCommand deleteCommand = null;
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                return deleteCommand ?? (deleteCommand = new DelegateCommand(o => 
+                {
+                    DeleteAsync();
+                    RemoveClick?.Invoke(this, new EventArgs());
+                }, o => Owner.CanManageStaffing && !IsBusy && !IsDeleted && !IsEditMode));
+            }
+        }
+
+        private async void DeleteAsync()
+        {
+            if (Staffing.Id == 0)
+            { 
+                IsDeleted = true;
+                return;
+            }
+
+            IsBusy = true;
+            try
+            {
+                var sc = new StaffingServiceClient();
+                var waittask = sc.StaffingRemoveAsync(Staffing.Id);
+                await waittask.ContinueWith(t =>
+                {
+                    try
+                    {
+                        if (t.Exception != null)
+                        {
+                            Error = GetExceptionText(nameof(SaveAsync), t.Exception);
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrWhiteSpace(t.Result.Error))
+                            {
+                                Error = t.Result.Error;
+                            }
+                            else
+                            {
+                                Error = null;
+                                IsDeleted = true;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Error = GetExceptionText(nameof(SaveAsync), ex);
+                    }
+                    finally
+                    {
+                        try { sc.Close(); } catch { }
+                        IsBusy = false;
+                    }
+                },
+                    System.Threading.CancellationToken.None,
+                    TaskContinuationOptions.AttachedToParent,
+                    TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch (Exception ex)
+            {
+                IsBusy = false;
+                Error = GetExceptionText(nameof(SaveAsync), ex);
+            }
+            
+        }
+
+        private Helpers.WPF.DelegateCommand setToEditModeCommand = null;
+        public ICommand SetToEditModeCommand
+        {
+            get { return setToEditModeCommand ?? (setToEditModeCommand = new DelegateCommand(o => { IsEditMode = true; }, (o) => Owner.CanManageStaffing && !IsBusy && !IsDeleted)); }
+        }
+
+        private void RaiseAllComamnds()
+        {
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
+            {
+                saveCommand?.RaiseCanExecuteChanged();
+                cancelCommand?.RaiseCanExecuteChanged();
+                deleteCommand?.RaiseCanExecuteChanged();
+                setToEditModeCommand?.RaiseCanExecuteChanged();
+                decreasePositionCommand?.RaiseCanExecuteChanged();
+                increasePositionCommand?.RaiseCanExecuteChanged();
+            }));
+        }
+
+        public event EventHandler CancelClick;
+        public event EventHandler SaveClick;
+        public event EventHandler RemoveClick;
+        public event EventHandler FakeClick;
     }
 
     public class DepartmentAndStaffingData : Additional.NotifyPropertyChangedBase
     {
+        public DepartmentAndStaffingData(IDataOwner owner)
+        {
+            Owner = owner;
+            Staffing.CollectionChanged += (s, e) =>
+            {
+                if (e.NewItems != null && e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                    e.NewItems.Cast<EmployeeAndStaffingData>().ToList().ForEach(i =>
+                    {
+                        i.CancelClick += (s2, e2) =>
+                        {
+                            var item = ((EmployeeAndStaffingData)s2);
+                            if (item.Staffing.Id == 0)
+                            Staffing.Remove(item);
+                        };
+                        i.FakeClick += (s2, e2) => AddChild();
+                    });
+            };
+            Staffing.Add(EmployeeAndStaffingData.GetFake(owner));
+        }
+
+        private IDataOwner owner = null;
+        public IDataOwner Owner
+        {
+            get { return owner; }
+            private set
+            {
+                if (owner == value)
+                    return;
+
+                if (value == null)
+                    throw new ArgumentNullException(nameof(Owner));
+                if (owner != null)
+                    owner.PropertyChanged -= OwnerPropertyChanged;
+                owner = value;
+                owner.PropertyChanged += OwnerPropertyChanged;
+                RaisePropertyChanged();
+            }
+        }
+
+        private void OwnerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RaiseAllComamnds();
+        }
+
+        private void RaiseAllComamnds()
+        {
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
+            {
+                addChildCommand?.RaiseCanExecuteChanged();
+            }));
+        }
+
         private StaffingService.Department department = null;
         public StaffingService.Department Department
         {
@@ -91,6 +460,20 @@ namespace Personnel.Application.ViewModels.Staffing
                 RaisePropertyChanged(() => Department);
             }
         }
+
+        private void AddChild()
+        {
+            var pos = Staffing
+                .Where(i => i.Staffing.Position < long.MaxValue)
+                .Select(i => i.Staffing.Position)
+                .Union(new long[] { 1 })
+                .Max() + 1;
+            var n = new EmployeeAndStaffingData(owner, true) { Staffing = new StaffingService.Staffing() { DepartmentId = Department.Id, Position = pos, Appoint = Properties.Resources.STAFFINGEDIT_NewAppointName } };
+            Staffing.Add(n);
+        }
+
+        private DelegateCommand addChildCommand = null;
+        public ICommand AddChildCommand { get { return addChildCommand ?? (addChildCommand = new DelegateCommand(o => AddChild(), o => Owner.CanManageStaffing)); } }
 
         public ObservableCollection<EmployeeAndStaffingData> Staffing { get; }
             = new ObservableCollection<EmployeeAndStaffingData>();
@@ -135,8 +518,8 @@ namespace Personnel.Application.ViewModels.Staffing
             }
         }
 
-        private ITreeOwner<DepartmentEditViewModel> owner = null;
-        public ITreeOwner<DepartmentEditViewModel> Owner
+        private IDataOwner owner = null;
+        public IDataOwner Owner
         {
             get { return owner; }
             set
@@ -146,19 +529,18 @@ namespace Personnel.Application.ViewModels.Staffing
 
                 if (owner != null)
                     throw new ArgumentException(nameof(Owner));
-                owner = value;
 
                 if (owner != null)
-                    owner.PropertyChanged += (s,e) =>
-                    {
-                        if (e.PropertyName == nameof(owner.CanManageDepartments))
-                            RaisePropertyChanged(() => CanManage);
-                        if (e.PropertyName == nameof(owner.IsDebugView))
-                            RaisePropertyChanged(() => IsDebugView);
-                    };
-
+                    owner.PropertyChanged -= OwnerPropertyChanged;
+                owner = value;
+                owner.PropertyChanged += OwnerPropertyChanged;
                 RaisePropertyChanged(() => Owner);
             }
+        }
+
+        private void OwnerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RaiseAllComamnds();
         }
 
         public ObservableCollection<ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>> Childs { get; } = 
@@ -169,7 +551,7 @@ namespace Personnel.Application.ViewModels.Staffing
         {
             get
             {
-                return deleteCommand ?? (deleteCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnDelete(); }, (o) => CanManage && !IsBusy && !IsDeleted));
+                return deleteCommand ?? (deleteCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnDelete(); }, (o) => Owner.CanManageDepartments && !IsBusy && !IsDeleted));
             }
         }
 
@@ -178,7 +560,7 @@ namespace Personnel.Application.ViewModels.Staffing
         {
             get
             {
-                return saveCommand ?? (saveCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnChange(); }, (o) => CanManage && !IsBusy && !IsDeleted && IsEditMode));
+                return saveCommand ?? (saveCommand = new Helpers.WPF.DelegateCommand((o) => { RaiseOnChange(); }, (o) => Owner.CanManageDepartments && !IsBusy && !IsDeleted && IsEditMode));
             }
         }
 
@@ -193,7 +575,7 @@ namespace Personnel.Application.ViewModels.Staffing
                         RaiseOnDelete();
                     else
                         IsEditMode = false;
-                }, (o) => CanManage && !IsBusy && !IsDeleted && IsEditMode));
+                }, (o) => Owner.CanManageDepartments && !IsBusy && !IsDeleted && IsEditMode));
             }
         }
 
@@ -209,17 +591,16 @@ namespace Personnel.Application.ViewModels.Staffing
             }
         }
 
-
         private Helpers.WPF.DelegateCommand setToEditModeCommand = null;
         public ICommand SetToEditModeCommand
         {
-            get { return setToEditModeCommand ?? (setToEditModeCommand = new DelegateCommand(o => { IsEditMode = true; }, (o) => CanManage && !IsBusy && !IsDeleted)); }
+            get { return setToEditModeCommand ?? (setToEditModeCommand = new DelegateCommand(o => { IsEditMode = true; }, (o) => Owner.CanManageDepartments && !IsBusy && !IsDeleted)); }
         }
 
         private Helpers.WPF.DelegateCommand addChildCommand = null;
         public ICommand AddChildCommand
         {
-            get { return addChildCommand ?? (addChildCommand = new Helpers.WPF.DelegateCommand((o) => RaiseOnAddChild(), (o) => CanManage && !IsBusy && !IsDeleted && !IsEditMode)); }
+            get { return addChildCommand ?? (addChildCommand = new Helpers.WPF.DelegateCommand((o) => RaiseOnAddChild(), (o) => Owner.CanManageDepartments && !IsBusy && !IsDeleted && !IsEditMode)); }
         }
 
         private void RaiseAllComamnds()
@@ -285,10 +666,6 @@ namespace Personnel.Application.ViewModels.Staffing
             get { return departmentName; }
             set { if (departmentName == value) return; departmentName = value; RaisePropertyChanged(() => DepartmentName); }
         }
-
-        public bool CanManage => Owner?.CanManageDepartments ?? false;
-        public bool IsDebugView => Owner?.IsDebugView ?? false;
-        public bool IsStaffingView => Owner?.IsStaffingView ?? false;
 
         private string GetExceptionText(string whereCatched, Exception ex)
         {
@@ -410,7 +787,7 @@ namespace Personnel.Application.ViewModels.Staffing
             {
                 var newDep = new DepartmentEditViewModel(true)
                 {
-                    Data = new DepartmentAndStaffingData()
+                    Data = new DepartmentAndStaffingData(this.Owner)
                     {
                         Department = new StaffingService.Department()
                         {

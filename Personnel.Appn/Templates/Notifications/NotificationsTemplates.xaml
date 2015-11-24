@@ -157,16 +157,17 @@
 
     <!-- Notification list -->
     <DataTemplate x:Key="NotificationsListTemplate" DataType="{x:Type notifications:NotificationsViewModel}">
-        <DataTemplate.Resources>
-            <CollectionViewSource Source="{Binding Notifications}" x:Key="sortedNotifications">
-                <CollectionViewSource.SortDescriptions>
-                    <scm:SortDescription PropertyName="Notification.Created" Direction="Descending"/>
-                </CollectionViewSource.SortDescriptions>
-            </CollectionViewSource>
-        </DataTemplate.Resources>
         <ScrollViewer>
-            <ItemsControl ItemsSource="{Binding Notifications}"
-                            ItemTemplate="{StaticResource NotificationTemplate}">
+            <ScrollViewer.Resources>
+                <CollectionViewSource Source="{Binding Notifications}" x:Key="sortedNotifications" >
+                    <CollectionViewSource.SortDescriptions>
+                        <scm:SortDescription PropertyName="Notification.Created" Direction="Descending"/>
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </ScrollViewer.Resources>
+
+            <ItemsControl ItemsSource="{Binding Source={StaticResource sortedNotifications}}"
+                          ItemTemplate="{StaticResource NotificationTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" ItemWidth="320" ItemHeight="60"/>
