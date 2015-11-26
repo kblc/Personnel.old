@@ -9,15 +9,26 @@ using Helpers.WPF;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Personnel.Application.ViewModels.StaffingService;
+using System.Windows;
 
 namespace Personnel.Application.ViewModels.Staffing
 {
-    public interface IDataOwner : INotifyPropertyChanged
+    public abstract class DataOwner : DependencyObject, INotifyPropertyChanged
     {
-        bool CanManageDepartments { get; }
-        bool CanManageStaffing { get; }
-        bool IsDebugView { get; }
-        bool IsStaffingVisible { get; }
+        public abstract bool CanManageDepartments { get; protected set; }
+        public abstract bool CanManageStaffing { get; protected set; }
+        public abstract bool IsDebugView { get; set; }
+        public abstract bool IsStaffingVisible { get; set; }
+        public abstract bool IsDragMode { get; protected set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged([ParenthesizePropertyName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        internal void DragModeBegin() { IsDragMode = true; }
+        internal void DragModeEnd() { IsDragMode = false; }
     }
 
     public interface ITreeItem<T, TStore>
@@ -25,7 +36,7 @@ namespace Personnel.Application.ViewModels.Staffing
         /// <summary>
         /// Tree owner
         /// </summary>
-        IDataOwner Owner { get; }
+        DataOwner Owner { get; }
 
         /// <summary>
         /// Current item parent
@@ -52,13 +63,13 @@ namespace Personnel.Application.ViewModels.Staffing
             set { if (appointName == value) return; appointName = value; RaisePropertyChanged(() => AppointName); }
         }
 
-        public EmployeeAndStaffingData(IDataOwner owner, bool createEdited = false)
+        public EmployeeAndStaffingData(DataOwner owner, bool createEdited = false)
         {
             Owner = owner;
             IsEditMode = createEdited;
         }
 
-        public static EmployeeAndStaffingData GetFake(IDataOwner owner) => new EmployeeAndStaffingData(owner, createEdited: false) { IsFake = true, Staffing = new StaffingService.Staffing() { Position = long.MaxValue } };
+        public static EmployeeAndStaffingData GetFake(DataOwner owner) => new EmployeeAndStaffingData(owner, createEdited: false) { IsFake = true, Staffing = new StaffingService.Staffing() { Position = long.MaxValue } };
 
         private bool isBusy = false;
         public bool IsBusy
@@ -105,8 +116,8 @@ namespace Personnel.Application.ViewModels.Staffing
             }
         }
 
-        private IDataOwner owner = null;
-        public IDataOwner Owner
+        private DataOwner owner = null;
+        public DataOwner Owner
         {
             get { return owner; }
             private set
@@ -372,6 +383,130 @@ namespace Personnel.Application.ViewModels.Staffing
             get { return setToEditModeCommand ?? (setToEditModeCommand = new DelegateCommand(o => { IsEditMode = true; }, (o) => Owner.CanManageStaffing && !IsBusy && !IsDeleted)); }
         }
 
+        private DelegateCommand dropEmployeeCommand = null;
+        public ICommand DropEmployeeCommand { get { return dropEmployeeCommand ?? (dropEmployeeCommand = new DelegateCommand(o => DropEmployee(o as System.Windows.DragEventArgs), o => Owner.CanManageStaffing)); } }
+        private void DropEmployee(System.Windows.DragEventArgs e)
+        {
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
+
+            if (e.Data.GetDataPresent(typeof(EmployeeViewModel)))
+            {
+                var emplVM = e.Data.GetData(typeof(EmployeeViewModel)) as EmployeeViewModel;
+                if (emplVM != null && emplVM != this.Employee)
+                {
+                    var setNewAction = new Action(() =>
+                    {
+                        this.Employee = null;
+                        emplVM.Employee.Stuffing = this.Staffing;
+                        SaveEmployeeAsync(emplVM.Employee, new Action(() => { this.Employee = emplVM; }), new Action(() => { this.Employee = null; emplVM.Employee.Stuffing = null; }));
+                    });
+
+                    if (this.Employee != null)
+                    {
+                        this.Employee.Employee.Stuffing = null;
+                        SaveEmployeeAsync(emplVM.Employee, setNewAction, new Action(() => { this.Employee.Employee.Stuffing = this.Staffing; }));
+                    }
+                    else
+                        setNewAction();
+                }
+            }
+        }
+
+        private DelegateCommand dragOverEmployeeCommand = null;
+        public ICommand DragOverEmployeeCommand { get { return dragOverEmployeeCommand ?? (dragOverEmployeeCommand = new DelegateCommand(o => DragOverEmployee(o as System.Windows.DragEventArgs), o => Owner.CanManageStaffing)); } }
+        private void DragOverEmployee(System.Windows.DragEventArgs e)
+        {
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
+
+            if (!e.Data.GetDataPresent(typeof(EmployeeViewModel)) || e.Data.GetData(typeof(EmployeeViewModel)) == this.Employee)
+            { 
+                e.Effects = System.Windows.DragDropEffects.None;
+                e.Handled = true;
+            }
+        }
+
+        //private DelegateCommand queryContinueDragEmployeeCommand = null;
+        //public ICommand QueryContinueDragEmployeeCommand { get { return queryContinueDragEmployeeCommand ?? (queryContinueDragEmployeeCommand = new DelegateCommand(o => QueryContinueDragEmployee(o as System.Windows.QueryContinueDragEventArgs), o => Owner.CanManageStaffing)); } }
+        //private void QueryContinueDragEmployee(System.Windows.QueryContinueDragEventArgs e)
+        //{
+        //    //if (e == null)
+        //    //    throw new ArgumentNullException(nameof(e));
+
+        //    //if (e.Action  == System.Windows.DragAction.Drop)
+        //    //{
+        //    //    this.Employee = null;
+        //    //}
+        //}
+
+        private DelegateCommand mouseDownEmployeeCommand = null;
+        public ICommand MouseDownEmployeeCommand { get { return mouseDownEmployeeCommand ?? (mouseDownEmployeeCommand = new DelegateCommand(o => MouseDownEmployee(o as MouseButtonEventArgs), o => Owner.CanManageStaffing)); } }
+        private void MouseDownEmployee(MouseButtonEventArgs e)
+        {
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Owner.DragModeBegin();
+                DragDrop.DoDragDrop((DependencyObject)e.Source, this.Employee, DragDropEffects.Move);
+                Owner.DragModeEnd();
+            }
+        }
+
+        internal async void SaveEmployeeAsync(StaffingService.Employee employeeToSave, Action onSuccess, Action onError)
+        {
+            IsBusy = true;
+            try
+            {
+                var sc = new StaffingServiceClient();
+                var waittask = sc.EmployeeUpdateAsync(employeeToSave);
+                await waittask.ContinueWith(t =>
+                {
+                    try
+                    {
+                        if (t.Exception != null)
+                        {
+                            Error = GetExceptionText(nameof(SaveEmployeeAsync), t.Exception);
+                            onError?.Invoke();
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrWhiteSpace(t.Result.Error))
+                            {
+                                Error = t.Result.Error;
+                                onError?.Invoke();
+                            }
+                            else
+                            {
+                                Error = null;
+                                onSuccess?.Invoke();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Error = GetExceptionText(nameof(SaveEmployeeAsync), ex);
+                    }
+                    finally
+                    {
+                        try { sc.Close(); } catch { }
+                        IsBusy = false;
+                    }
+                },
+                    System.Threading.CancellationToken.None,
+                    TaskContinuationOptions.AttachedToParent,
+                    TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            catch (Exception ex)
+            {
+                IsBusy = false;
+                Error = GetExceptionText(nameof(SaveAsync), ex);
+            }
+
+        }
+
         private void RaiseAllComamnds()
         {
             System.Windows.Application.Current.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
@@ -382,6 +517,9 @@ namespace Personnel.Application.ViewModels.Staffing
                 setToEditModeCommand?.RaiseCanExecuteChanged();
                 decreasePositionCommand?.RaiseCanExecuteChanged();
                 increasePositionCommand?.RaiseCanExecuteChanged();
+                dropEmployeeCommand?.RaiseCanExecuteChanged();
+                dragOverEmployeeCommand?.RaiseCanExecuteChanged();
+                mouseDownEmployeeCommand?.RaiseCanExecuteChanged();
             }));
         }
 
@@ -393,7 +531,7 @@ namespace Personnel.Application.ViewModels.Staffing
 
     public class DepartmentAndStaffingData : Additional.NotifyPropertyChangedBase
     {
-        public DepartmentAndStaffingData(IDataOwner owner)
+        public DepartmentAndStaffingData(DataOwner owner)
         {
             Owner = owner;
             Staffing.CollectionChanged += (s, e) =>
@@ -413,8 +551,8 @@ namespace Personnel.Application.ViewModels.Staffing
             Staffing.Add(EmployeeAndStaffingData.GetFake(owner));
         }
 
-        private IDataOwner owner = null;
-        public IDataOwner Owner
+        private DataOwner owner = null;
+        public DataOwner Owner
         {
             get { return owner; }
             private set
@@ -518,8 +656,8 @@ namespace Personnel.Application.ViewModels.Staffing
             }
         }
 
-        private IDataOwner owner = null;
-        public IDataOwner Owner
+        private DataOwner owner = null;
+        public DataOwner Owner
         {
             get { return owner; }
             set

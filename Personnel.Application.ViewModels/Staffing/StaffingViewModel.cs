@@ -17,7 +17,7 @@ using Helpers.Linq;
 
 namespace Personnel.Application.ViewModels.Staffing
 {
-    public class StaffingViewModel : DependencyObject, ITreeDepartmentItem, IDataOwner
+    public class StaffingViewModel : DataOwner, ITreeDepartmentItem
     {
         private const string MANAGEDEPARTMENTS = "MANAGEDEPARTMENTS";
         private const string MANAGEDESTAFFING = "MANAGESTAFFING";
@@ -32,6 +32,32 @@ namespace Personnel.Application.ViewModels.Staffing
 
         private NotifyCollection<EmployeeViewModel> employees = new NotifyCollection<EmployeeViewModel>();
         public IReadOnlyNotifyCollection<EmployeeViewModel> Employees => employees;
+
+        public ICollectionView EmployeesWithoutStaffing
+        {
+            get
+            {
+                var res = System.Windows.Data.CollectionViewSource.GetDefaultView(employees);
+                res.Filter = (i) => 
+                {
+                    var empVM = i as EmployeeViewModel;
+                    return empVM?.Employee.Stuffing == null;
+                };
+                return res;
+            }
+        }
+
+        private ICommand employeesFilterCommand = null;
+        public ICommand EmployeesFilterCommand { get { return employeesFilterCommand ?? (employeesFilterCommand = new DelegateCommand(o => EmployeesFilter(o as System.Windows.Data.FilterEventArgs))); } }
+
+        private void EmployeesFilter(System.Windows.Data.FilterEventArgs e)
+        {
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
+
+            var empVM = e.Item as EmployeeViewModel;
+            e.Accepted = empVM?.Employee.Stuffing == null;
+        }
 
         private NotifyCollection<StaffingService.Staffing> staffing = new NotifyCollection<StaffingService.Staffing>();
         //public IReadOnlyNotifyCollection<StaffingService.Staffing> Staffing => staffing;
@@ -90,6 +116,22 @@ namespace Personnel.Application.ViewModels.Staffing
         {
             get { return (bool)GetValue(ReadOnlyIsLoadedProperty); }
             private set { SetValue(ReadOnlyIsLoadedPropertyKey, value); RaiseOnIsLoadedChanged(value); }
+        }
+
+        #endregion
+        #region IsDragMode
+
+        private static readonly DependencyPropertyKey ReadOnlyIsDragModePropertyKey
+            = DependencyProperty.RegisterReadOnly(nameof(IsDragMode), typeof(bool), typeof(StaffingViewModel),
+                new FrameworkPropertyMetadata(false,
+                    FrameworkPropertyMetadataOptions.None,
+                    new PropertyChangedCallback((s, e) => { })));
+        public static readonly DependencyProperty ReadOnlyIsDragModeProperty = ReadOnlyIsDragModePropertyKey.DependencyProperty;
+
+        public override bool IsDragMode
+        {
+            get { return (bool)GetValue(ReadOnlyIsDragModeProperty); }
+            protected set { SetValue(ReadOnlyIsDragModePropertyKey, value); }
         }
 
         #endregion
@@ -188,7 +230,7 @@ namespace Personnel.Application.ViewModels.Staffing
                     model.RaisePropertyChanged(e.Property.Name);
             }));
 
-        public bool IsDebugView
+        public override bool IsDebugView
         {
             get { return (bool)GetValue(IsDebugViewProperty); }
             set { SetValue(IsDebugViewProperty, value); RaisePropertyChanged(); }
@@ -204,7 +246,7 @@ namespace Personnel.Application.ViewModels.Staffing
                     model.RaisePropertyChanged(e.Property.Name);
             }));
 
-        public bool IsStaffingVisible
+        public override bool IsStaffingVisible
         {
             get { return (bool)GetValue(IsStaffingViewProperty); }
             set { SetValue(IsStaffingViewProperty, value); RaisePropertyChanged(); }
@@ -227,10 +269,10 @@ namespace Personnel.Application.ViewModels.Staffing
                     })));
         public static readonly DependencyProperty ReadOnlyCanManageDepartmentsProperty = ReadOnlyCanManageDepartmentsPropertyKey.DependencyProperty;
 
-        public bool CanManageDepartments
+        public override bool CanManageDepartments
         {
             get { return (bool)GetValue(ReadOnlyCanManageDepartmentsProperty); }
-            private set { SetValue(ReadOnlyCanManageDepartmentsPropertyKey, value); RaisePropertyChanged(); UpdateCommands(); }
+            protected set { SetValue(ReadOnlyCanManageDepartmentsPropertyKey, value); RaisePropertyChanged(); UpdateCommands(); }
         }
 
         private bool GetCanManageDepartmentsProperty()
@@ -263,10 +305,10 @@ namespace Personnel.Application.ViewModels.Staffing
                     })));
         public static readonly DependencyProperty ReadOnlyCanManageStaffingProperty = ReadOnlyCanManageStaffingPropertyKey.DependencyProperty;
 
-        public bool CanManageStaffing
+        public override bool CanManageStaffing
         {
             get { return (bool)GetValue(ReadOnlyCanManageStaffingProperty); }
-            private set { SetValue(ReadOnlyCanManageStaffingPropertyKey, value); RaisePropertyChanged(); UpdateCommands(); }
+            protected set { SetValue(ReadOnlyCanManageStaffingPropertyKey, value); RaisePropertyChanged(); UpdateCommands(); }
         }
 
         private bool GetCanManageStaffingProperty()
@@ -327,19 +369,57 @@ namespace Personnel.Application.ViewModels.Staffing
             departments.Add(newDep);
         }
 
+        private DelegateCommand deleteDropEmployeeCommand = null;
+        public ICommand DeleteDropEmployeeCommand { get { return deleteDropEmployeeCommand ?? (deleteDropEmployeeCommand = new DelegateCommand(o => DeleteDropEmployee(o as System.Windows.DragEventArgs), o => CanManageStaffing)); } }
+        private void DeleteDropEmployee(System.Windows.DragEventArgs e)
+        {
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
+
+            if (e.Data.GetDataPresent(typeof(EmployeeViewModel)))
+            {
+                var emplVM = (EmployeeViewModel)e.Data.GetData(typeof(EmployeeViewModel));
+
+                var empData = this.Departments.AsEnumerable()
+                    .Traverse(i => i.Childs)
+                    .SelectMany(i => i.Data.Staffing)
+                    .Where(i => i.Employee == emplVM)
+                    .FirstOrDefault();
+
+                if (emplVM != null && empData != null)
+                {
+                    var oldStaffing = emplVM.Employee.Stuffing;
+                    emplVM.Employee.Stuffing = null;
+                    empData.SaveEmployeeAsync(emplVM.Employee, null, new Action(() => { emplVM.Employee.Stuffing = oldStaffing; }));
+                }
+            }
+        }
+
+        private DelegateCommand deleteDragOverEmployeeCommand = null;
+        public ICommand DeleteDragOverEmployeeCommand { get { return deleteDragOverEmployeeCommand ?? (deleteDragOverEmployeeCommand = new DelegateCommand(o => DragOverEmployee(o as System.Windows.DragEventArgs), o => CanManageStaffing)); } }
+        private void DragOverEmployee(System.Windows.DragEventArgs e)
+        {
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
+
+            var employeeIds = this.Employees.Where(emp => emp.Department != null)
+                .Select(emp => emp.Employee.Id)
+                .ToArray();
+
+            if (!e.Data.GetDataPresent(typeof(EmployeeViewModel)) || !employeeIds.Contains((e.Data.GetData(typeof(EmployeeViewModel)) as EmployeeViewModel).Employee.Id))
+                e.Effects = System.Windows.DragDropEffects.None;
+
+            e.Handled = true;
+        }
+
+
         #endregion
         #region ITreeItem<DepartmentAndStaffingData>
 
         ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData> ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>.Parent { get { return null; } set { throw new NotImplementedException(); } }
         DepartmentAndStaffingData ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>.Data { get { return null; } set { throw new NotImplementedException(); } }
         ObservableCollection<ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>> ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>.Childs => departments;
-        IDataOwner ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>.Owner => this;
-
-        private void RaisePropertyChanged([ParenthesizePropertyName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
+        DataOwner ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>.Owner => this;
 
         #endregion
 
@@ -392,7 +472,7 @@ namespace Personnel.Application.ViewModels.Staffing
             var res = new EmployeeViewModel()
             {
                 Employee = emp,
-                Department = deps.Where(d => d.Data.Department.Id == emp?.Stuffing?.Id)
+                Department = deps.Where(d => d.Data.Department.Id == emp?.Stuffing?.DepartmentId)
                                 .Select(d => d.Data.Department)
                                 .FirstOrDefault(),
                 Photo = emp.Photos
@@ -411,10 +491,12 @@ namespace Personnel.Application.ViewModels.Staffing
                 {
                     if (d.Id != 0)
                     {
+                        Department depForUpdate = null;
                         var existed = departments.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Data.Department.Id == d.Id);
                         if (existed != null)
                         {
-                            existed.Data.CopyObjectFrom(d);
+                            existed.Data.Department.CopyObjectFrom(d);
+                            depForUpdate = existed.Data.Department;
                         }
                         else
                         {
@@ -432,9 +514,17 @@ namespace Personnel.Application.ViewModels.Staffing
                             }
                             else
                             {
-                                departments.Add(new DepartmentEditViewModel() { Data = GetStaffingDataForDepartment(d), Parent = this, Owner = this });
+                                var depVM = new DepartmentEditViewModel() { Data = GetStaffingDataForDepartment(d), Parent = this, Owner = this };
+                                departments.Add(depVM);
+                                depForUpdate = depVM.Data.Department;
                             }
                         }
+
+                        employees
+                            .Where(e2 => e2.Employee.Stuffing?.DepartmentId == d.Id)
+                            .ToList()
+                            .ForEach(emp => emp.Department = depForUpdate);
+
                     }
                 }
             else
@@ -444,6 +534,11 @@ namespace Personnel.Application.ViewModels.Staffing
                         var existed = departments.AsEnumerable().Traverse(i => i.Childs).FirstOrDefault(i => i.Data.Department.Id == d.Id);
                         if (existed != null)
                             existed.Parent?.Childs.Remove(existed);
+
+                        employees
+                            .Where(e2 => e2.Employee.Stuffing?.DepartmentId == d.Id)
+                            .ToList()
+                            .ForEach(emp => emp.Department = null);
                     }
 
             OnDepartmentsChanged?.Invoke(this, e);
@@ -461,49 +556,38 @@ namespace Personnel.Application.ViewModels.Staffing
         }
         private void OnWorkerEmployeeChanged(object s, StaffingListItemsEventArgs<Employee> e)
         {
-            if (e.Action == StaffingListsAction.Add)
+            if (e.Action == StaffingListsAction.Add || e.Action == StaffingListsAction.Change)
             {
-                e.Items.ToList().ForEach(n =>
-                {
-                    var empVM = GetViewModelForEmployee(n);
-                    employees.Add(empVM);
+                var items = e.Action == StaffingListsAction.Add
+                    ? e.Items.Select(i => 
+                    {
+                        var empVM = GetViewModelForEmployee(i);
+                        employees.Add(empVM);
+                        return empVM;
+                    }).ToList()
+                    : e.Items.Join(employees, i => i.Id, n => n.Employee.Id, (i, n) => new { New = i, Old = n }).Select(i => 
+                    {
+                        i.Old.CopyObjectFrom(GetViewModelForEmployee(i.New));
+                        return i.Old;
+                    }).ToList();
 
-                    var fullItems = departments.AsEnumerable().Traverse(d => d.Childs).ToArray();
-                    var treeItemForItem = fullItems.FirstOrDefault(d => d.Data.Department.Id == empVM?.Department?.Id);
-                    var treeItemWithThisItem = fullItems.FirstOrDefault(d => d.Data.Staffing.Any(sd => sd.Employee?.Employee?.Id == empVM.Employee.Id));
-                    if (treeItemWithThisItem != null)
-                    {
-                        var existedStaffing = treeItemWithThisItem.Data.Staffing.FirstOrDefault(sd => sd.Employee.Employee.Id == empVM.Employee.Id);
-                        existedStaffing.Employee = null;
-                    }
-                    if (treeItemForItem != null)
-                    {
-                        treeItemForItem.Data.Staffing.Add(new EmployeeAndStaffingData(this)
-                        {
-                            Staffing = empVM.Employee.Stuffing,
-                            Employee = empVM
-                        });
-                    }
-                });
-            }
-            else if (e.Action == StaffingListsAction.Change)
-            {
-                e.Items.Join(employees, i => i.Id, n => n.Employee.Id, (i, n) => new { New = i, Old = n }).ToList().ForEach(i =>
+                items.ToList().ForEach(empVM =>
                 {
-                    var empVM = GetViewModelForEmployee(i.New);
-                    empVM.CopyObjectTo(i.Old);
-
                     var fullItems = departments.AsEnumerable().Traverse(d => d.Childs).ToArray();
-                    var treeItemForItem = fullItems.FirstOrDefault(d => d.Data.Department.Id == empVM?.Department?.Id);
-                    var treeItemWithThisItem = fullItems.FirstOrDefault(d => d.Data.Staffing.Any(sd => sd.Employee?.Employee?.Id == empVM.Employee.Id));
-                    if (treeItemWithThisItem != null)
+                    var departmentItemForItem = fullItems.FirstOrDefault(d => d.Data.Department.Id == empVM?.Department?.Id);
+                    var staffingItemWithThisItem = fullItems.SelectMany(i => i.Data.Staffing).Where(sd => sd.Staffing?.Id == empVM.Employee.Stuffing?.Id).ToList();
+                    var employeeItemWithThisItem = fullItems.SelectMany(i => i.Data.Staffing).Where(sd => sd.Employee?.Employee?.Id == empVM.Employee.Id).ToList();
+                    employeeItemWithThisItem.ForEach(i => i.Employee = null);
+                    
+                    if (staffingItemWithThisItem.Count == 1)
                     {
-                        var existedStaffing = treeItemWithThisItem.Data.Staffing.FirstOrDefault(sd => sd.Employee?.Employee?.Id == empVM.Employee.Id);
-                        existedStaffing.Employee = null;
+                        staffingItemWithThisItem.ForEach(i => i.Employee = empVM);
                     }
-                    if (treeItemForItem != null)
+                    else 
+                    if (departmentItemForItem != null)
                     {
-                        treeItemForItem.Data.Staffing.Add(new EmployeeAndStaffingData(this)
+                        staffingItemWithThisItem.ForEach(i => i.Employee = null);
+                        departmentItemForItem.Data.Staffing.Add(new EmployeeAndStaffingData(this)
                         {
                             Staffing = empVM.Employee.Stuffing,
                             Employee = empVM

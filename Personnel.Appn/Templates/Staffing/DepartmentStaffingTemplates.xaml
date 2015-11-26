@@ -3,9 +3,11 @@
                     xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
                     xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
                     xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels"
-                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                     xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
-                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                    xmlns:add="clr-namespace:Personnel.Appn.Additional"
+                    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
@@ -14,27 +16,18 @@
         <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/EmployeeTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Viewbox Width="20" Height="20" x:Key="departmentStaffingPlusContent" Stretch="UniformToFill" x:Shared="False">
-        <Path Style="{StaticResource plusPathStyle}"/>
-    </Viewbox>
-    <Viewbox Width="20" Height="20" x:Key="departmentStaffingMinusContent" Stretch="UniformToFill" x:Shared="False">
-        <Path Style="{StaticResource minusPathStyle}"/>
-    </Viewbox>
-    <Viewbox Width="20" Height="20" x:Key="departmentStaffingCancelContent" Stretch="UniformToFill" x:Shared="False">
-        <Path Style="{StaticResource cancelPathStyle}"/>
-    </Viewbox>
-    <Viewbox Width="20" Height="20" x:Key="departmentStaffingLeftContent" Stretch="UniformToFill" x:Shared="False">
-        <Viewbox.RenderTransform>
-            <RotateTransform Angle="90" CenterX="10" CenterY="10"/>
-        </Viewbox.RenderTransform>
-        <Path Style="{StaticResource applyPathStyle}"/>
-    </Viewbox>
-    <Viewbox Width="20" Height="20" x:Key="departmentStaffingRightContent" Stretch="UniformToFill" x:Shared="False">
-        <Viewbox.LayoutTransform>
-            <RotateTransform Angle="270" CenterX="10" CenterY="10"/>
-        </Viewbox.LayoutTransform>
-        <Path Style="{StaticResource applyPathStyle}"/>
-    </Viewbox>
+    <svgc:SvgViewbox x:Key="departmentStaffingPlusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.user.add.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="departmentStaffingCancelContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.delete.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="departmentStaffingLeftContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.chevron.left.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="departmentStaffingRightContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.chevron.right.svg"
+                     IsHitTestVisible="False"/>
 
     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="departmentStaffingReverseBooleanToVisibilityConverter"/>
     <BooleanToVisibilityConverter x:Key="departmentStaffingBooleanToVisibilityConverter"/>
@@ -49,7 +42,7 @@
     <DataTemplate x:Key="DepartmentStaffingTemplate" DataType="{x:Type staffing:DepartmentAndStaffingData}">
         <DataTemplate.Resources>
             <DataTemplate DataType="{x:Type staffing:EmployeeAndStaffingData}" x:Key="EmployeeAndStaffingDataTemplate">
-                <Grid>
+                <Grid x:Name="PART_Root" DataContext="{Binding}">
                     <Button x:Name="PART_ButtonAddNew"
                             Margin="16,0"
                             HorizontalAlignment="Center"
@@ -61,13 +54,32 @@
                             ToolTipService.IsEnabled="True"
                             Content="{StaticResource departmentStaffingPlusContent}">
                     </Button>
-                    
-                    <md:ColorZone Mode="Light" Margin="16,8,0,8" x:Name="PART_Card">
+
+                    <md:ColorZone Mode="Light" Margin="16,8,0,8" x:Name="PART_Card" AllowDrop="True">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Drop">
+                                <add:EventToCommand Command="{Binding DropEmployeeCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="DragOver">
+                                <add:EventToCommand Command="{Binding DragOverEmployeeCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <Grid Width="320" Height="120" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="120"/>
                             </Grid.ColumnDefinitions>
+
+                            <Border Grid.ColumnSpan="999" Grid.RowSpan="999" x:Name="PART_DragZone" Visibility="Hidden">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0,0" StartPoint="8,8" MappingMode="Absolute" SpreadMethod="Repeat">
+                                        <GradientStop Color="Black" Offset="0"/>
+                                        <GradientStop Color="Black" Offset="0.1"/>
+                                        <GradientStop Color="Transparent" Offset="0.1"/>
+                                        <GradientStop Color="Transparent" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
 
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0"
                                         x:Name="PART_Caption">
@@ -115,11 +127,18 @@
                                 </StackPanel>
                             </Grid>
 
-                            <ContentPresenter Grid.Column="1" 
-                                              x:Name="PART_Employee"
+
+                            <ContentPresenter x:Name="PART_Employee" Grid.Column="1"
                                               Content="{Binding Employee}" 
-                                              ContentTemplate="{StaticResource EmployeeTemplate}"
-                                              VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                              ContentTemplate="{StaticResource EmployeeTemplateTopImage}"
+                                              VerticalAlignment="Center" HorizontalAlignment="Center"
+                                              Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <add:EventToCommand Command="{Binding ElementName=PART_Root, Path=DataContext.MouseDownEmployeeCommand}" PassEventArgsToCommand="True"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ContentPresenter>
 
                             <!-- Is busy progress bar (first column) -->
                             <ProgressBar Style="{DynamicResource MaterialDesignCircularProgressBar}"
@@ -173,7 +192,7 @@
                         <Setter TargetName="PART_AdditionalButtons" Property="Visibility" Value="Visible"/>
                     </Trigger>
                     <DataTrigger Binding="{Binding Employee}" Value="{x:Null}">
-                        <Setter Property="Visibility" TargetName="PART_Employee" Value="Collapsed"/>
+                        <Setter TargetName="PART_Employee" Property="Visibility" Value="Collapsed"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding IsEditMode}" Value="True">
                         <Setter TargetName="PART_Caption" Property="Visibility" Value="Collapsed"/>

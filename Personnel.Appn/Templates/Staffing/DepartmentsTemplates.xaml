@@ -5,21 +5,26 @@
                     xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
-                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                    xmlns:add="clr-namespace:Personnel.Appn.Additional"
+                    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-        <ResourceDictionary Source="/Personnel.Appn;component/Styles/Icons.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Styles/Generic.xaml"/>
         <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/DepartmentStaffingTemplates.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Viewbox Width="20" Height="20" x:Key="plusContent" Stretch="UniformToFill" x:Shared="False">
-        <Path Style="{StaticResource plusPathStyle}"/>
-    </Viewbox>
-    <Viewbox Width="20" Height="20" x:Key="minusContent" Stretch="UniformToFill" x:Shared="False">
-        <Path Style="{StaticResource minusPathStyle}"/>
-    </Viewbox>
+    <svgc:SvgViewbox x:Key="plusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.add.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="minusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.minus.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="deleteContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.user.delete.svg"
+                     IsHitTestVisible="False"/>
 
     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="departmentsReverseBooleanToVisibilityConverter"/>
     <BooleanToVisibilityConverter x:Key="departmentsBooleanToVisibilityConverter"/>
@@ -31,6 +36,43 @@
     <localConverters:IsNotEmptyStringConverter x:Key="departmentsIsNotEmptyStringConverter"/>
     <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="departmentsIsNotEmptyStringToVisibilityConverter"/>
 
+    
+    
+    <DataTemplate x:Key="EmployeesListTemplate" DataType="{x:Type staffing:StaffingViewModel}" >
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden" 
+                      x:Name="PART_Root" DataContext="{Binding}">
+            <ScrollViewer.Resources>
+                <CollectionViewSource Source="{Binding Employees, Mode=OneWay}" x:Key="sortedEmployees">
+                    <CollectionViewSource.SortDescriptions>
+                        <scm:SortDescription PropertyName="Employee.Surname" Direction="Ascending"/>
+                        <scm:SortDescription PropertyName="Employee.Name" Direction="Ascending"/>
+                        <scm:SortDescription PropertyName="Employee.Patronymic" Direction="Ascending"/>
+                    </CollectionViewSource.SortDescriptions>
+                    <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Filter">
+                            <add:EventToCommand Command="{Binding ElementName=PART_Root, Path=DataContext.EmployeesFilterCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>-->
+                </CollectionViewSource>
+            </ScrollViewer.Resources>
+
+            <ItemsControl ItemsSource="{Binding Source={StaticResource sortedEmployees}}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type staffing:EmployeeViewModel}">
+                        <ContentPresenter ContentTemplate="{StaticResource EmployeeTemplateTopImageWithDepartmentSimpleDraggable}"
+                                          Content="{Binding}"
+                                          Margin="4"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </DataTemplate>
+    
     <HierarchicalDataTemplate x:Key="recursiveDepartmentTemplate" ItemsSource="{Binding Childs}" DataType="{x:Type staffing:DepartmentEditViewModel}">
         <Grid Background="Transparent" x:Name="RootItemGrid">
             <Grid.ColumnDefinitions>
@@ -174,7 +216,7 @@
         </HierarchicalDataTemplate.Triggers>
     </HierarchicalDataTemplate>
 
-    <DataTemplate DataType="{x:Type staffing:StaffingViewModel}" x:Key="DepartmentsTreeViewTemplate">
+    <DataTemplate x:Key="DepartmentsTreeViewTemplate" DataType="{x:Type staffing:StaffingViewModel}">
         <Grid>
             <Grid.Resources>
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
@@ -184,7 +226,7 @@
                     <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
                 </Style>
             </Grid.Resources>
-            
+
             <!-- Tree -->
             <TreeView ItemsSource="{Binding Departments}" 
                       ItemTemplate="{StaticResource recursiveDepartmentTemplate}"
@@ -217,15 +259,46 @@
 
     <DataTemplate DataType="{x:Type staffing:StaffingViewModel}" x:Key="DepartmentsViewTemplate">
         <Grid>
-            <!-- Show tree -->
+            <!-- Show content -->
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Tree -->
                 <ContentPresenter Margin="16"
                                   Content="{Binding}"
                                   ContentTemplate="{StaticResource DepartmentsTreeViewTemplate}"/>
+                
+                <!-- Delete staffing button -->
+                <md:ColorZone HorizontalAlignment="Stretch" VerticalAlignment="Top" Mode="PrimaryDark"
+                              VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                              MinHeight="60" AllowDrop="True"
+                              Visibility="{Binding IsDragMode, Converter={StaticResource departmentsBooleanToVisibilityConverter}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <add:EventToCommand Command="{Binding DeleteDropEmployeeCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="DragOver">
+                            <add:EventToCommand Command="{Binding DeleteDragOverEmployeeCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <StackPanel Orientation="Horizontal">
+                        <ContentPresenter Content="{StaticResource deleteContent}" Margin="8,4"/>
+                        <TextBlock Text="Drop this item for delete" FontSize="18"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </md:ColorZone>
+                
+                <!-- Employees -->
+                <ContentPresenter Content="{Binding}" Grid.Column="1"
+                                  ContentTemplate="{StaticResource EmployeesListTemplate}"
+                                  Visibility="{Binding CanManageStaffing, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"/>
 
-                <!-- Visibility="{Binding IsLoaded, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"-->
-
-                <Border Background="#99000000" Visibility="{Binding IsLoaded, Converter={StaticResource departmentsReverseBooleanToVisibilityConverter}}"/>
+                <!-- Fade -->
+                <Border Background="#99000000" Grid.ColumnSpan="999" Grid.RowSpan="999"
+                        Visibility="{Binding IsLoaded, Converter={StaticResource departmentsReverseBooleanToVisibilityConverter}}"/>
             </Grid>
 
             <StackPanel>

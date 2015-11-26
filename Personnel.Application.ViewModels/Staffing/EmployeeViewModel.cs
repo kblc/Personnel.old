@@ -49,45 +49,6 @@ namespace Personnel.Application.ViewModels.Staffing
             }
         }
 
-        private bool isPhotoVisible = true;
-        public bool IsPhotoVisible
-        {
-            get { return isPhotoVisible; }
-            set
-            {
-                if (isPhotoVisible == value)
-                    return;
-                isPhotoVisible = value;
-                RaisePropertyChanged(() => IsPhotoVisible);
-            }
-        }
-
-        private bool isDepartmentVisible = true;
-        public bool IsDepartmentVisible
-        {
-            get { return isDepartmentVisible; }
-            set
-            {
-                if (isDepartmentVisible == value)
-                    return;
-                isDepartmentVisible = value;
-                RaisePropertyChanged(() => IsDepartmentVisible);
-            }
-        }
-
-        private bool isAppointVisible = true;
-        public bool IsAppointVisible
-        {
-            get { return isAppointVisible; }
-            set
-            {
-                if (isAppointVisible == value)
-                    return;
-                isAppointVisible = value;
-                RaisePropertyChanged(() => IsAppointVisible);
-            }
-        }
-
         public bool HasPhoto { get { return Photo != null; } }
     }
 }

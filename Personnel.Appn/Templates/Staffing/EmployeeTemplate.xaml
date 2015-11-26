@@ -3,7 +3,13 @@
                     xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
                     xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
                     xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+                    xmlns:iw="clr-namespace:Personnel.Appn.Controls"
+                    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                    xmlns:add="clr-namespace:Personnel.Appn.Additional"
                     xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Personnel.Appn;component/Controls/IconViewer/IconViewer.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="employeeBooleanToVisibilityConverter"/>
     <localConverters:StaffingPictureToImageSourceConverter x:Key="employeeImagePathToImageSourceConverter"/>
@@ -50,27 +56,136 @@
                 </WrapPanel>
             </Grid>
         </md:Card>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding IsPhotoVisible}" Value="False">
-                <Setter TargetName="PART_Photo" Property="Visibility" Value="Collapsed"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding IsDepartmentVisible}" Value="False">
-                <Setter TargetName="PART_Department" Property="Visibility" Value="Collapsed"/>
-                <Setter TargetName="PART_DepartmentDelimiter" Property="Visibility" Value="Collapsed"/>
-            </DataTrigger>
-            <!--<DataTrigger Binding="{Binding Department.Name}" Value="{x:Null}">
-                <Setter TargetName="PART_Department" Property="Visibility" Value="Collapsed"/>
-                <Setter TargetName="PART_DepartmentDelimiter" Property="Visibility" Value="Collapsed"/>
-            </DataTrigger>-->
-            <DataTrigger Binding="{Binding IsAppointVisible}" Value="False">
-                <Setter TargetName="PART_Appoint" Property="Visibility" Value="Collapsed"/>
-                <Setter TargetName="PART_DepartmentDelimiter" Property="Visibility" Value="Collapsed"/>
-            </DataTrigger>
-            <!--<DataTrigger Binding="{Binding Employee.Stuffing.Appoint}" Value="{x:Null}">
-                <Setter TargetName="PART_Appoint" Property="Visibility" Value="Collapsed"/>
-                <Setter TargetName="PART_DepartmentDelimiter" Property="Visibility" Value="Collapsed"/>
-            </DataTrigger>-->
-        </DataTemplate.Triggers>
     </DataTemplate>
+
+    <DataTemplate x:Key="EmployeeTemplateTopImage" DataType="{x:Type staffing:EmployeeViewModel}">
+        <md:Card Margin="4" Width="112" Height="112" ToolTipService.IsEnabled="True">
+            <md:Card.ToolTip>
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1} {2}">
+                            <Binding Path="Employee.Surname"/>
+                            <Binding Path="Employee.Name"/>
+                            <Binding Path="Employee.Patronymic"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </md:Card.ToolTip>
+            <iw:IconViewer ViewStyle="IconTop"
+                           Image="{Binding Photo}"
+                           IsImageVisible="{Binding HasPhoto, Converter={StaticResource employeeBooleanToVisibilityConverter}}"
+                           HorizontalHeaderAlignment="Center">
+                <iw:IconViewer.Header>
+                    <StackPanel Orientation="Vertical" Margin="4,4" HorizontalAlignment="Center">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Margin" Value="4,0"/>
+                                <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                                <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <!--<Setter Property="FontWeight" Value="Bold"/>-->
+                                <Setter Property="FontSize" Value="12"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <TextBlock Text="{Binding Employee.Surname}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Employee.Name}" FontWeight="Medium"/>
+                        <!--<TextBlock Text="{Binding Employee.Patronymic}"/>-->
+                    </StackPanel>
+                </iw:IconViewer.Header>
+                <!--<iw:IconViewer.Content>
+                    
+                </iw:IconViewer.Content>-->
+            </iw:IconViewer>
+        </md:Card>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EmployeeTemplateTopImageWithDepartment" DataType="{x:Type staffing:EmployeeViewModel}">
+        <md:Card Margin="4" Width="112" ToolTipService.IsEnabled="True" Padding="4">
+            <md:Card.ToolTip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Left">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} {1} {2}">
+                                <Binding Path="Employee.Surname"/>
+                                <Binding Path="Employee.Name"/>
+                                <Binding Path="Employee.Patronymic"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Left">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} / {1}">
+                                <Binding Path="Department.Name"/>
+                                <Binding Path="Employee.Stuffing.Appoint"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </StackPanel>
+            </md:Card.ToolTip>
+            <md:Card.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Margin" Value="4,0"/>
+                    <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="FontSize" Value="10"/>
+                </Style>
+            </md:Card.Resources>
+            <iw:IconViewer ViewStyle="IconTop"
+                           Image="{Binding Photo}"
+                           IsImageVisible="{Binding HasPhoto, Converter={StaticResource employeeBooleanToVisibilityConverter}}"
+                           HorizontalHeaderAlignment="Center"
+                           HorizontalContentAlignment="Center">
+                <iw:IconViewer.Header>
+                    <StackPanel Orientation="Vertical" Margin="4,4" HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding Employee.Surname}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Employee.Name}" FontWeight="Medium"/>
+                        <!--<TextBlock Text="{Binding Employee.Patronymic}"/>-->
+                    </StackPanel>
+                </iw:IconViewer.Header>
+                <iw:IconViewer.Content>
+                    <StackPanel Orientation="Vertical">
+                        <Separator />
+                        <TextBlock Text="{Binding Department.Name}" FontWeight="Medium" FontSize="8"/>
+                        <Separator />
+                        <TextBlock Text="{Binding Employee.Stuffing.Appoint}" FontWeight="Medium" FontSize="8"/>
+                    </StackPanel>
+                </iw:IconViewer.Content>
+            </iw:IconViewer>
+        </md:Card>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EmployeeTemplateTopImageSimpleDraggable" DataType="{x:Type staffing:EmployeeViewModel}">
+        <ContentPresenter x:Name="PART_Employee"
+                          Content="{Binding}" 
+                          ContentTemplate="{StaticResource EmployeeTemplateTopImage}"
+                          VerticalAlignment="Center" HorizontalAlignment="Center"
+                          Cursor="Hand">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDown">
+                    <add:EventToCommand Command="{Binding Source={x:Static add:Locator.StartDraggingCommand}}"
+                                        CommandParameter="{Binding}"
+                                        PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ContentPresenter>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EmployeeTemplateTopImageWithDepartmentSimpleDraggable" DataType="{x:Type staffing:EmployeeViewModel}">
+        <ContentPresenter x:Name="PART_Employee"
+                          Content="{Binding}" 
+                          ContentTemplate="{StaticResource EmployeeTemplateTopImageWithDepartment}"
+                          VerticalAlignment="Center" HorizontalAlignment="Center"
+                          Cursor="Hand">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDown">
+                    <add:EventToCommand Command="{Binding Source={x:Static add:Locator.StartDraggingCommand}}"
+                                        CommandParameter="{Binding}"
+                                        PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ContentPresenter>
+    </DataTemplate>
+
 
 </ResourceDictionary>

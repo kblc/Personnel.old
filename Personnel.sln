@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personnel.Services.ConsoleS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personnel.Application", "Personnel.Appn\Personnel.Application.csproj", "{7EE33AFC-4D91-4095-B733-449BB9D47F69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personnel.Application.Icons", "Personnel.Application.Icons\Personnel.Application.Icons.csproj", "{0E21C1D0-ED98-4C7C-997E-F448E16B87D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AppVeyor|Any CPU = AppVeyor|Any CPU
@@ -72,6 +74,12 @@ Global
 		{7EE33AFC-4D91-4095-B733-449BB9D47F69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EE33AFC-4D91-4095-B733-449BB9D47F69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EE33AFC-4D91-4095-B733-449BB9D47F69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E21C1D0-ED98-4C7C-997E-F448E16B87D7}.AppVeyor|Any CPU.ActiveCfg = Release|Any CPU
+		{0E21C1D0-ED98-4C7C-997E-F448E16B87D7}.AppVeyor|Any CPU.Build.0 = Release|Any CPU
+		{0E21C1D0-ED98-4C7C-997E-F448E16B87D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E21C1D0-ED98-4C7C-997E-F448E16B87D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E21C1D0-ED98-4C7C-997E-F448E16B87D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E21C1D0-ED98-4C7C-997E-F448E16B87D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
