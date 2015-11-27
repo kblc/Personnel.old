@@ -14,6 +14,7 @@
             </Grid.RowDefinitions>
 
             <Image Grid.Row="0" Width="48" Height="48"
+                   Stretch="Uniform"
                    VerticalAlignment="Center" HorizontalAlignment="Center"
                    Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Image, Mode=OneWay}"
                    Visibility="{TemplateBinding IsImageVisible, Converter={StaticResource resource_BooleanToVisibilityConverter}}"

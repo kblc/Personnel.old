@@ -64,7 +64,7 @@
                                 <add:EventToCommand Command="{Binding DragOverEmployeeCommand}" PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        <Grid Width="320" Height="120" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <Grid Width="320" Height="100" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="120"/>
@@ -105,7 +105,8 @@
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
-                                <TextBlock Text="{Binding Staffing.Appoint}" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Staffing.Appoint}" HorizontalAlignment="Center"
+                                           TextWrapping="Wrap" TextAlignment="Center"/>
                             </StackPanel>
 
                             <Grid x:Name="PART_EditBox" Margin="4" Visibility="Collapsed" 
@@ -178,7 +179,13 @@
                                         Command="{Binding DeleteCommand}" 
                                         ToolTip="Remove staffing position"
                                         ToolTipService.IsEnabled="True"
-                                        Content="{StaticResource departmentStaffingCancelContent}">
+                                        >
+
+                                    <!-- Content="{DynamicResource departmentStaffingCancelContent}" -->
+                                    <Button.Content>
+                                        <Image Source="{svgc:SvgImage Source=/Personnel.Application.Icons;component/SVG/appbar.delete.svg}"
+                                               Width="20" Height="20" Stretch="Uniform"/>
+                                    </Button.Content>
                                     <Button.LayoutTransform>
                                         <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
                                     </Button.LayoutTransform>

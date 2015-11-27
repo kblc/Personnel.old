@@ -111,7 +111,7 @@
                                     <TextBlock Text="{Binding Source={StaticResource notifications}, Path=Notifications.Count, StringFormat=Notifications ({0})}"/>
                                 </controls:ContentStorageControl.Header>
                                 <controls:ContentStorageControl.Content>
-                                    <ContentPresenter Content="{StaticResource notifications}" ContentTemplate="{DynamicResource NotificationsViewTemplate}"/>
+                                    <ContentPresenter Content="{StaticResource notifications}" ContentTemplate="{StaticResource NotificationsViewTemplate}"/>
                                 </controls:ContentStorageControl.Content>
                             </controls:ContentStorageControl>
                         </ListBox>

@@ -511,6 +511,7 @@ namespace Personnel.Application.ViewModels.Staffing
                                     newDep.Childs.Add(c);
                                 }
                                 existedParent.Childs.Add(newDep);
+                                depForUpdate = newDep.Data.Department;
                             }
                             else
                             {
@@ -520,10 +521,11 @@ namespace Personnel.Application.ViewModels.Staffing
                             }
                         }
 
-                        employees
-                            .Where(e2 => e2.Employee.Stuffing?.DepartmentId == d.Id)
-                            .ToList()
-                            .ForEach(emp => emp.Department = depForUpdate);
+                        if (depForUpdate != null)
+                            employees
+                                .Where(e2 => e2.Employee.Stuffing?.DepartmentId == depForUpdate.Id)
+                                .ToList()
+                                .ForEach(emp => emp.Department = depForUpdate);
 
                     }
                 }

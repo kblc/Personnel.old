@@ -1125,6 +1125,9 @@ namespace Personnel.Application.ViewModels.StaffingService {
         private System.Guid IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LinkField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string MimeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -1184,6 +1187,19 @@ namespace Personnel.Application.ViewModels.StaffingService {
                 if ((this.IdField.Equals(value) != true)) {
                     this.IdField = value;
                     this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Link {
+            get {
+                return this.LinkField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LinkField, value) != true)) {
+                    this.LinkField = value;
+                    this.RaisePropertyChanged("Link");
                 }
             }
         }

@@ -42,7 +42,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <ContentPresenter Content="{Binding}" Grid.Column="1" Grid.RowSpan="999"
-                              ContentTemplate="{StaticResource EmployeeTemplate}"/>
+                              ContentTemplate="{StaticResource EmployeeTemplateTopImage}"/>
 
             <StackPanel Orientation="Vertical" Margin="8,16" VerticalAlignment="Center" >
                 <TextBlock Text="{Binding Age}" Grid.Row="0" FontSize="23" Margin="0,0,0,2" HorizontalAlignment="Center" />

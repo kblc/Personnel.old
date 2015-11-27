@@ -41,6 +41,12 @@ namespace Personnel.Services.Model
         /// File mime type
         /// </summary>
         [DataMember(IsRequired = false)]
+        public string Link { get; set; }
+
+        /// <summary>
+        /// File mime type
+        /// </summary>
+        [DataMember(IsRequired = false)]
         public string Preview { get; set; }
 
         /// <summary>

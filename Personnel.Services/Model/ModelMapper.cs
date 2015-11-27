@@ -151,6 +151,7 @@ namespace Personnel.Services.Model
                 .ForMember(dst => dst.Mime, e => e.MapFrom(a => a.MimeType))
                 .AfterMap((src, dst) =>
                 {
+                    dst.Link = AddUrlPrefixConverter.AddUrlPrefix(src.FileId.ToString());
                     var mimeInfo = FileStorage.MimeStorage.GetPreviewImagesForMimeType(dst.Mime);
                     if (mimeInfo != null)
                     {

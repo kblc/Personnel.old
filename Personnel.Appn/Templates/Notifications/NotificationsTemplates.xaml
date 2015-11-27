@@ -4,7 +4,8 @@
                     xmlns:localConverters="clr-namespace:Personnel.Appn.Converters"
                     xmlns:helperConverters="clr-namespace:Helpers.WPF.Converters;assembly=Helpers.WPF"
                     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-                    xmlns:notifications="clr-namespace:Personnel.Application.ViewModels.Notifications;assembly=Personnel.Application.ViewModels">
+                    xmlns:notifications="clr-namespace:Personnel.Application.ViewModels.Notifications;assembly=Personnel.Application.ViewModels"
+                    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
@@ -12,9 +13,9 @@
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Viewbox Width="20" Height="20" x:Key="notificationsCancelContent" Stretch="UniformToFill" x:Shared="False">
-        <Path Style="{StaticResource cancelPathStyle}"/>
-    </Viewbox>
+    <svgc:SvgViewbox x:Key="notificationsCancelContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.delete.svg"
+                     IsHitTestVisible="False"/>
 
     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="notificationsReverseBooleanToVisibilityConverter"/>
     <BooleanToVisibilityConverter x:Key="notificationsBooleanToVisibilityConverter"/>
