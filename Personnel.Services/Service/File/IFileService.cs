@@ -75,6 +75,14 @@ namespace Personnel.Services.Service.File
         FileExecutionResult Update(Model.File item);
 
         /// <summary>
+        /// Generate pictures from file in database
+        /// </summary>
+        /// <param name="identifier">File identifier</param>
+        /// <returns>Picture info</returns>
+        [OperationContract]
+        PictureExecutionResults FileToPictures(Guid identifier);
+
+        /// <summary>
         /// Update picture in database
         /// </summary>
         /// <param name="file">Picture to update</param>
@@ -154,7 +162,17 @@ namespace Personnel.Services.Service.File
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Bare, Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/file")]
         FileExecutionResult RESTUpdate(Model.File item);
-        
+
+        /// <summary>
+        /// Generate pictures from file in database
+        /// </summary>
+        /// <param name="identifier">File identifier</param>
+        /// <returns>Picture info</returns>
+        [OperationContract]
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Bare, Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/fileToPictures?id={identifier}")]
+        PictureExecutionResults RESTFileToPictures(string identifier);
+
         /// <summary>
         /// Update picture in database
         /// </summary>

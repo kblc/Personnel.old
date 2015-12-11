@@ -99,4 +99,27 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfFile" nillable="true" type="tns:ArrayOfFile" />
+  <xs:complexType name="BaseExecutionResultsOfPicture3XPrIsxh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseExecutionResultsOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Picture" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Result">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Values" nillable="true" type="tns:ArrayOfPicture" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseExecutionResultsOfPicture3XPrIsxh" nillable="true" type="tns:BaseExecutionResultsOfPicture3XPrIsxh" />
+  <xs:complexType name="ArrayOfPicture">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Picture" nillable="true" type="tns:Picture" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPicture" nillable="true" type="tns:ArrayOfPicture" />
 </xs:schema>

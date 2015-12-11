@@ -20,7 +20,8 @@ namespace Personnel.Application.ViewModels.Staffing
     public class StaffingViewModel : DataOwner, ITreeDepartmentItem
     {
         private const string MANAGEDEPARTMENTS = "MANAGEDEPARTMENTS";
-        private const string MANAGEDESTAFFING = "MANAGESTAFFING";
+        private const string MANAGESTAFFING = "MANAGESTAFFING";
+        private const string MANAGEEMPLOYES = "MANAGEEMPLOYES";
 
         private readonly ServiceWorkers.StaffingWorker worker = new ServiceWorkers.StaffingWorker();
 
@@ -316,7 +317,43 @@ namespace Personnel.Application.ViewModels.Staffing
             var res = false;
             if (Rights != null && Current != null)
             {
-                var canManageRight = Rights.FirstOrDefault(r => string.Compare(r.SystemName, MANAGEDESTAFFING, true) == 0);
+                var canManageRight = Rights.FirstOrDefault(r => string.Compare(r.SystemName, MANAGESTAFFING, true) == 0);
+                if (canManageRight != null)
+                    res = Current.Rights.Any(r => r.RightId == canManageRight.Id);
+            }
+            return res;
+        }
+
+        #endregion
+        #region CanManageEmployees
+
+        private static readonly DependencyPropertyKey ReadOnlyCanManageEmployesPropertyKey
+            = DependencyProperty.RegisterReadOnly(nameof(CanManageEmployes), typeof(bool), typeof(StaffingViewModel),
+                new FrameworkPropertyMetadata(false,
+                    FrameworkPropertyMetadataOptions.None,
+                    new PropertyChangedCallback((s, e) =>
+                    {
+                        var model = s as StaffingViewModel;
+                        if (model != null)
+                        {
+                            model.RaisePropertyChanged(e.Property.Name);
+                            model.UpdateCommands();
+                        }
+                    })));
+        public static readonly DependencyProperty ReadOnlyCanManageEmployesProperty = ReadOnlyCanManageStaffingPropertyKey.DependencyProperty;
+
+        public override bool CanManageEmployes
+        {
+            get { return (bool)GetValue(ReadOnlyCanManageEmployesProperty); }
+            protected set { SetValue(ReadOnlyCanManageEmployesPropertyKey, value); RaisePropertyChanged(); }
+        }
+
+        private bool GetCanManageEmployesProperty()
+        {
+            var res = false;
+            if (Rights != null && Current != null)
+            {
+                var canManageRight = Rights.FirstOrDefault(r => string.Compare(r.SystemName, MANAGEEMPLOYES, true) == 0);
                 if (canManageRight != null)
                     res = Current.Rights.Any(r => r.RightId == canManageRight.Id);
             }
@@ -422,6 +459,18 @@ namespace Personnel.Application.ViewModels.Staffing
         DataOwner ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>.Owner => this;
 
         #endregion
+        #region EmployeeForEdit
+
+        public static readonly DependencyProperty EmployeeForEditProperty = DependencyProperty.Register(nameof(EmployeeForEdit), typeof(EmployeeViewModel),
+            typeof(StaffingViewModel), new PropertyMetadata(null, (s, e) => {}));
+
+        public EmployeeViewModel EmployeeForEdit
+        {
+            get { return (EmployeeViewModel)GetValue(EmployeeForEditProperty); }
+            set { SetValue(EmployeeForEditProperty, value); }
+        }
+
+        #endregion
 
         private void RunUnderDispatcher(Delegate a)
         {
@@ -443,13 +492,16 @@ namespace Personnel.Application.ViewModels.Staffing
                 Current = e;
                 CanManageDepartments = GetCanManageDepartmentsProperty();
                 CanManageStaffing = GetCanManageStaffingProperty();
+                CanManageEmployes = GetCanManageEmployesProperty();
             }));
             worker.OnRightsChanged += (s, e) => RunUnderDispatcher(new Action(() =>
             {
                 OnWorkerRightsChanged(s, e);
                 CanManageDepartments = GetCanManageDepartmentsProperty();
                 CanManageStaffing = GetCanManageStaffingProperty();
+                CanManageEmployes = GetCanManageEmployesProperty();
             }));
+            CheckForFakeEmployee();
         }
 
         private void OnHistoryChanged(object sender, HistoryService.History e) => worker.ApplyHistoryChanges(e);
@@ -469,19 +521,32 @@ namespace Personnel.Application.ViewModels.Staffing
         private EmployeeViewModel GetViewModelForEmployee(Employee emp)
         {
             var deps = departments.AsEnumerable().Traverse(d => d.Childs).ToArray();
-            var res = new EmployeeViewModel()
+            var res = new EmployeeViewModel(this)
             {
                 Employee = emp,
                 Department = deps.Where(d => d.Data.Department.Id == emp?.Stuffing?.DepartmentId)
                                 .Select(d => d.Data.Department)
                                 .FirstOrDefault(),
-                Photo = emp.Photos
-                    .Where(p => p.Picture.PictureType == PictureType.Avatar64)
-                    .OrderBy(p => p.Picture?.File?.Date)
-                    .Select(p => p.Picture)
-                    .FirstOrDefault()
             };
             return res;
+        }
+        private EmployeeViewModel GetFakeEmployee()
+        {
+            return new EmployeeViewModel(this)
+            {
+                Employee = new Employee(),
+                IsEmpty = true
+            };
+        }
+
+        private void CheckForFakeEmployee()
+        {
+            if (!employees.Any(emp => emp.IsEmpty))
+            {
+                var newEmpVM = GetFakeEmployee();
+                newEmpVM.OnEditCommandExecuted += EmployeeViewModelOnEditCommandExecuted;
+                employees.Add(newEmpVM);
+            }
         }
 
         private void OnWorkerDepartmentsChanged(object sender, StaffingListItemsEventArgs<Department> e)
@@ -565,6 +630,7 @@ namespace Personnel.Application.ViewModels.Staffing
                     {
                         var empVM = GetViewModelForEmployee(i);
                         employees.Add(empVM);
+                        empVM.OnEditCommandExecuted += EmployeeViewModelOnEditCommandExecuted;
                         return empVM;
                     }).ToList()
                     : e.Items.Join(employees, i => i.Id, n => n.Employee.Id, (i, n) => new { New = i, Old = n }).Select(i => 
@@ -609,10 +675,19 @@ namespace Personnel.Application.ViewModels.Staffing
                         existedStaffing.Employee = null;
                     }
                     employees.Remove(i);
+                    i.OnEditCommandExecuted -= EmployeeViewModelOnEditCommandExecuted;
                 });
             }
+            CheckForFakeEmployee();
             OnEmployeesChanged?.Invoke(this, e);
         }
+
+        private void EmployeeViewModelOnEditCommandExecuted(object sender, EventArgs e)
+        {
+            EmployeeForEdit?.CancelCommand.Execute(null);
+            EmployeeForEdit = (EmployeeViewModel)sender;
+        }
+
         private void OnWorkerStaffingChanged(object s, StaffingListItemsEventArgs<StaffingService.Staffing> e)
         {
             var fullItems = departments.AsEnumerable().Traverse(d => d.Childs).ToArray();

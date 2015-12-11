@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Personnel.Services.Additional;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -11,14 +12,19 @@ namespace Personnel.Services.Model
     public enum PictureType
     {
         [EnumMember]
+        [ImageSize()]
         None = 0,
         [EnumMember]
+        [ImageSize(32, 32)]
         Avatar32,
         [EnumMember]
+        [ImageSize(64, 64)]
         Avatar64,
         [EnumMember]
+        [ImageSize(128, 128)]
         Avatar128,
         [EnumMember]
+        [ImageSize(256, 256)]
         Avatar256,
     }
 

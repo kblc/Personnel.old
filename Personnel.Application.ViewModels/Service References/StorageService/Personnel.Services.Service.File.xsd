@@ -25,4 +25,12 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="FileResults" nillable="true" type="tns:FileResults" />
+  <xs:complexType name="PictureResults">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" base="q4:BaseExecutionResultsOfPicture3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PictureResults" nillable="true" type="tns:PictureResults" />
 </xs:schema>

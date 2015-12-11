@@ -405,7 +405,6 @@ namespace Personnel.Application.ViewModels.Birthdays
                     {
                         Employee = e.EmployeeVM.Employee,
                         Department = e.EmployeeVM.Department,
-                        Photo = e.EmployeeVM.Photo,
                         Age = e.YearBirthday.Value.Year - e.EmployeeVM.Employee.Birthday.Value.Year,
                         DayOfBirthday = e.YearBirthday.Value,
                     });
@@ -503,7 +502,6 @@ namespace Personnel.Application.ViewModels.Birthdays
                     {
                         Employee = e.EmployeeVM.Employee,
                         Department = e.EmployeeVM.Department,
-                        Photo = e.EmployeeVM.Photo,
                         Age = e.YearBirthday.Value.Year - e.EmployeeVM.Employee.Birthday.Value.Year,
                         DayOfBirthday = e.YearBirthday.Value,
                     });

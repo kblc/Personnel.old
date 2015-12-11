@@ -572,6 +572,64 @@ namespace Personnel.Services.Service.File
         public PictureExecutionResult RESTUpdatePicture(Model.Picture item) => UpdatePicture(item);
 
         /// <summary>
+        /// Generate pictures from file in database
+        /// </summary>
+        /// <param name="identifier">File identifier</param>
+        /// <returns>Pictures info</returns>
+        public PictureExecutionResults FileToPictures(Guid identifier)
+        {
+            UpdateSessionCulture();
+            using (var logSession = Helpers.Log.Session($"{GetType()}.{System.Reflection.MethodBase.GetCurrentMethod().Name}()", VerboseLog, RaiseLog))
+                try
+                {
+                    using (var rep = GetNewRepository(logSession))
+                    {
+                        var dbFile = rep.Get<Repository.Model.File>(p => p.FileId == identifier).SingleOrDefault();
+                        if (dbFile == null)
+                            throw new Exception(string.Format(Properties.Resources.FILESERVICE_FileNotFound, identifier));
+
+                        var dbPicture = rep.Get<Repository.Model.Picture>(p => p.FileId == identifier).SingleOrDefault();
+                        if (dbPicture != null)
+                            throw new Exception(string.Format(Properties.Resources.FILESERVICE_PictureAlreadyExists, identifier));
+
+                        var pictures = Additional.FileResizer.RersizeTo(dbFile, rep, MainFileStorage, null).ToArray();
+                        rep.SaveChanges();
+                        return new PictureExecutionResults(pictures);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.Data.Add(nameof(identifier), identifier);
+                    logSession.Enabled = true;
+                    logSession.Add(ex);
+                    return new PictureExecutionResults(ex);
+                }
+        }
+        /// <summary>
+        /// Generate pictures from file in database
+        /// </summary>
+        /// <param name="identifier">File identifier</param>
+        /// <returns>Pictures info</returns>
+        public PictureExecutionResults RESTFileToPictures(string identifier)
+        {
+            UpdateSessionCulture();
+            using (var logSession = Helpers.Log.Session($"{GetType()}.{System.Reflection.MethodBase.GetCurrentMethod().Name}()", VerboseLog, RaiseLog))
+                try
+                {
+                    var id = GuidFromString(identifier);
+                    return FileToPictures(id);
+                }
+                catch (Exception ex)
+                {
+                    ex.Data.Add(nameof(identifier), identifier);
+                    logSession.Enabled = true;
+                    logSession.Add(ex);
+                    return new PictureExecutionResults(ex);
+                }
+        }
+
+
+        /// <summary>
         /// Update file in database
         /// </summary>
         /// <param name="identifier">File identifier</param>

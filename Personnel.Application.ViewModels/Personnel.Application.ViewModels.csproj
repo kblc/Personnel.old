@@ -44,6 +44,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
@@ -91,6 +92,7 @@
     <Compile Include="ServiceWorkers\NotificationsWorker.cs" />
     <Compile Include="ServiceWorkers\StaffingWorker.cs" />
     <Compile Include="Staffing\DepartmentsViewModel.cs" />
+    <Compile Include="Staffing\EmployeeRightsViewModel.cs" />
     <Compile Include="Staffing\EmployeeViewModel.cs" />
     <Compile Include="Staffing\StaffingViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -177,6 +179,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\StorageService\Personnel.Application.ViewModels.StorageService.PictureResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StorageService\Personnel.Application.ViewModels.StorageService.PictureResults.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\StorageService\Personnel.Services.Model.xsd">

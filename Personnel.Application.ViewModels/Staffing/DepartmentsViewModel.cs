@@ -17,6 +17,7 @@ namespace Personnel.Application.ViewModels.Staffing
     {
         public abstract bool CanManageDepartments { get; protected set; }
         public abstract bool CanManageStaffing { get; protected set; }
+        public abstract bool CanManageEmployes { get; protected set; }
         public abstract bool IsDebugView { get; set; }
         public abstract bool IsStaffingVisible { get; set; }
         public abstract bool IsDragMode { get; protected set; }
@@ -340,7 +341,7 @@ namespace Personnel.Application.ViewModels.Staffing
                     {
                         if (t.Exception != null)
                         {
-                            Error = GetExceptionText(nameof(SaveAsync), t.Exception);
+                            Error = GetExceptionText(nameof(DeleteAsync), t.Exception);
                         }
                         else
                         {
@@ -357,7 +358,7 @@ namespace Personnel.Application.ViewModels.Staffing
                     }
                     catch (Exception ex)
                     {
-                        Error = GetExceptionText(nameof(SaveAsync), ex);
+                        Error = GetExceptionText(nameof(DeleteAsync), ex);
                     }
                     finally
                     {
@@ -372,7 +373,7 @@ namespace Personnel.Application.ViewModels.Staffing
             catch (Exception ex)
             {
                 IsBusy = false;
-                Error = GetExceptionText(nameof(SaveAsync), ex);
+                Error = GetExceptionText(nameof(DeleteAsync), ex);
             }
             
         }

@@ -21,6 +21,8 @@ namespace Personnel.Application.ViewModels.StorageService {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StorageService.PictureResult))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StorageService.BaseExecutionResultsOfFile3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StorageService.FileResults))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StorageService.BaseExecutionResultsOfPicture3XPrIsxh))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StorageService.PictureResults))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StorageService.BaseExecutionResultOfFile3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StorageService.FileResult))]
     public partial class Result : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -124,6 +126,37 @@ namespace Personnel.Application.ViewModels.StorageService {
     [System.Runtime.Serialization.DataContractAttribute(Name="FileResults", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File")]
     [System.SerializableAttribute()]
     public partial class FileResults : Personnel.Application.ViewModels.StorageService.BaseExecutionResultsOfFile3XPrIsxh {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseExecutionResultsOfPicture3XPrIsxh", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StorageService.PictureResults))]
+    public partial class BaseExecutionResultsOfPicture3XPrIsxh : Personnel.Application.ViewModels.StorageService.Result {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Personnel.Application.ViewModels.StorageService.Picture[] ValuesField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Personnel.Application.ViewModels.StorageService.Picture[] Values {
+            get {
+                return this.ValuesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ValuesField, value) != true)) {
+                    this.ValuesField = value;
+                    this.RaisePropertyChanged("Values");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PictureResults", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File")]
+    [System.SerializableAttribute()]
+    public partial class PictureResults : Personnel.Application.ViewModels.StorageService.BaseExecutionResultsOfPicture3XPrIsxh {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -533,6 +566,12 @@ namespace Personnel.Application.ViewModels.StorageService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileService/Update", ReplyAction="http://tempuri.org/IFileService/UpdateResponse")]
         System.Threading.Tasks.Task<Personnel.Application.ViewModels.StorageService.FileResult> UpdateAsync(Personnel.Application.ViewModels.StorageService.File item);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileService/FileToPictures", ReplyAction="http://tempuri.org/IFileService/FileToPicturesResponse")]
+        Personnel.Application.ViewModels.StorageService.PictureResults FileToPictures(System.Guid identifier);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileService/FileToPictures", ReplyAction="http://tempuri.org/IFileService/FileToPicturesResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StorageService.PictureResults> FileToPicturesAsync(System.Guid identifier);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileService/UpdatePicture", ReplyAction="http://tempuri.org/IFileService/UpdatePictureResponse")]
         Personnel.Application.ViewModels.StorageService.PictureResult UpdatePicture(Personnel.Application.ViewModels.StorageService.Picture item);
         
@@ -639,6 +678,14 @@ namespace Personnel.Application.ViewModels.StorageService {
             return base.Channel.UpdateAsync(item);
         }
         
+        public Personnel.Application.ViewModels.StorageService.PictureResults FileToPictures(System.Guid identifier) {
+            return base.Channel.FileToPictures(identifier);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StorageService.PictureResults> FileToPicturesAsync(System.Guid identifier) {
+            return base.Channel.FileToPicturesAsync(identifier);
+        }
+        
         public Personnel.Application.ViewModels.StorageService.PictureResult UpdatePicture(Personnel.Application.ViewModels.StorageService.Picture item) {
             return base.Channel.UpdatePicture(item);
         }
@@ -699,6 +746,12 @@ namespace Personnel.Application.ViewModels.StorageService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileServiceREST/RESTUpdate", ReplyAction="http://tempuri.org/IFileServiceREST/RESTUpdateResponse")]
         System.Threading.Tasks.Task<Personnel.Application.ViewModels.StorageService.FileResult> RESTUpdateAsync(Personnel.Application.ViewModels.StorageService.File item);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileServiceREST/RESTFileToPictures", ReplyAction="http://tempuri.org/IFileServiceREST/RESTFileToPicturesResponse")]
+        Personnel.Application.ViewModels.StorageService.PictureResults RESTFileToPictures(string identifier);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileServiceREST/RESTFileToPictures", ReplyAction="http://tempuri.org/IFileServiceREST/RESTFileToPicturesResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StorageService.PictureResults> RESTFileToPicturesAsync(string identifier);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFileServiceREST/RESTUpdatePicture", ReplyAction="http://tempuri.org/IFileServiceREST/RESTUpdatePictureResponse")]
         Personnel.Application.ViewModels.StorageService.PictureResult RESTUpdatePicture(Personnel.Application.ViewModels.StorageService.Picture item);
@@ -796,6 +849,14 @@ namespace Personnel.Application.ViewModels.StorageService {
         
         public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StorageService.FileResult> RESTUpdateAsync(Personnel.Application.ViewModels.StorageService.File item) {
             return base.Channel.RESTUpdateAsync(item);
+        }
+        
+        public Personnel.Application.ViewModels.StorageService.PictureResults RESTFileToPictures(string identifier) {
+            return base.Channel.RESTFileToPictures(identifier);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StorageService.PictureResults> RESTFileToPicturesAsync(string identifier) {
+            return base.Channel.RESTFileToPicturesAsync(identifier);
         }
         
         public Personnel.Application.ViewModels.StorageService.PictureResult RESTUpdatePicture(Personnel.Application.ViewModels.StorageService.Picture item) {

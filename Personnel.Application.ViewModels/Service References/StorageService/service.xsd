@@ -117,17 +117,31 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="FileToPictures">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="identifier" type="q15:guid" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="FileToPicturesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="FileToPicturesResult" nillable="true" type="q16:PictureResults" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="UpdatePicture">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="item" nillable="true" type="q15:Picture" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="item" nillable="true" type="q17:Picture" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpdatePictureResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="UpdatePictureResult" nillable="true" type="q16:PictureResult" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="UpdatePictureResult" nillable="true" type="q18:PictureResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -141,7 +155,7 @@
   <xs:element name="RESTGetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTGetResult" nillable="true" type="q17:FileResult" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTGetResult" nillable="true" type="q19:FileResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -155,7 +169,7 @@
   <xs:element name="RESTGetPictureResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTGetPictureResult" nillable="true" type="q18:PictureResult" />
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTGetPictureResult" nillable="true" type="q20:PictureResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -169,14 +183,14 @@
   <xs:element name="RESTGetRange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q19="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q19:ArrayOfstring" />
+        <xs:element xmlns:q21="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="identifiers" nillable="true" type="q21:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTGetRangeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTGetRangeResult" nillable="true" type="q20:FileResults" />
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTGetRangeResult" nillable="true" type="q22:FileResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -190,49 +204,63 @@
   <xs:element name="RESTGetSourceResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q21="http://schemas.microsoft.com/Message" name="RESTGetSourceResult" type="q21:StreamBody" />
+        <xs:element xmlns:q23="http://schemas.microsoft.com/Message" name="RESTGetSourceResult" type="q23:StreamBody" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTPut">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q22="http://schemas.microsoft.com/Message" name="content" type="q22:StreamBody" />
+        <xs:element xmlns:q24="http://schemas.microsoft.com/Message" name="content" type="q24:StreamBody" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTPutResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTPutResult" nillable="true" type="q23:FileResult" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTPutResult" nillable="true" type="q25:FileResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTUpdate">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="item" nillable="true" type="q24:File" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="item" nillable="true" type="q26:File" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTUpdateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTUpdateResult" nillable="true" type="q25:FileResult" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTUpdateResult" nillable="true" type="q27:FileResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTFileToPictures">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="identifier" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTFileToPicturesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTFileToPicturesResult" nillable="true" type="q28:PictureResults" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTUpdatePicture">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="item" nillable="true" type="q26:Picture" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="item" nillable="true" type="q29:Picture" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RESTUpdatePictureResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTUpdatePictureResult" nillable="true" type="q27:PictureResult" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Personnel.Services.Service.File" minOccurs="0" name="RESTUpdatePictureResult" nillable="true" type="q30:PictureResult" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

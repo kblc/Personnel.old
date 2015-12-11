@@ -57,6 +57,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -64,6 +65,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Additional\ImageSizeAttribute.cs" />
     <Compile Include="Additional\RepositoryExtensions.cs" />
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Config\ServicesConfigSection.cs" />
@@ -87,6 +89,7 @@
     </Compile>
     <Compile Include="Service\Base\BaseService.cs" />
     <Compile Include="Service\Base\IBaseService.cs" />
+    <Compile Include="Service\File\Additional\FileResizer.cs" />
     <Compile Include="Service\File\FileExecutionResult.cs" />
     <Compile Include="Service\File\FileService.cs" />
     <Compile Include="Service\File\IFileService.cs" />

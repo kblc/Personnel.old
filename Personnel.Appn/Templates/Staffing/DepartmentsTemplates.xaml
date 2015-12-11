@@ -14,6 +14,7 @@
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Generic.xaml"/>
         <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/DepartmentStaffingTemplates.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Staffing/EmployeeTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <svgc:SvgViewbox x:Key="plusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
@@ -33,17 +34,18 @@
     <helperConverters:ApplyConverter x:Key="departmentsApplyConverter"/>
     <helperConverters:IsNotEqualsConverter x:Key="departmentsIsNotEqualsConverter"/>
     <helperConverters:IsNotEqualVisibilityConverter x:Key="departmentsIsNotEqualVisibilityConverter"/>
+    <helperConverters:IsEqualVisibilityConverter x:Key="departmentsIsEqualVisibilityConverter"/>
     <localConverters:IsNotEmptyStringConverter x:Key="departmentsIsNotEmptyStringConverter"/>
     <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="departmentsIsNotEmptyStringToVisibilityConverter"/>
-
-    
+    <helperConverters:MultiBooleanANDToVisibilityConverter x:Key="departmentsMultiBooleanANDToVisibilityConverter"/>
     
     <DataTemplate x:Key="EmployeesListTemplate" DataType="{x:Type staffing:StaffingViewModel}" >
-        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden" 
-                      x:Name="PART_Root" DataContext="{Binding}">
+        <ScrollViewer x:Name="PART_Root" DataContext="{Binding}" 
+                      VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
             <ScrollViewer.Resources>
                 <CollectionViewSource Source="{Binding Employees, Mode=OneWay}" x:Key="sortedEmployees">
                     <CollectionViewSource.SortDescriptions>
+                        <!--<scm:SortDescription PropertyName="IsEmpty" Direction="Ascending"/>-->
                         <scm:SortDescription PropertyName="Employee.Surname" Direction="Ascending"/>
                         <scm:SortDescription PropertyName="Employee.Name" Direction="Ascending"/>
                         <scm:SortDescription PropertyName="Employee.Patronymic" Direction="Ascending"/>
@@ -59,14 +61,32 @@
             <ItemsControl ItemsSource="{Binding Source={StaticResource sortedEmployees}}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type staffing:EmployeeViewModel}">
-                        <ContentPresenter ContentTemplate="{StaticResource EmployeeTemplateTopImageWithDepartmentSimpleDraggable}"
+                        <ContentPresenter ContentTemplate="{StaticResource EmployeeTemplateTopImageWithDepartment}"
                                           Content="{Binding}"
-                                          Margin="4"/>
+                                          Margin="4"
+                                          x:Name="PART_ContentPresenter"/>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=PART_Root, Path=DataContext.CanManageStaffing}" Value="True">
+                                <Setter TargetName="PART_ContentPresenter" Property="ContentTemplate" Value="{StaticResource EmployeeTemplateTopImageWithDepartmentSimpleDraggable}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsEmpty}" Value="True">
+                                <Setter TargetName="PART_ContentPresenter" Property="ContentTemplate" Value="{StaticResource EmployeeEmptyTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{StaticResource departmentsMultiBooleanANDToBooleanConverter}">
+                                        <Binding ElementName="PART_Root" Path="DataContext.CanManageEmployes" Converter="{StaticResource departmentStaffingIsEqualsConverter}" ConverterParameter="False"/>
+                                        <Binding Path="IsEmpty"/>
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
+                                <Setter TargetName="PART_ContentPresenter" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Vertical"/>
+                        <WrapPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
@@ -262,8 +282,9 @@
             <!-- Show content -->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="6"/>
+                    <ColumnDefinition Width="0*" MinWidth="130"/>
                 </Grid.ColumnDefinitions>
                 
                 <!-- Tree -->
@@ -290,11 +311,18 @@
                                    VerticalAlignment="Center"/>
                     </StackPanel>
                 </md:ColorZone>
+
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 
                 <!-- Employees -->
-                <ContentPresenter Content="{Binding}" Grid.Column="1"
-                                  ContentTemplate="{StaticResource EmployeesListTemplate}"
-                                  Visibility="{Binding CanManageStaffing, Converter={StaticResource departmentsBooleanToVisibilityConverter}}"/>
+                <ContentPresenter Content="{Binding}" Grid.Column="2"
+                                  ContentTemplate="{StaticResource EmployeesListTemplate}"/>
+
+                <!-- Edit employee -->
+                <ContentPresenter Content="{Binding EmployeeForEdit}" Grid.ColumnSpan="999" Grid.RowSpan="999"
+                                  ContentTemplate="{StaticResource EmployeeEditTemplate}"
+                                  x:Name="PART_EmployeeForEditContentPresenter"
+                                  Visibility="Collapsed"/>
 
                 <!-- Fade -->
                 <Border Background="#99000000" Grid.ColumnSpan="999" Grid.RowSpan="999"
@@ -320,6 +348,11 @@
                 </md:ColorZone>
             </StackPanel>
         </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding EmployeeForEdit.IsEditMode}" Value="True">
+                <Setter TargetName="PART_EmployeeForEditContentPresenter" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
 </ResourceDictionary>

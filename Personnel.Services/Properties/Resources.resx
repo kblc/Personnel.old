@@ -123,6 +123,9 @@
   <data name="FILESERVICE_FileNotFound" xml:space="preserve">
     <value>File with identifier '{0}' not found.</value>
   </data>
+  <data name="FILESERVICE_PictureAlreadyExists" xml:space="preserve">
+    <value>Picture with file identifier '{0}' file already exists</value>
+  </data>
   <data name="STUFFINGSERVICE_AppointNotFound" xml:space="preserve">
     <value>Appoint with identifier '{0}' not found.</value>
   </data>

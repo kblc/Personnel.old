@@ -79,6 +79,15 @@ namespace Personnel.Services.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Picture with file identifier &apos;{0}&apos; file already exists.
+        /// </summary>
+        public static string FILESERVICE_PictureAlreadyExists {
+            get {
+                return ResourceManager.GetString("FILESERVICE_PictureAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Appoint with identifier &apos;{0}&apos; not found..
         /// </summary>
         public static string STUFFINGSERVICE_AppointNotFound {
