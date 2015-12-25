@@ -989,6 +989,44 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeePhotoAdd_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeePhotoAdd_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeePhotosAdd_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -1009,6 +1047,44 @@
     </wsp:ExactlyOne>
   </wsp:Policy>
   <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeePhotosAdd_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeePhotoRemove_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_IStaffingService_EmployeePhotoRemove_output_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -1708,11 +1784,23 @@
   <wsdl:message name="IStaffingService_EmployeePhotosGet_OutputMessage">
     <wsdl:part name="parameters" element="tns:EmployeePhotosGetResponse" />
   </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeePhotoAdd_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeePhotoAdd" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeePhotoAdd_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeePhotoAddResponse" />
+  </wsdl:message>
   <wsdl:message name="IStaffingService_EmployeePhotosAdd_InputMessage">
     <wsdl:part name="parameters" element="tns:EmployeePhotosAdd" />
   </wsdl:message>
   <wsdl:message name="IStaffingService_EmployeePhotosAdd_OutputMessage">
     <wsdl:part name="parameters" element="tns:EmployeePhotosAddResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeePhotoRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeePhotoRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingService_EmployeePhotoRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmployeePhotoRemoveResponse" />
   </wsdl:message>
   <wsdl:message name="IStaffingService_EmployeePhotosRemove_InputMessage">
     <wsdl:part name="parameters" element="tns:EmployeePhotosRemove" />
@@ -1936,11 +2024,23 @@
   <wsdl:message name="IStaffingServiceREST_RESTEmployeePhotosGet_OutputMessage">
     <wsdl:part name="parameters" element="tns:RESTEmployeePhotosGetResponse" />
   </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeePhotoAdd_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeePhotoAdd" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeePhotoAdd_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeePhotoAddResponse" />
+  </wsdl:message>
   <wsdl:message name="IStaffingServiceREST_RESTEmployeePhotosAdd_InputMessage">
     <wsdl:part name="parameters" element="tns:RESTEmployeePhotosAdd" />
   </wsdl:message>
   <wsdl:message name="IStaffingServiceREST_RESTEmployeePhotosAdd_OutputMessage">
     <wsdl:part name="parameters" element="tns:RESTEmployeePhotosAddResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeePhotoRemove_InputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeePhotoRemove" />
+  </wsdl:message>
+  <wsdl:message name="IStaffingServiceREST_RESTEmployeePhotoRemove_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RESTEmployeePhotoRemoveResponse" />
   </wsdl:message>
   <wsdl:message name="IStaffingServiceREST_RESTEmployeePhotosRemove_InputMessage">
     <wsdl:part name="parameters" element="tns:RESTEmployeePhotosRemove" />
@@ -2122,9 +2222,17 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeePhotosGet" message="tns:IStaffingService_EmployeePhotosGet_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeePhotosGetResponse" message="tns:IStaffingService_EmployeePhotosGet_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="EmployeePhotoAdd">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeePhotoAdd" message="tns:IStaffingService_EmployeePhotoAdd_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeePhotoAddResponse" message="tns:IStaffingService_EmployeePhotoAdd_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="EmployeePhotosAdd">
       <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeePhotosAdd" message="tns:IStaffingService_EmployeePhotosAdd_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeePhotosAddResponse" message="tns:IStaffingService_EmployeePhotosAdd_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmployeePhotoRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeePhotoRemove" message="tns:IStaffingService_EmployeePhotoRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingService/EmployeePhotoRemoveResponse" message="tns:IStaffingService_EmployeePhotoRemove_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="EmployeePhotosRemove">
       <wsdl:input wsaw:Action="http://tempuri.org/IStaffingService/EmployeePhotosRemove" message="tns:IStaffingService_EmployeePhotosRemove_InputMessage" />
@@ -2279,9 +2387,17 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosGet" message="tns:IStaffingServiceREST_RESTEmployeePhotosGet_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosGetResponse" message="tns:IStaffingServiceREST_RESTEmployeePhotosGet_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="RESTEmployeePhotoAdd">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoAdd" message="tns:IStaffingServiceREST_RESTEmployeePhotoAdd_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoAddResponse" message="tns:IStaffingServiceREST_RESTEmployeePhotoAdd_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="RESTEmployeePhotosAdd">
       <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosAdd" message="tns:IStaffingServiceREST_RESTEmployeePhotosAdd_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosAddResponse" message="tns:IStaffingServiceREST_RESTEmployeePhotosAdd_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RESTEmployeePhotoRemove">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoRemove" message="tns:IStaffingServiceREST_RESTEmployeePhotoRemove_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoRemoveResponse" message="tns:IStaffingServiceREST_RESTEmployeePhotoRemove_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="RESTEmployeePhotosRemove">
       <wsdl:input wsaw:Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosRemove" message="tns:IStaffingServiceREST_RESTEmployeePhotosRemove_InputMessage" />
@@ -2603,6 +2719,17 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="EmployeePhotoAdd">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeePhotoAdd" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeePhotoAdd_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeePhotoAdd_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="EmployeePhotosAdd">
       <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeePhotosAdd" style="document" />
       <wsdl:input>
@@ -2611,6 +2738,17 @@
       </wsdl:input>
       <wsdl:output>
         <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeePhotosAdd_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmployeePhotoRemove">
+      <soap12:operation soapAction="http://tempuri.org/IStaffingService/EmployeePhotoRemove" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeePhotoRemove_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_IStaffingService_EmployeePhotoRemove_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>

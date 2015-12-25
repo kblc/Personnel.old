@@ -40,7 +40,23 @@ namespace Personnel.Services.Service.Staffing
         /// </summary>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="photos">Employee photo</param>
-        public Model.EmployeePhotoExecutionResults EmployeePhotosAdd(long employeeId, Model.EmployeePhoto photo)
+        public Model.EmployeePhotoExecutionResult EmployeePhotoAdd(long employeeId, Model.EmployeePhoto photo)
+        {
+            var res = EmployeePhotosAdd(employeeId, new EmployeePhoto[] { photo });
+            return new EmployeePhotoExecutionResult()
+            {
+                Error = res.Error,
+                Exception = res.Exception,
+                Value = res.Values.FirstOrDefault()
+            };
+        }
+
+        /// <summary>
+        /// Add photos to employee
+        /// </summary>
+        /// <param name="employeeId">Employee identifier</param>
+        /// <param name="photos">Employee photo</param>
+        public Model.EmployeePhotoExecutionResults EmployeePhotosAdd(long employeeId, Model.EmployeePhoto[] photos)
         {
             UpdateSessionCulture();
             using (var logSession = Helpers.Log.Session($"{GetType()}.{System.Reflection.MethodBase.GetCurrentMethod().Name}()", VerboseLog, RaiseLog))
@@ -52,8 +68,12 @@ namespace Personnel.Services.Service.Staffing
 
                     using (var rep = GetNewRepository(logSession))
                     {
-                        var dbPhoto = AutoMapper.Mapper.Map<Repository.Model.EmployeePhoto>(photo);
-                        rep.AddOrUpdate(dbPhoto, false);
+                        var empphs = photos.Select(p => new Repository.Model.EmployeePhoto()
+                        {
+                            EmployeeId = employeeId,
+                            FileId = p.FileId,
+                        });
+                        rep.AddRange(empphs);
                     }
 
                     return EmployeePhotosGet(employeeId);
@@ -61,7 +81,7 @@ namespace Personnel.Services.Service.Staffing
                 catch (Exception ex)
                 {
                     ex.Data.Add(nameof(employeeId), employeeId);
-                    ex.Data.Add(nameof(photo), photo);
+                    ex.Data.Add(nameof(photos), photos.Concat(p => p.ToString(),", "));
                     logSession.Enabled = true;
                     logSession.Add(ex);
                     return new EmployeePhotoExecutionResults(ex);
@@ -73,7 +93,23 @@ namespace Personnel.Services.Service.Staffing
         /// </summary>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="photoIdentifier">Employee photo identifier</param>
-        public Model.EmployeePhotoExecutionResults EmployeePhotosRemove(long employeeId, Guid photoIdentifier)
+        public Model.EmployeePhotoExecutionResult EmployeePhotoRemove(long employeeId, Guid photoIdentifier)
+        {
+            var res = EmployeePhotosRemove(employeeId, new Guid[] { photoIdentifier });
+            return new EmployeePhotoExecutionResult()
+            {
+                Error = res.Error,
+                Exception = res.Exception,
+                Value = res.Values.FirstOrDefault()
+            };
+        }
+
+        /// <summary>
+        /// Remove photo to employee
+        /// </summary>
+        /// <param name="employeeId">Employee identifier</param>
+        /// <param name="photoIdentifier">Employee photo identifier</param>
+        public Model.EmployeePhotoExecutionResults EmployeePhotosRemove(long employeeId, Guid[] photoIdentifiers)
         {
             UpdateSessionCulture();
             using (var logSession = Helpers.Log.Session($"{GetType()}.{System.Reflection.MethodBase.GetCurrentMethod().Name}()", VerboseLog, RaiseLog))
@@ -85,10 +121,13 @@ namespace Personnel.Services.Service.Staffing
 
                     using (var rep = GetNewRepository(logSession))
                     {
-                        var dbPhoto = rep.Get<Repository.Model.EmployeePhoto>(e => e.FileId == photoIdentifier).SingleOrDefault();
-                        if (dbPhoto == null)
-                            throw new Exception(string.Format(Properties.Resources.FILESERVICE_FileNotFound, photoIdentifier));
-                        rep.Remove(dbPhoto);
+                        photoIdentifiers.ToList().ForEach(photoIdentifier => {
+                            var dbPhoto = rep.Get<Repository.Model.EmployeePhoto>(e => e.FileId == photoIdentifier).SingleOrDefault();
+                            if (dbPhoto == null)
+                                throw new Exception(string.Format(Properties.Resources.FILESERVICE_FileNotFound, photoIdentifier));
+                            rep.Remove(dbPhoto, saveAfterRemove: false);
+                        });
+                        rep.SaveChanges(true);
                     }
 
                     return EmployeePhotosGet(employeeId);
@@ -96,7 +135,7 @@ namespace Personnel.Services.Service.Staffing
                 catch (Exception ex)
                 {
                     ex.Data.Add(nameof(employeeId), employeeId);
-                    ex.Data.Add(nameof(photoIdentifier), photoIdentifier);
+                    ex.Data.Add(nameof(photoIdentifiers), photoIdentifiers.Concat(i => i.ToString(),", "));
                     logSession.Enabled = true;
                     logSession.Add(ex);
                     return new EmployeePhotoExecutionResults(ex);
@@ -126,23 +165,47 @@ namespace Personnel.Services.Service.Staffing
         }
 
         /// <summary>
-        /// Add photos to employee
+        /// Add photo to employee
         /// </summary>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="photos">Employee photo</param>
-        public Model.EmployeePhotoExecutionResults RESTEmployeePhotosAdd(string employeeId, Model.EmployeePhoto photo)
+        public Model.EmployeePhotoExecutionResult RESTEmployeePhotoAdd(string employeeId, Model.EmployeePhoto photo)
         {
             UpdateSessionCulture();
             using (var logSession = Helpers.Log.Session($"{GetType()}.{System.Reflection.MethodBase.GetCurrentMethod().Name}()", VerboseLog, RaiseLog))
                 try
                 {
                     var id = LongFromString(employeeId);
-                    return EmployeePhotosAdd(id, photo);
+                    return EmployeePhotoAdd(id, photo);
                 }
                 catch (Exception ex)
                 {
                     ex.Data.Add(nameof(employeeId), employeeId);
                     ex.Data.Add(nameof(photo), photo);
+                    logSession.Enabled = true;
+                    logSession.Add(ex);
+                    return new EmployeePhotoExecutionResult(ex);
+                }
+        }
+
+        /// <summary>
+        /// Add photos to employee
+        /// </summary>
+        /// <param name="employeeId">Employee identifier</param>
+        /// <param name="photos">Employee photo</param>
+        public Model.EmployeePhotoExecutionResults RESTEmployeePhotosAdd(string employeeId, Model.EmployeePhoto[] photos)
+        {
+            UpdateSessionCulture();
+            using (var logSession = Helpers.Log.Session($"{GetType()}.{System.Reflection.MethodBase.GetCurrentMethod().Name}()", VerboseLog, RaiseLog))
+                try
+                {
+                    var id = LongFromString(employeeId);
+                    return EmployeePhotosAdd(id, photos);
+                }
+                catch (Exception ex)
+                {
+                    ex.Data.Add(nameof(employeeId), employeeId);
+                    ex.Data.Add(nameof(photos), photos.Concat(p => p.ToString(),", "));
                     logSession.Enabled = true;
                     logSession.Add(ex);
                     return new EmployeePhotoExecutionResults(ex);
@@ -153,21 +216,46 @@ namespace Personnel.Services.Service.Staffing
         /// Remove photo to employee
         /// </summary>
         /// <param name="employeeId">Employee identifier</param>
-        /// <param name="photoIdentifier">Employee photo identifier</param>
-        public Model.EmployeePhotoExecutionResults RESTEmployeePhotosRemove(string employeeId, string photoIdentifier)
+        /// <param name="photoIdentifiers">Employee photo identifier</param>
+        public Model.EmployeePhotoExecutionResult RESTEmployeePhotoRemove(string employeeId, string photoIdentifier)
         {
             UpdateSessionCulture();
             using (var logSession = Helpers.Log.Session($"{GetType()}.{System.Reflection.MethodBase.GetCurrentMethod().Name}()", VerboseLog, RaiseLog))
                 try
                 {
                     var id = LongFromString(employeeId);
-                    var guid = GuidFromString(photoIdentifier);
-                    return EmployeePhotosRemove(id, guid);
+                    var guid =GuidFromString(photoIdentifier);
+                    return EmployeePhotoRemove(id, guid);
                 }
                 catch (Exception ex)
                 {
                     ex.Data.Add(nameof(employeeId), employeeId);
                     ex.Data.Add(nameof(photoIdentifier), photoIdentifier);
+                    logSession.Enabled = true;
+                    logSession.Add(ex);
+                    return new EmployeePhotoExecutionResult(ex);
+                }
+        }
+
+        /// <summary>
+        /// Remove photo to employee
+        /// </summary>
+        /// <param name="employeeId">Employee identifier</param>
+        /// <param name="photoIdentifiers">Employee photo identifier</param>
+        public Model.EmployeePhotoExecutionResults RESTEmployeePhotosRemove(string employeeId, string[] photoIdentifiers)
+        {
+            UpdateSessionCulture();
+            using (var logSession = Helpers.Log.Session($"{GetType()}.{System.Reflection.MethodBase.GetCurrentMethod().Name}()", VerboseLog, RaiseLog))
+                try
+                {
+                    var id = LongFromString(employeeId);
+                    var guids = photoIdentifiers.Select(s => GuidFromString(s)).ToArray();
+                    return EmployeePhotosRemove(id, guids);
+                }
+                catch (Exception ex)
+                {
+                    ex.Data.Add(nameof(employeeId), employeeId);
+                    ex.Data.Add(nameof(photoIdentifiers), photoIdentifiers.Concat(s => s, ", "));
                     logSession.Enabled = true;
                     logSession.Add(ex);
                     return new EmployeePhotoExecutionResults(ex);

@@ -32,10 +32,10 @@ namespace Personnel.Services.Model
     }
 
     [DataContract(Name = "RightValueResults")]
-    public class RightValueExecutionResults : BaseExecutionResults<long>
+    public class RightValueExecutionResults : BaseExecutionResults<EmployeeRight>
     {
         public RightValueExecutionResults() { }
-        public RightValueExecutionResults(long[] e) : base(e) { }
+        public RightValueExecutionResults(EmployeeRight[] e) : base(e) { }
         public RightValueExecutionResults(Exception ex) : base(ex) { }
     }
 

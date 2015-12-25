@@ -129,6 +129,9 @@
     <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.DepartmentResults.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\StaffingService\Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

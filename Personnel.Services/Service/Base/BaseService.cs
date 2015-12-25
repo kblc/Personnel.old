@@ -68,23 +68,45 @@ namespace Personnel.Services.Service.Base
         protected Model.Employee SRVCCheckCredentials(Helpers.Log.SessionInfo logSession, Repository.Logic.Repository rep, params Repository.Model.RightType[] rightTypes)
         {
             var employee = SRVCGetCurrentEmployee(logSession, rep);
-            var currentRightIds = employee.Rights.Select(r => r.RightId);
-            var mustExists = rep.Get<Repository.Model.Right>(asNoTracking: true)
+            var currentRightIds = employee.Rights.Select(r => r.RightId).ToArray();
+            var existedRightTypes = rep.Get<Repository.Model.Right>(asNoTracking: true)
                 .ToArray()
-                .Where(r => rightTypes.Contains(r.Type) && !currentRightIds.Contains(r.RightId))
+                .Join(employee.Rights, r => r.RightId, r => r.RightId, (r1, r2) => r1.Type)
+                .ToArray();
+            SRVCCheckCredentials(logSession, rep, existedRightTypes, rightTypes);
+            return employee;
+        }
+
+        protected void SRVCCheckCredentials(Helpers.Log.SessionInfo logSession, Repository.Logic.Repository rep, Repository.Model.RightType[] existedRights, Repository.Model.RightType[] rightTypes)
+        {
+            var missingRights = rightTypes.Except(existedRights);
+            var missingRightName = rep.Get<Repository.Model.Right>(asNoTracking: true)
+                .ToArray()
+                .Where(r => missingRights.Contains(r.Type))
                 .Select(r => r.Name);
 
-            if (mustExists.Any())
-                throw new System.Security.SecurityException(string.Format(Properties.Resources.STUFFINGSERVICE_UserHaveNoFollowingRights, mustExists.Concat(i => i.ToString().ToUpper(), ", ")));
+            if (missingRightName.Any())
+                throw new System.Security.SecurityException(string.Format(Properties.Resources.STUFFINGSERVICE_UserHaveNoFollowingRights, missingRightName.Concat(i => i.ToString(), ", ")));
+        }
 
+        protected Model.Employee SRVCGetEmployeeCredentials(Helpers.Log.SessionInfo logSession, Repository.Logic.Repository rep, out Repository.Model.RightType[] rightTypes)
+        {
+            var employee = SRVCGetCurrentEmployee(logSession, rep);
+            var currentRightIds = employee.Rights.Select(r => r.RightId).ToArray();
+            var existingRight = rep
+                .Get<Repository.Model.Right>(asNoTracking: true)
+                .ToArray()
+                .Join(employee.Rights, r => r.RightId, r=>r.RightId, (r1,r2) => r1.Type)
+                .ToArray();
+            rightTypes = existingRight;
             return employee;
         }
 
         protected Model.Employee SRVCGetCurrentEmployee(Helpers.Log.SessionInfo logSession, Repository.Logic.Repository rep)
         {
             var currentIdentityName =
-                ServiceSecurityContext.Current.WindowsIdentity?.Name
-                ?? ServiceSecurityContext.Current.PrimaryIdentity?.Name
+                ServiceSecurityContext.Current?.WindowsIdentity?.Name
+                ?? ServiceSecurityContext.Current?.PrimaryIdentity?.Name
                 ?? nameof(ServiceSecurityContext.Current.IsAnonymous);
 
             if (!string.IsNullOrWhiteSpace(currentIdentityName))

@@ -22,11 +22,13 @@ namespace Personnel.Application.ViewModels.Staffing
         private const string MANAGEDEPARTMENTS = "MANAGEDEPARTMENTS";
         private const string MANAGESTAFFING = "MANAGESTAFFING";
         private const string MANAGEEMPLOYES = "MANAGEEMPLOYES";
+        private const string MANAGEEMPLOYEESRIGHTS = "MANAGEEMPLOYEESRIGHTS";
+        private const string MANAGEEMPLOYEESLOGINS = "MANAGEEMPLOYEESLOGINS";
 
         private readonly ServiceWorkers.StaffingWorker worker = new ServiceWorkers.StaffingWorker();
 
         private NotifyCollection<Right> rights = new NotifyCollection<Right>();
-        public IReadOnlyNotifyCollection<Right> Rights => rights;
+        public override IReadOnlyNotifyCollection<Right> Rights => rights;
 
         private NotifyCollection<ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>> departments = new NotifyCollection<ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>>();
         public IReadOnlyNotifyCollection<ITreeItem<DepartmentEditViewModel, DepartmentAndStaffingData>> Departments => departments;
@@ -361,6 +363,78 @@ namespace Personnel.Application.ViewModels.Staffing
         }
 
         #endregion
+        #region CanManageEmployeeRights
+
+        private static readonly DependencyPropertyKey ReadOnlyCanManageEmployeeRightsPropertyKey
+            = DependencyProperty.RegisterReadOnly(nameof(CanManageEmployeeRights), typeof(bool), typeof(StaffingViewModel),
+                new FrameworkPropertyMetadata(false,
+                    FrameworkPropertyMetadataOptions.None,
+                    new PropertyChangedCallback((s, e) =>
+                    {
+                        var model = s as StaffingViewModel;
+                        if (model != null)
+                        {
+                            model.RaisePropertyChanged(e.Property.Name);
+                            model.UpdateCommands();
+                        }
+                    })));
+        public static readonly DependencyProperty ReadOnlyCanManageEmployeeRightsProperty = ReadOnlyCanManageEmployeeRightsPropertyKey.DependencyProperty;
+
+        public override bool CanManageEmployeeRights
+        {
+            get { return (bool)GetValue(ReadOnlyCanManageEmployeeRightsProperty); }
+            protected set { SetValue(ReadOnlyCanManageEmployeeRightsPropertyKey, value); RaisePropertyChanged(); }
+        }
+
+        private bool GetCanManageEmployeRightsProperty()
+        {
+            var res = false;
+            if (Rights != null && Current != null)
+            {
+                var canManageEmployeeLoginsRight = Rights.FirstOrDefault(r => string.Compare(r.SystemName, MANAGEEMPLOYEESRIGHTS, true) == 0);
+                if (canManageEmployeeLoginsRight != null)
+                    res = Current.Rights.Any(r => r.RightId == canManageEmployeeLoginsRight.Id);
+            }
+            return res;
+        }
+
+        #endregion
+        #region CanManageEmployeeLogins
+
+        private static readonly DependencyPropertyKey ReadOnlyCanManageEmployeeLoginsPropertyKey
+            = DependencyProperty.RegisterReadOnly(nameof(CanManageEmployeeLogins), typeof(bool), typeof(StaffingViewModel),
+                new FrameworkPropertyMetadata(false,
+                    FrameworkPropertyMetadataOptions.None,
+                    new PropertyChangedCallback((s, e) =>
+                    {
+                        var model = s as StaffingViewModel;
+                        if (model != null)
+                        {
+                            model.RaisePropertyChanged(e.Property.Name);
+                            model.UpdateCommands();
+                        }
+                    })));
+        public static readonly DependencyProperty ReadOnlyCanManageEmployeeLoginsProperty = ReadOnlyCanManageEmployeeLoginsPropertyKey.DependencyProperty;
+
+        public override bool CanManageEmployeeLogins
+        {
+            get { return (bool)GetValue(ReadOnlyCanManageEmployeeLoginsProperty); }
+            protected set { SetValue(ReadOnlyCanManageEmployeeLoginsPropertyKey, value); RaisePropertyChanged(); }
+        }
+        
+        private bool GetCanManageEmployeeLoginsProperty()
+        {
+            var res = false;
+            if (Rights != null && Current != null)
+            {
+                var canManageEmployeeLoginsRight = Rights.FirstOrDefault(r => string.Compare(r.SystemName, MANAGEEMPLOYEESLOGINS, true) == 0);
+                if (canManageEmployeeLoginsRight != null)
+                    res = Current.Rights.Any(r => r.RightId == canManageEmployeeLoginsRight.Id);
+            }
+            return res;
+        }
+
+        #endregion
         #region Current
 
         private static readonly DependencyPropertyKey ReadOnlyCurrentPropertyKey
@@ -493,6 +567,8 @@ namespace Personnel.Application.ViewModels.Staffing
                 CanManageDepartments = GetCanManageDepartmentsProperty();
                 CanManageStaffing = GetCanManageStaffingProperty();
                 CanManageEmployes = GetCanManageEmployesProperty();
+                CanManageEmployeeRights = GetCanManageEmployeRightsProperty();
+                CanManageEmployeeLogins = GetCanManageEmployeeLoginsProperty();
             }));
             worker.OnRightsChanged += (s, e) => RunUnderDispatcher(new Action(() =>
             {
@@ -500,6 +576,8 @@ namespace Personnel.Application.ViewModels.Staffing
                 CanManageDepartments = GetCanManageDepartmentsProperty();
                 CanManageStaffing = GetCanManageStaffingProperty();
                 CanManageEmployes = GetCanManageEmployesProperty();
+                CanManageEmployeeRights = GetCanManageEmployeRightsProperty();
+                CanManageEmployeeLogins = GetCanManageEmployeeLoginsProperty();
             }));
             CheckForFakeEmployee();
         }

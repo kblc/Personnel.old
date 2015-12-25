@@ -255,15 +255,47 @@ namespace Personnel.Services.Service.Staffing
 
                     using (var rep = GetNewRepository(logSession))
                     {
-                        var res = rep.Get<Repository.Model.Employee>(e => employee.Id == e.EmployeeId, asNoTracking: true)
+                        Repository.Model.RightType[] existedRightTypes;
+                        var currentEmployee = SRVCGetEmployeeCredentials(logSession, rep, out existedRightTypes);
+                        SRVCCheckCredentials(logSession, rep, existedRightTypes, new Repository.Model.RightType[] { Repository.Model.RightType.Login });
+
+                        var res = rep.Get<Repository.Model.Employee>(e => employee.Id == e.EmployeeId, asNoTracking: false)
                             .SingleOrDefault();
                         if (res == null)
                             throw new Exception(string.Format(Properties.Resources.STUFFINGSERVICE_EmployeeNotFound, employee.Id));
 
-                        var updatingEmployee = AutoMapper.Mapper.Map<Repository.Model.Employee>(employee);
-                        rep.AddOrUpdate(updatingEmployee, false);
+                        if (currentEmployee.Id != res.EmployeeId) {
+                            SRVCCheckCredentials(logSession, rep, existedRightTypes, new Repository.Model.RightType[] { Repository.Model.RightType.ManageEmployes });
+                        }
+
+                        var ignoreFields = new List<string>();
+                        ignoreFields.Add(nameof(res.Logins));
+                        ignoreFields.Add(nameof(res.Rights));
+                        ignoreFields.Add(nameof(res.Photos));
+                        ignoreFields.Add(nameof(res.Stuffing));
+                        ignoreFields.Add(nameof(res.StuffingId));
+
+                        res.CopyObjectFrom(AutoMapper.Mapper.Map<Repository.Model.Employee>(employee), ignoreFields.ToArray());
+
+                        if (existedRightTypes.Contains(Repository.Model.RightType.ManageStaffing))
+                        {
+                            var newStaffingId = employee.Stuffing?.Id ?? (long)0;
+                            if (newStaffingId > 0)
+                            {
+                                var staff = rep.Get<Repository.Model.Staffing>(s => s.StaffingId == newStaffingId).SingleOrDefault();
+                                res.Stuffing = staff;
+                                res.StuffingId = newStaffingId;
+                            } else
+                            {
+                                res.Stuffing = null;
+                                res.StuffingId = null;
+                            }
+                        }
+
+                        rep.SaveChanges();
+
+                        return new EmployeeExecutionResult(AutoMapper.Mapper.Map<Employee>(res));
                     }
-                    return EmployeeGet(employee.Id);
                 }
                 catch (Exception ex)
                 {

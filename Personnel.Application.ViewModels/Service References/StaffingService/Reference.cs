@@ -29,11 +29,13 @@ namespace Personnel.Application.ViewModels.StaffingService {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.EmployeeResults))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfEmployeePhoto3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfstring))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultOfEmployeePhoto3XPrIsxh))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfEmployeeLogin3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.LoginValueResults))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfRight3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.RightResults))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOflong))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfEmployeeRight3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.RightValueResults))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfStaffing3XPrIsxh))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.StaffingResults))]
@@ -266,16 +268,47 @@ namespace Personnel.Application.ViewModels.StaffingService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="BaseExecutionResultsOfstring", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseExecutionResultOfEmployeePhoto3XPrIsxh", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.LoginValueResults))]
-    public partial class BaseExecutionResultsOfstring : Personnel.Application.ViewModels.StaffingService.Result {
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult))]
+    public partial class BaseExecutionResultOfEmployeePhoto3XPrIsxh : Personnel.Application.ViewModels.StaffingService.Result {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string[] ValuesField;
+        private Personnel.Application.ViewModels.StaffingService.EmployeePhoto ValueField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string[] Values {
+        public Personnel.Application.ViewModels.StaffingService.EmployeePhoto Value {
+            get {
+                return this.ValueField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ValueField, value) != true)) {
+                    this.ValueField = value;
+                    this.RaisePropertyChanged("Value");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="EmployeePhotoResult", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    public partial class EmployeePhotoResult : Personnel.Application.ViewModels.StaffingService.BaseExecutionResultOfEmployeePhoto3XPrIsxh {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseExecutionResultsOfEmployeeLogin3XPrIsxh", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.LoginValueResults))]
+    public partial class BaseExecutionResultsOfEmployeeLogin3XPrIsxh : Personnel.Application.ViewModels.StaffingService.Result {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Personnel.Application.ViewModels.StaffingService.EmployeeLogin[] ValuesField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Personnel.Application.ViewModels.StaffingService.EmployeeLogin[] Values {
             get {
                 return this.ValuesField;
             }
@@ -292,7 +325,7 @@ namespace Personnel.Application.ViewModels.StaffingService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="LoginValueResults", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
-    public partial class LoginValueResults : Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfstring {
+    public partial class LoginValueResults : Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfEmployeeLogin3XPrIsxh {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -328,16 +361,16 @@ namespace Personnel.Application.ViewModels.StaffingService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="BaseExecutionResultsOflong", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseExecutionResultsOfEmployeeRight3XPrIsxh", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(Personnel.Application.ViewModels.StaffingService.RightValueResults))]
-    public partial class BaseExecutionResultsOflong : Personnel.Application.ViewModels.StaffingService.Result {
+    public partial class BaseExecutionResultsOfEmployeeRight3XPrIsxh : Personnel.Application.ViewModels.StaffingService.Result {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long[] ValuesField;
+        private Personnel.Application.ViewModels.StaffingService.EmployeeRight[] ValuesField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public long[] Values {
+        public Personnel.Application.ViewModels.StaffingService.EmployeeRight[] Values {
             get {
                 return this.ValuesField;
             }
@@ -354,7 +387,7 @@ namespace Personnel.Application.ViewModels.StaffingService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="RightValueResults", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
     [System.SerializableAttribute()]
-    public partial class RightValueResults : Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOflong {
+    public partial class RightValueResults : Personnel.Application.ViewModels.StaffingService.BaseExecutionResultsOfEmployeeRight3XPrIsxh {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1521,17 +1554,29 @@ namespace Personnel.Application.ViewModels.StaffingService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeePhotosGet", ReplyAction="http://tempuri.org/IStaffingService/EmployeePhotosGetResponse")]
         System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> EmployeePhotosGetAsync(long employeeId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeePhotosAdd", ReplyAction="http://tempuri.org/IStaffingService/EmployeePhotosAddResponse")]
-        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults EmployeePhotosAdd(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeePhotoAdd", ReplyAction="http://tempuri.org/IStaffingService/EmployeePhotoAddResponse")]
+        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult EmployeePhotoAdd(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeePhotoAdd", ReplyAction="http://tempuri.org/IStaffingService/EmployeePhotoAddResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult> EmployeePhotoAddAsync(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeePhotosAdd", ReplyAction="http://tempuri.org/IStaffingService/EmployeePhotosAddResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> EmployeePhotosAddAsync(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo);
+        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults EmployeePhotosAdd(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto[] photos);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeePhotosAdd", ReplyAction="http://tempuri.org/IStaffingService/EmployeePhotosAddResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> EmployeePhotosAddAsync(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto[] photos);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeePhotoRemove", ReplyAction="http://tempuri.org/IStaffingService/EmployeePhotoRemoveResponse")]
+        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult EmployeePhotoRemove(long employeeId, System.Guid photoIdentifier);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeePhotoRemove", ReplyAction="http://tempuri.org/IStaffingService/EmployeePhotoRemoveResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult> EmployeePhotoRemoveAsync(long employeeId, System.Guid photoIdentifier);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeePhotosRemove", ReplyAction="http://tempuri.org/IStaffingService/EmployeePhotosRemoveResponse")]
-        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults EmployeePhotosRemove(long employeeId, System.Guid photoIdentifier);
+        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults EmployeePhotosRemove(long employeeId, System.Guid[] photoIdentifiers);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeePhotosRemove", ReplyAction="http://tempuri.org/IStaffingService/EmployeePhotosRemoveResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> EmployeePhotosRemoveAsync(long employeeId, System.Guid photoIdentifier);
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> EmployeePhotosRemoveAsync(long employeeId, System.Guid[] photoIdentifiers);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingService/EmployeeLoginsGet", ReplyAction="http://tempuri.org/IStaffingService/EmployeeLoginsGetResponse")]
         Personnel.Application.ViewModels.StaffingService.LoginValueResults EmployeeLoginsGet(long employeeId);
@@ -1831,20 +1876,36 @@ namespace Personnel.Application.ViewModels.StaffingService {
             return base.Channel.EmployeePhotosGetAsync(employeeId);
         }
         
-        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults EmployeePhotosAdd(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo) {
-            return base.Channel.EmployeePhotosAdd(employeeId, photo);
+        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult EmployeePhotoAdd(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo) {
+            return base.Channel.EmployeePhotoAdd(employeeId, photo);
         }
         
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> EmployeePhotosAddAsync(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo) {
-            return base.Channel.EmployeePhotosAddAsync(employeeId, photo);
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult> EmployeePhotoAddAsync(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo) {
+            return base.Channel.EmployeePhotoAddAsync(employeeId, photo);
         }
         
-        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults EmployeePhotosRemove(long employeeId, System.Guid photoIdentifier) {
-            return base.Channel.EmployeePhotosRemove(employeeId, photoIdentifier);
+        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults EmployeePhotosAdd(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto[] photos) {
+            return base.Channel.EmployeePhotosAdd(employeeId, photos);
         }
         
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> EmployeePhotosRemoveAsync(long employeeId, System.Guid photoIdentifier) {
-            return base.Channel.EmployeePhotosRemoveAsync(employeeId, photoIdentifier);
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> EmployeePhotosAddAsync(long employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto[] photos) {
+            return base.Channel.EmployeePhotosAddAsync(employeeId, photos);
+        }
+        
+        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult EmployeePhotoRemove(long employeeId, System.Guid photoIdentifier) {
+            return base.Channel.EmployeePhotoRemove(employeeId, photoIdentifier);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult> EmployeePhotoRemoveAsync(long employeeId, System.Guid photoIdentifier) {
+            return base.Channel.EmployeePhotoRemoveAsync(employeeId, photoIdentifier);
+        }
+        
+        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults EmployeePhotosRemove(long employeeId, System.Guid[] photoIdentifiers) {
+            return base.Channel.EmployeePhotosRemove(employeeId, photoIdentifiers);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> EmployeePhotosRemoveAsync(long employeeId, System.Guid[] photoIdentifiers) {
+            return base.Channel.EmployeePhotosRemoveAsync(employeeId, photoIdentifiers);
         }
         
         public Personnel.Application.ViewModels.StaffingService.LoginValueResults EmployeeLoginsGet(long employeeId) {
@@ -2100,17 +2161,29 @@ namespace Personnel.Application.ViewModels.StaffingService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosGet", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosGetResponse")]
         System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> RESTEmployeePhotosGetAsync(string employeeId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosAdd", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosAddResponse")]
-        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults RESTEmployeePhotosAdd(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoAdd", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoAddResponse")]
+        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult RESTEmployeePhotoAdd(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoAdd", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoAddResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult> RESTEmployeePhotoAddAsync(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosAdd", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosAddResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> RESTEmployeePhotosAddAsync(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo);
+        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults RESTEmployeePhotosAdd(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto[] photos);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosAdd", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosAddResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> RESTEmployeePhotosAddAsync(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto[] photos);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoRemove", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoRemoveResponse")]
+        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult RESTEmployeePhotoRemove(string employeeId, string photoIdentifier);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoRemove", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotoRemoveResponse")]
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult> RESTEmployeePhotoRemoveAsync(string employeeId, string photoIdentifier);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosRemove", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosRemoveResponse")]
-        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults RESTEmployeePhotosRemove(string employeeId, string photoIdentifier);
+        Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults RESTEmployeePhotosRemove(string employeeId, string[] photoIdentifiers);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosRemove", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeePhotosRemoveResponse")]
-        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> RESTEmployeePhotosRemoveAsync(string employeeId, string photoIdentifier);
+        System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> RESTEmployeePhotosRemoveAsync(string employeeId, string[] photoIdentifiers);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IStaffingServiceREST/RESTEmployeeLoginsGet", ReplyAction="http://tempuri.org/IStaffingServiceREST/RESTEmployeeLoginsGetResponse")]
         Personnel.Application.ViewModels.StaffingService.LoginValueResults RESTEmployeeLoginsGet(string employeeId);
@@ -2410,20 +2483,36 @@ namespace Personnel.Application.ViewModels.StaffingService {
             return base.Channel.RESTEmployeePhotosGetAsync(employeeId);
         }
         
-        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults RESTEmployeePhotosAdd(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo) {
-            return base.Channel.RESTEmployeePhotosAdd(employeeId, photo);
+        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult RESTEmployeePhotoAdd(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo) {
+            return base.Channel.RESTEmployeePhotoAdd(employeeId, photo);
         }
         
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> RESTEmployeePhotosAddAsync(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo) {
-            return base.Channel.RESTEmployeePhotosAddAsync(employeeId, photo);
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult> RESTEmployeePhotoAddAsync(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto photo) {
+            return base.Channel.RESTEmployeePhotoAddAsync(employeeId, photo);
         }
         
-        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults RESTEmployeePhotosRemove(string employeeId, string photoIdentifier) {
-            return base.Channel.RESTEmployeePhotosRemove(employeeId, photoIdentifier);
+        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults RESTEmployeePhotosAdd(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto[] photos) {
+            return base.Channel.RESTEmployeePhotosAdd(employeeId, photos);
         }
         
-        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> RESTEmployeePhotosRemoveAsync(string employeeId, string photoIdentifier) {
-            return base.Channel.RESTEmployeePhotosRemoveAsync(employeeId, photoIdentifier);
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> RESTEmployeePhotosAddAsync(string employeeId, Personnel.Application.ViewModels.StaffingService.EmployeePhoto[] photos) {
+            return base.Channel.RESTEmployeePhotosAddAsync(employeeId, photos);
+        }
+        
+        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult RESTEmployeePhotoRemove(string employeeId, string photoIdentifier) {
+            return base.Channel.RESTEmployeePhotoRemove(employeeId, photoIdentifier);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResult> RESTEmployeePhotoRemoveAsync(string employeeId, string photoIdentifier) {
+            return base.Channel.RESTEmployeePhotoRemoveAsync(employeeId, photoIdentifier);
+        }
+        
+        public Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults RESTEmployeePhotosRemove(string employeeId, string[] photoIdentifiers) {
+            return base.Channel.RESTEmployeePhotosRemove(employeeId, photoIdentifiers);
+        }
+        
+        public System.Threading.Tasks.Task<Personnel.Application.ViewModels.StaffingService.EmployeePhotoResults> RESTEmployeePhotosRemoveAsync(string employeeId, string[] photoIdentifiers) {
+            return base.Channel.RESTEmployeePhotosRemoveAsync(employeeId, photoIdentifiers);
         }
         
         public Personnel.Application.ViewModels.StaffingService.LoginValueResults RESTEmployeeLoginsGet(string employeeId) {

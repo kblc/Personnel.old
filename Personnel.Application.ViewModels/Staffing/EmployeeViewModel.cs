@@ -13,6 +13,10 @@ using System.Windows.Input;
 using Helpers.Linq;
 using System.Threading;
 using System.Globalization;
+using System.Collections.ObjectModel;
+using System.Collections;
+using Personnel.Application.ViewModels.AdditionalModels;
+using System.Collections.Specialized;
 
 namespace Personnel.Application.ViewModels.Staffing
 {
@@ -25,9 +29,16 @@ namespace Personnel.Application.ViewModels.Staffing
             if (employee == null)
                 throw new ArgumentNullException(nameof(employee));
             this.employee = employee;
+            this.employee.PropertyChanged += (_, e) => 
+            {
+                if (e.PropertyName == nameof(employee.Photos))
+                {
+                    RaisePropertyChanged("[]");
+                }
+            };
         }
 
-        StaffingService.Picture this[int width, int height]
+        public StaffingService.Picture this[int width, int height]
         {
             get
             {
@@ -41,7 +52,7 @@ namespace Personnel.Application.ViewModels.Staffing
             }
         }
 
-        StaffingService.Picture this[StaffingService.PictureType type]
+        public StaffingService.Picture this[StaffingService.PictureType type]
         {
             get
             {
@@ -56,7 +67,7 @@ namespace Personnel.Application.ViewModels.Staffing
             }
         }
 
-        StaffingService.Picture this[string typeName]
+        public StaffingService.Picture this[string typeName]
         {
             get
             {
@@ -68,6 +79,47 @@ namespace Personnel.Application.ViewModels.Staffing
                     .FirstOrDefault();
                 return this[type];
             }
+        }
+    }
+
+    public class RightView : NotifyPropertyChangedBase
+    {
+
+        private Right right = null;
+        public Right Right { get { return right; } set { if (value == right) return; right = value; RaisePropertyChanged(); } }
+
+        private bool isChecked = false;
+        public bool IsChecked { get { return isChecked; } set { if (value == isChecked) return; isChecked = value; RaisePropertyChanged(); } }
+    }
+
+    public class EmployeeRightsCollectionView : List<RightView>
+    {
+        public EmployeeRightsCollectionView(Employee emp, IEnumerable<Right> rights)
+        {
+            var items = rights
+                .LeftOuterJoin(emp.Rights, r => r.Id, e => e.RightId, (Right, EmpRight) => new { Right, EmpRight })
+                .Select(i => new RightView() { Right = i.Right, IsChecked = i.EmpRight != null })
+                .ToList();
+
+            items.ForEach(i =>
+            {
+                i.PropertyChanged += (s, e) => 
+                {
+                    if (e.PropertyName == nameof(RightView.IsChecked)) 
+                    {
+                        var rw = (RightView)s;
+                        if (rw.IsChecked)
+                        {
+                            emp.Rights = emp.Rights.Union(new EmployeeRight[] { new EmployeeRight() { EmployeeId = emp.Id, RightId = rw.Right.Id } }).ToArray();
+                        } else
+                        {
+                            emp.Rights = emp.Rights.Where(r => r.RightId != rw.Right.Id).ToArray();
+                        }
+                    }
+                };
+            });
+
+            this.AddRange(items);
         }
     }
 
@@ -145,6 +197,13 @@ namespace Personnel.Application.ViewModels.Staffing
             internal set { if (error == value) return; error = value; RaisePropertyChanged(); RaisePropertyChanged(() => HasError); RaiseAllComamnds(); }
         }
 
+        private string newLoginToAdd = string.Empty;
+        public string NewLoginToAdd
+        {
+            get { return newLoginToAdd; }
+            set { if (newLoginToAdd == value) return; newLoginToAdd = value; RaisePropertyChanged(); RaiseAllComamnds(); }
+        }
+
         private void Owner_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             RaiseAllComamnds();
@@ -169,6 +228,7 @@ namespace Personnel.Application.ViewModels.Staffing
                 //    employee.PropertyChanged -= Employee_PropertyChanged;
 
                 employee = value;
+                Photos = employee == null ? null : new EmployeePhotoCollection(this.Employee);
 
                 //if (employee != null)
                 //    employee.PropertyChanged += Employee_PropertyChanged;
@@ -176,6 +236,9 @@ namespace Personnel.Application.ViewModels.Staffing
                 RaisePropertyChanged();
             }
         }
+
+        private EmployeeRightsCollectionView rightView = null;
+        public EmployeeRightsCollectionView RightView { get { return rightView; } private set { if (rightView == value) return; rightView = value; RaisePropertyChanged(); } }
 
         //private void Employee_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         //{
@@ -186,12 +249,14 @@ namespace Personnel.Application.ViewModels.Staffing
         {
             var emp = new Employee();
             emp.CopyObjectFrom(Employee);
+            RightView = new EmployeeRightsCollectionView(emp, Owner.Rights);
             EmployeeForEdit = emp;
         }
 
         private void StopEdit()
         {
             EmployeeForEdit = null;
+            rightView = null;
         }
 
         private StaffingService.Employee employeeForEdit = null;
@@ -221,7 +286,11 @@ namespace Personnel.Application.ViewModels.Staffing
         }
 
         private EmployeePhotoCollection photos = null;
-        public EmployeePhotoCollection Photos { get { return photos ?? (photos = new EmployeePhotoCollection(this.Employee)); } }
+        public EmployeePhotoCollection Photos
+        {
+            get { return photos ?? (photos = new EmployeePhotoCollection(this.Employee)); }
+            set { photos = value; RaisePropertyChanged(); }
+        }
 
         private void RaiseAllComamnds()
         {
@@ -229,6 +298,8 @@ namespace Personnel.Application.ViewModels.Staffing
             saveCommand?.RaiseCanExecuteChanged();
             editCommand?.RaiseCanExecuteChanged();
             cancelCommand?.RaiseCanExecuteChanged();
+            addLoginCommand?.RaiseCanExecuteChanged();
+            deleteLoginCommand?.RaiseCanExecuteChanged();
         }
 
         private string GetExceptionText(string whereCatched, Exception ex)
@@ -253,8 +324,8 @@ namespace Personnel.Application.ViewModels.Staffing
         private DelegateCommand editCommand = null;
         public ICommand EditCommand { get { return editCommand ?? (editCommand = new DelegateCommand(o => 
         {
-            IsEditMode = true;
             RaiseOnEditCommandExecuted();
+            IsEditMode = true;
         }, o => (owner?.CanManageEmployes ?? false) && !IsDeleted && !IsBusy && !IsEditMode)); } }
 
         private DelegateCommand cancelCommand = null;
@@ -265,6 +336,49 @@ namespace Personnel.Application.ViewModels.Staffing
         {
             ChangePhoto();
         }, o => (owner?.CanManageEmployes ?? false) && !IsDeleted && !IsBusy)); } }
+
+        private DelegateCommand addLoginCommand = null;
+        public ICommand AddLoginCommand
+        {
+            get
+            {
+                return addLoginCommand ?? (addLoginCommand = new DelegateCommand((o) => 
+                {
+                    var login = NewLoginToAdd?.ToString();
+                    if (string.IsNullOrWhiteSpace(login))
+                    {
+                        Error = "Enter login to add";
+                    }
+                    else
+                    {
+                        if (EmployeeForEdit.Logins.Any(el => string.Compare(el.Login, login,true) == 0 ))
+                        {
+                            Error = "Same login already exists";
+                        } else
+                        {
+                            var newEmployeeLogin = new EmployeeLogin() { Login = login.ToUpperInvariant(), EmployeeId = EmployeeForEdit.Id };
+                            EmployeeForEdit.Logins = EmployeeForEdit.Logins.Union(new EmployeeLogin[] { newEmployeeLogin }).ToArray();
+                            NewLoginToAdd = string.Empty;
+                        }
+                    }
+                }, (o) => Owner.CanManageEmployeeLogins && IsEditMode && NewLoginToAdd.Length > 0));
+            }
+        }
+
+        private DelegateCommand deleteLoginCommand = null;
+        public ICommand DeleteLoginCommand
+        {
+            get
+            {
+                return deleteLoginCommand ?? (deleteLoginCommand = new DelegateCommand((employeeLogin) =>
+                {
+                    if (employeeLogin == null)
+                        Error = "Select login to delete first";
+                    else
+                        EmployeeForEdit.Logins = EmployeeForEdit.Logins.Except(new EmployeeLogin[] { (EmployeeLogin)employeeLogin }).ToArray();
+                }, (o) => Owner.CanManageEmployeeLogins && IsEditMode));
+            }
+        }
 
         //private DelegateCommand emptyCommand = null;
         //public ICommand EmptyCommand { get { return emptyCommand ?? (emptyCommand = new DelegateCommand(o => 
@@ -310,19 +424,22 @@ namespace Personnel.Application.ViewModels.Staffing
                 var ssc = new StaffingService.StaffingServiceClient();
 
                 var changeLangTask = fsc.ChangeLanguageAsync(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-                var uploadFilesTask = changeLangTask.ContinueWith<EmployeePhotoResults[]>((t) =>
+                var uploadFilesTask = changeLangTask.ContinueWith((t) =>
                 {
                     if (t.Exception != null)
                         throw t.Exception;
-                    //After language change upload files
 
+                    ssc.ChangeLanguage(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+
+                    //After language change upload files
                     var items = filePaths
                         .Select(fp => new { FilePath = fp, Stream = new System.IO.FileStream(fp, System.IO.FileMode.Open) })
                         .ToArray();
 
-                    var tasks = items.Select(i =>
+                    var tasks = items.Select(i => 
+                    
                         fsc.PutAsync(i.Stream)
-                            .ContinueWith<StorageService.PictureResults>(t2 =>
+                            .ContinueWith(t2 =>
                             {
                                 try
                                 {
@@ -332,45 +449,51 @@ namespace Personnel.Application.ViewModels.Staffing
                                     if (!string.IsNullOrWhiteSpace(t2.Result.Error))
                                         throw new Exception(t2.Result.Error);
 
-                                    var fileId = t2.Result.Value.Id;
-                                    return fsc.FileToPictures(fileId);
+                                    var file = t2.Result.Value;
+                                    file.Name = System.IO.Path.GetFileName(i.FilePath);
+
+                                    var fileUpdateResult = fsc.Update(file);
+                                    if (!string.IsNullOrWhiteSpace(fileUpdateResult.Error))
+                                        throw new Exception(fileUpdateResult.Error);
+
+                                    file = fileUpdateResult.Value;
+
+                                    var fileToPicturesResult = fsc.FileToPictures(file.Id);
+                                    if (fileToPicturesResult.Error != null)
+                                        throw new Exception(fileToPicturesResult.Error);
+
+                                    var photos = fileToPicturesResult
+                                        .Values
+                                        .Select(p => new EmployeePhoto()
+                                        {
+                                            EmployeeId = emp.Id,
+                                            FileId = p.FileId,
+                                            Picture = AutoMapper.Mapper.Map<StaffingService.Picture>(p),
+                                        }).ToArray();
+
+                                    var addPhotosResult = ssc.EmployeePhotosAdd(emp.Id, photos);
+                                    if (addPhotosResult.Error != null)
+                                        throw new Exception(addPhotosResult.Error);
+
+                                    return addPhotosResult.Values;
                                 }
                                 finally
                                 {
                                     try { i.Stream.Dispose(); } catch { }
                                 }
                             }, CancellationToken.None, TaskContinuationOptions.AttachedToParent, TaskScheduler.Current)
-                            .ContinueWith<EmployeePhotoResults[]>(t2 => 
-                            {
-                                if (t2.Exception != null)
-                                    throw t2.Exception;
-
-                                if (t2.Result.Error != null)
-                                    throw new Exception(t2.Result.Error);
-
-                                var results = t2.Result.Values
-                                    .Select(p => ssc.EmployeePhotosAdd(emp.Id, new EmployeePhoto()
-                                    {
-                                        EmployeeId = emp.Id,
-                                        FileId = p.FileId
-                                    })).ToArray();
-
-                                return results;
-                            }
-                            , CancellationToken.None, TaskContinuationOptions.AttachedToParent, TaskScheduler.Current)
                     ).ToArray();
 
                     Task.WaitAll(tasks);
 
                     return tasks
                         .Where(tsk => tsk.Exception == null)
-                        .Select(tsk => tsk.Result)
+                        .SelectMany(tsk => tsk.Result)
                         .ToArray();
+
                 }, System.Threading.CancellationToken.None,
                    TaskContinuationOptions.AttachedToParent,
                    TaskScheduler.Default);
-
-
 
                 await uploadFilesTask.ContinueWith(t =>
                 {
@@ -378,19 +501,9 @@ namespace Personnel.Application.ViewModels.Staffing
                     {
                         if (t.Exception != null)
                             throw t.Exception;
-                        
-                        //Uploaded pictures
-                        var addPictures = t.Result
-                            .Where(p => string.IsNullOrWhiteSpace(p.Error))
-                            .SelectMany(p => p.Values);
-
-                        
-
-                        //emp.Photos = emp.Photos
-                        //    .Union(addPictures
-                        //        .Select(p => new EmployeePhoto() {  })
-                        //        )
-                        //        .ToArray();
+                        emp.Photos = emp.Photos
+                            .FullOuterJoin(t.Result, i => i.FileId, i => i.FileId, (p1, p2) => p1 ?? p2)
+                            .ToArray();
                     }
                     catch (Exception ex)
                     {
@@ -476,46 +589,73 @@ namespace Personnel.Application.ViewModels.Staffing
             IsBusy = true;
             try
             {
-                var sc = new StaffingServiceClient();
-                var waittask = Employee.Id == 0
-                    ? sc.EmployeeInsertAsync(employeeToSave)
-                    : sc.EmployeeUpdateAsync(employeeToSave);
-                await waittask.ContinueWith(t =>
-                {
+                var canMangeLogins = Owner.CanManageEmployeeLogins;
+                var canMangeRights = Owner.CanManageEmployeeRights;
+
+                var task = Task.Factory.StartNew(() => {
+                    var sc = new StaffingServiceClient();
                     try
-                    {
-                        if (t.Exception != null)
+                    { 
+                        var updateRes = Employee.Id == 0
+                            ? sc.EmployeeInsert(employeeToSave)
+                            : sc.EmployeeUpdate(employeeToSave);
+
+                        if (!string.IsNullOrWhiteSpace(updateRes.Error))
                         {
-                            Error = GetExceptionText(nameof(SaveAsync), t.Exception);
+                            throw new Exception(updateRes.Error);
                         }
                         else
                         {
-                            if (!string.IsNullOrWhiteSpace(t.Result.Error))
+                            //Error = null;
+                            this.Employee.CopyObjectFrom(updateRes.Value);
+                            //IsEmpty = false;
+
+                            if (canMangeLogins)
                             {
-                                Error = t.Result.Error;
+                                var updateLoginsRes = sc.EmployeeLoginsUpdate(employeeToSave.Id, employeeToSave.Logins.Select(r => r.Login).ToArray());
+                                if (updateLoginsRes.Error != null)
+                                {
+                                    throw new Exception(updateLoginsRes.Error);
+                                }
+                                else
+                                {
+                                    this.Employee.Logins = updateLoginsRes.Values;
+                                }
                             }
-                            else
+
+                            if (canMangeRights)
                             {
-                                Error = null;
-                                this.Employee.CopyObjectFrom(t.Result.Value);
-                                IsEditMode = false;
-                                IsEmpty = false;
+                                var updateRightsRes = sc.EmployeeRightsUpdate(employeeToSave.Id, employeeToSave.Rights.Select(r => r.RightId).ToArray());
+                                if (updateRightsRes.Error != null)
+                                {
+                                    throw new Exception(updateRightsRes.Error);
+                                } else
+                                {
+                                    this.Employee.Rights = updateRightsRes.Values;
+                                }
                             }
+
+                            //if (string.IsNullOrWhiteSpace(Error))
+                            //    IsEditMode = false;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        Error = GetExceptionText(nameof(SaveAsync), ex);
                     }
                     finally
                     {
                         try { sc.Close(); } catch { }
-                        IsBusy = false;
+                        //IsBusy = false;
                     }
-                },
-                    System.Threading.CancellationToken.None,
-                    TaskContinuationOptions.AttachedToParent,
-                    TaskScheduler.FromCurrentSynchronizationContext());
+                });
+
+                await task;
+
+                IsEmpty = Employee.Id == 0;
+
+                if (task.Exception != null)
+                    throw task.Exception;
+
+                Error = null;
+                IsBusy = false;
+                IsEditMode = false;
             }
             catch (Exception ex)
             {

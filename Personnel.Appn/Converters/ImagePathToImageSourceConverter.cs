@@ -30,7 +30,7 @@ namespace Personnel.Appn.Converters
                     //image.StreamSource = 
                     image.UriSource = new Uri((string)value);
                 }
-                image.DecodePixelWidth = 50;
+                //image.DecodePixelWidth = 50;
                 image.EndInit();
             }
             return image;

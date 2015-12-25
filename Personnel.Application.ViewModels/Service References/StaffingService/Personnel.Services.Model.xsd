@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="StaffingResults">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseExecutionResultsOfStaffing3XPrIsxh">
@@ -323,31 +322,56 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="BaseExecutionResultsOfEmployeePhoto3XPrIsxh" nillable="true" type="tns:BaseExecutionResultsOfEmployeePhoto3XPrIsxh" />
-  <xs:complexType name="LoginValueResults">
+  <xs:complexType name="EmployeePhotoResult">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseExecutionResultsOfstring">
+      <xs:extension base="tns:BaseExecutionResultOfEmployeePhoto3XPrIsxh">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="LoginValueResults" nillable="true" type="tns:LoginValueResults" />
-  <xs:complexType name="BaseExecutionResultsOfstring">
+  <xs:element name="EmployeePhotoResult" nillable="true" type="tns:EmployeePhotoResult" />
+  <xs:complexType name="BaseExecutionResultOfEmployeePhoto3XPrIsxh">
     <xs:annotation>
       <xs:appinfo>
-        <GenericType Name="BaseExecutionResultsOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
-          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+        <GenericType Name="BaseExecutionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="EmployeePhoto" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
         </GenericType>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexContent mixed="false">
       <xs:extension base="tns:Result">
         <xs:sequence>
-          <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Values" nillable="true" type="q1:ArrayOfstring" />
+          <xs:element minOccurs="0" name="Value" nillable="true" type="tns:EmployeePhoto" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="BaseExecutionResultsOfstring" nillable="true" type="tns:BaseExecutionResultsOfstring" />
+  <xs:element name="BaseExecutionResultOfEmployeePhoto3XPrIsxh" nillable="true" type="tns:BaseExecutionResultOfEmployeePhoto3XPrIsxh" />
+  <xs:complexType name="LoginValueResults">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseExecutionResultsOfEmployeeLogin3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LoginValueResults" nillable="true" type="tns:LoginValueResults" />
+  <xs:complexType name="BaseExecutionResultsOfEmployeeLogin3XPrIsxh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseExecutionResultsOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="EmployeeLogin" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Result">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Values" nillable="true" type="tns:ArrayOfEmployeeLogin" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseExecutionResultsOfEmployeeLogin3XPrIsxh" nillable="true" type="tns:BaseExecutionResultsOfEmployeeLogin3XPrIsxh" />
   <xs:complexType name="RightResults">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:BaseExecutionResultsOfRight3XPrIsxh">
@@ -389,27 +413,27 @@
   <xs:element name="Right" nillable="true" type="tns:Right" />
   <xs:complexType name="RightValueResults">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:BaseExecutionResultsOflong">
+      <xs:extension base="tns:BaseExecutionResultsOfEmployeeRight3XPrIsxh">
         <xs:sequence />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="RightValueResults" nillable="true" type="tns:RightValueResults" />
-  <xs:complexType name="BaseExecutionResultsOflong">
+  <xs:complexType name="BaseExecutionResultsOfEmployeeRight3XPrIsxh">
     <xs:annotation>
       <xs:appinfo>
         <GenericType Name="BaseExecutionResultsOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
-          <GenericParameter Name="long" Namespace="http://www.w3.org/2001/XMLSchema" />
+          <GenericParameter Name="EmployeeRight" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
         </GenericType>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexContent mixed="false">
       <xs:extension base="tns:Result">
         <xs:sequence>
-          <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Values" nillable="true" type="q2:ArrayOflong" />
+          <xs:element minOccurs="0" name="Values" nillable="true" type="tns:ArrayOfEmployeeRight" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="BaseExecutionResultsOflong" nillable="true" type="tns:BaseExecutionResultsOflong" />
+  <xs:element name="BaseExecutionResultsOfEmployeeRight3XPrIsxh" nillable="true" type="tns:BaseExecutionResultsOfEmployeeRight3XPrIsxh" />
 </xs:schema>

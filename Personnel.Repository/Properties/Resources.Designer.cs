@@ -286,7 +286,7 @@ namespace Personnel.Repository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User can login in system.
+        ///   Looks up a localized string similar to User can login in system (Login).
         /// </summary>
         public static string MODEL_RIGHTTYPE_Login {
             get {
@@ -295,7 +295,61 @@ namespace Personnel.Repository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage staffing.
+        ///   Looks up a localized string similar to Manage appoints (ManageAppoints).
+        /// </summary>
+        public static string MODEL_RIGHTTYPE_ManageAppoints {
+            get {
+                return ResourceManager.GetString("MODEL_RIGHTTYPE_ManageAppoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage departments (ManageDepartments).
+        /// </summary>
+        public static string MODEL_RIGHTTYPE_ManageDepartments {
+            get {
+                return ResourceManager.GetString("MODEL_RIGHTTYPE_ManageDepartments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage emplyes logins (ManageEmployeesLogins).
+        /// </summary>
+        public static string MODEL_RIGHTTYPE_ManageEmployeesLogins {
+            get {
+                return ResourceManager.GetString("MODEL_RIGHTTYPE_ManageEmployeesLogins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage employes rights (ManageEmployeesRights).
+        /// </summary>
+        public static string MODEL_RIGHTTYPE_ManageEmployeesRights {
+            get {
+                return ResourceManager.GetString("MODEL_RIGHTTYPE_ManageEmployeesRights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage employes (ManageEmployes).
+        /// </summary>
+        public static string MODEL_RIGHTTYPE_ManageEmployes {
+            get {
+                return ResourceManager.GetString("MODEL_RIGHTTYPE_ManageEmployes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage files (ManageFile).
+        /// </summary>
+        public static string MODEL_RIGHTTYPE_ManageFile {
+            get {
+                return ResourceManager.GetString("MODEL_RIGHTTYPE_ManageFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage staffing (ManageStaffing).
         /// </summary>
         public static string MODEL_RIGHTTYPE_ManageStaffing {
             get {
@@ -304,29 +358,38 @@ namespace Personnel.Repository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage users and right for them.
+        ///   Looks up a localized string similar to Upload files (UploadFile).
         /// </summary>
-        public static string MODEL_RIGHTTYPE_ManageUsersAndRights {
+        public static string MODEL_RIGHTTYPE_UploadFile {
             get {
-                return ResourceManager.GetString("MODEL_RIGHTTYPE_ManageUsersAndRights", resourceCulture);
+                return ResourceManager.GetString("MODEL_RIGHTTYPE_UploadFile", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User can view staffing.
+        ///   Looks up a localized string similar to View changes (ViewChanges).
+        /// </summary>
+        public static string MODEL_RIGHTTYPE_ViewChanges {
+            get {
+                return ResourceManager.GetString("MODEL_RIGHTTYPE_ViewChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User can view employes (ViewEmployes).
+        /// </summary>
+        public static string MODEL_RIGHTTYPE_ViewEmployes {
+            get {
+                return ResourceManager.GetString("MODEL_RIGHTTYPE_ViewEmployes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User can view staffing (ViewStaffing).
         /// </summary>
         public static string MODEL_RIGHTTYPE_ViewStaffing {
             get {
                 return ResourceManager.GetString("MODEL_RIGHTTYPE_ViewStaffing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User can view other users and their rights.
-        /// </summary>
-        public static string MODEL_RIGHTTYPE_ViewUsersAndRights {
-            get {
-                return ResourceManager.GetString("MODEL_RIGHTTYPE_ViewUsersAndRights", resourceCulture);
             }
         }
     }

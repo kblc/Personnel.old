@@ -26,7 +26,7 @@ namespace Personnel.Services.Service.Staffing
                 throw new Exception(string.Format(Properties.Resources.STUFFINGSERVICE_RightNotFound, badRights));
         }
 
-        private IEnumerable<long> SRVCUpdateRights(Helpers.Log.SessionInfo logSession, Repository.Logic.Repository rep,
+        private IEnumerable<EmployeeRight> SRVCUpdateRights(Helpers.Log.SessionInfo logSession, Repository.Logic.Repository rep,
             long employeeId, IEnumerable<long> addRights, IEnumerable<long> removeRights, bool checkRights = true)
         {
             if (checkRights)
@@ -57,13 +57,17 @@ namespace Personnel.Services.Service.Staffing
                     .ToArray()
                     .Select(r => rep.New<Repository.Model.EmployeeRight>((er) =>
                     {
-                        er.Employee = emp;
-                        er.Right = r;
-                    }));
+                        er.EmployeeId = emp.EmployeeId;
+                        er.RightId = r.RightId;
+                        //er.Employee = emp;
+                        //er.Right = r;
+                    })).ToArray();
 
-                logSession.Add($"Add this rights {addRightsUpper.Concat(r => r.Right.SystemName, ",")} for employee id = {employeeId}");
+                logSession.Add($"Add this rights {addRightsUpper.Concat(r => r.RightId.ToString(), ",")} for employee id = {employeeId}");
                 foreach (var r in addRightsUpper)
                     emp.Rights.Add(r);
+
+                rep.AddRange(addRightsUpper, saveAfterInsert: false);
             }
 
             #endregion
@@ -79,14 +83,18 @@ namespace Personnel.Services.Service.Staffing
                     .Join(emp.Rights, r => r.RightId, er => er.RightId, (r, er) => er)
                     .ToArray();
 
-                logSession.Add($"Remove this rights {removeRightsUpper.Concat(r => r.Right.SystemName, ",")} for employee id = {employeeId}");
+                logSession.Add($"Remove this rights {removeRightsUpper.Concat(r => r.RightId.ToString(), ",")} for employee id = {employeeId}");
                 foreach (var r in removeRightsUpper)
                     emp.Rights.Remove(r);
+
+                rep.RemoveRange(removeRightsUpper, saveAfterRemove: false);
             }
 
             #endregion
 
-            return emp.Rights.Select(er => er.RightId);
+            rep.SaveChanges();
+
+            return emp.Rights.Select(r => AutoMapper.Mapper.Map<EmployeeRight>(r));
 #pragma warning restore 618
         }
 
@@ -364,7 +372,7 @@ namespace Personnel.Services.Service.Staffing
                     var emp = EmployeeGet(employeeId);
                     if (emp.Exception != null)
                         throw emp.Exception;
-                    return new RightValueExecutionResults(emp.Value.Rights.Select(r => r.RightId).ToArray());
+                    return new RightValueExecutionResults(emp.Value.Rights.ToArray());
                 }
                 catch (Exception ex)
                 {

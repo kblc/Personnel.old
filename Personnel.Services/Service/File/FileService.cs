@@ -53,7 +53,7 @@ namespace Personnel.Services.Service.File
         /// <param name="fileName">File name</param>
         private void SetOutputResponseHeaders(string mime, Encoding encoding, string fileName, Helpers.Log.SessionInfo upperLogSession)
         {
-            if (upperLogSession != null)
+            if (upperLogSession == null)
                 throw new ArgumentNullException(nameof(upperLogSession));
 
             using (var logSession = Helpers.Log.Session($"{GetType()}.{System.Reflection.MethodBase.GetCurrentMethod().Name}()", VerboseLog, ss => ss.ToList().ForEach(s => upperLogSession.Add(s))))
@@ -83,7 +83,7 @@ namespace Personnel.Services.Service.File
         /// <param name="fileName">File name</param>
         private void GetInputRequestHeaders(out string mime, out Encoding encoding, out string fileName, Helpers.Log.SessionInfo upperLogSession)
         {
-            if (upperLogSession != null)
+            if (upperLogSession == null)
                 throw new ArgumentNullException(nameof(upperLogSession));
 
             mime = null;
@@ -344,7 +344,7 @@ namespace Personnel.Services.Service.File
                 {
                     using (var rep = GetNewRepository(logSession))
                     {
-                        SRVCCheckCredentials(logSession, rep, Repository.Model.RightType.Login);
+                        //SRVCCheckCredentials(logSession, rep, Repository.Model.RightType.Login);
 
                         var file = rep.GetFile(identifier);
                         if (file != null)
@@ -442,7 +442,11 @@ namespace Personnel.Services.Service.File
                         {
                             f.FileName = string.IsNullOrWhiteSpace(fileName) ? DefaultFileName : fileName;
                             f.Encoding = encoding;
-                            f.MimeType = string.IsNullOrWhiteSpace(mimeType) ? FileStorage.MimeStorage.GetMimeTypeByExtension(f.FileName) : mimeType;
+                            f.MimeType = string.IsNullOrWhiteSpace(mimeType) 
+                                ? FileStorage.MimeStorage.GetMimeTypeByExtension(f.FileName) 
+                                : mimeType;
+                            f.Date = DateTime.UtcNow;
+                            f.FileId = Guid.NewGuid();
                         });
 
                         logSession.Add($"Try to save file to file storage...");
@@ -593,6 +597,7 @@ namespace Personnel.Services.Service.File
                             throw new Exception(string.Format(Properties.Resources.FILESERVICE_PictureAlreadyExists, identifier));
 
                         var pictures = Additional.FileResizer.RersizeTo(dbFile, rep, MainFileStorage, null).ToArray();
+
                         rep.SaveChanges();
                         return new PictureExecutionResults(pictures);
                     }

@@ -33,18 +33,10 @@ namespace Personnel.Services.Model
     }
 
     [DataContract(Name = "LoginValueResults")]
-    public class LoginValueExecutionResults : BaseExecutionResults<string>
+    public class LoginValueExecutionResults : BaseExecutionResults<EmployeeLogin>
     {
         public LoginValueExecutionResults() { }
-        public LoginValueExecutionResults(string[] e) : base(e) { }
+        public LoginValueExecutionResults(EmployeeLogin[] e) : base(e) { }
         public LoginValueExecutionResults(Exception ex) : base(ex) { }
-    }
-
-    [DataContract(Name = "LoginResults")]
-    public class LoginExecutionResults : BaseExecutionResults<EmployeeLogin>
-    {
-        public LoginExecutionResults() { }
-        public LoginExecutionResults(EmployeeLogin[] e) : base(e) { }
-        public LoginExecutionResults(Exception ex) : base(ex) { }
     }
 }

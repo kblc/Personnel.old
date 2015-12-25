@@ -8,8 +8,9 @@
                     xmlns:add="clr-namespace:Personnel.Appn.Additional"
                     xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels"
                     xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:ss="clr-namespace:Personnel.Application.ViewModels.StaffingService;assembly=Personnel.Application.ViewModels">
+
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Personnel.Appn;component/Controls/IconViewer/IconViewer.xaml"/>
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Generic.xaml"/>
@@ -26,6 +27,7 @@
     <BooleanToVisibilityConverter x:Key="employeeBooleanToVisibilityConverter"/>
     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="employeeReverseBooleanToVisibilityConverter"/>
     <helperConverters:IsNotEqualVisibilityConverter x:Key="employeeIsNotEqualVisibilityConverter"/>
+    <helperConverters:IsNotEqualsConverter x:Key="IsNotEqualsConverter"/>
     <helperConverters:IsEqualVisibilityConverter x:Key="employeeIsEqualVisibilityConverter"/>
     <localConverters:StaffingPictureToImageSourceConverter x:Key="employeeImagePathToImageSourceConverter"/>
     <helperConverters:ApplyConverter x:Key="employeeApplyConverter"/>
@@ -259,7 +261,7 @@
                 </i:Interaction.Triggers>
             </Border>
             
-            <md:Card VerticalAlignment="Center" HorizontalAlignment="Center">
+            <md:Card VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="240" MinHeight="320">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -313,7 +315,8 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Grid Grid.ColumnSpan="999">
-                                        <Image Width="256" MaxHeight="256" HorizontalAlignment="Left"
+                                        <Image Width="256" MaxHeight="256" HorizontalAlignment="Center"
+                                               Stretch="Uniform"
                                                Source="{Binding Photos[None].File.Link, Converter={StaticResource employeeImagePathToImageSourceConverter}}"/>
                                         <Button Content="Change photo..." VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="8"
                                                 Command="{Binding ChangePhotoCommand}"/>
@@ -339,6 +342,70 @@
                                 </Grid>
                             </ScrollViewer>
                         </TabItem>
+                        <TabItem Header="Rights">
+
+                            <ListBox ItemsSource="{Binding RightView}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type staffing:RightView}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                      IsEnabled="{Binding ElementName=PART_rootGrid, Path=DataContext.Owner.CanManageEmployeeRights}"
+                                                      Margin="0,0,4,0">
+                                                <CheckBox.Content>
+                                                    <TextBlock Text="{Binding Right.Name}"/>
+                                                </CheckBox.Content>
+                                            </CheckBox>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            
+                        </TabItem>
+                        <TabItem Header="Logins">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" Margin="0,4" x:Name="PART_AddLoginPart" Visibility="Collapsed">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Add login:"/>
+                                    <TextBox Grid.Row="1" Text="{Binding NewLoginToAdd, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <Button Grid.Row="1" Grid.Column="1" Content="Add"
+                                            Margin="4,0,0,0"
+                                            Command="{Binding AddLoginCommand}"/>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <ListBox ItemsSource="{Binding EmployeeForEdit.Logins}" x:Name="lbLogins"
+                                             MinHeight="240" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type ss:EmployeeLogin}">
+                                                <TextBlock Text="{Binding Login}"/>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                    <Button Grid.Row="1" Content="Delete" Margin="0,4,0,0"
+                                            x:Name="PART_DeleteLoginButton" Visibility="Collapsed"
+                                            Command="{Binding DeleteLoginCommand}"
+                                            CommandParameter="{Binding ElementName=lbLogins, Path=SelectedItem}"
+                                            IsEnabled="{Binding ElementName=lbLogins, Path=SelectedItem, Converter={StaticResource IsNotEqualsConverter}, ConverterParameter={x:Null}}"
+                                            />
+                                </Grid>
+                            </Grid>
+                        </TabItem>
                     </TabControl>
                     
                     <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center">
@@ -357,6 +424,10 @@
             </DataTrigger>
             <DataTrigger Binding="{Binding HasError}" Value="True">
                 <Setter TargetName="PART_EmployeeError" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Owner.CanManageEmployeeLogins}" Value="True">
+                <Setter TargetName="PART_DeleteLoginButton" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="PART_AddLoginPart" Property="Visibility" Value="Visible"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>

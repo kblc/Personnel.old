@@ -187,19 +187,40 @@
     <value>Remove</value>
   </data>
   <data name="MODEL_RIGHTTYPE_Login" xml:space="preserve">
-    <value>User can login in system</value>
+    <value>User can login in system (Login)</value>
+  </data>
+  <data name="MODEL_RIGHTTYPE_ManageAppoints" xml:space="preserve">
+    <value>Manage appoints (ManageAppoints)</value>
+  </data>
+  <data name="MODEL_RIGHTTYPE_ManageDepartments" xml:space="preserve">
+    <value>Manage departments (ManageDepartments)</value>
+  </data>
+  <data name="MODEL_RIGHTTYPE_ManageEmployeesLogins" xml:space="preserve">
+    <value>Manage emplyes logins (ManageEmployeesLogins)</value>
+  </data>
+  <data name="MODEL_RIGHTTYPE_ManageEmployeesRights" xml:space="preserve">
+    <value>Manage employes rights (ManageEmployeesRights)</value>
+  </data>
+  <data name="MODEL_RIGHTTYPE_ManageEmployes" xml:space="preserve">
+    <value>Manage employes (ManageEmployes)</value>
+  </data>
+  <data name="MODEL_RIGHTTYPE_ManageFile" xml:space="preserve">
+    <value>Manage files (ManageFile)</value>
   </data>
   <data name="MODEL_RIGHTTYPE_ManageStaffing" xml:space="preserve">
-    <value>Manage staffing</value>
+    <value>Manage staffing (ManageStaffing)</value>
   </data>
-  <data name="MODEL_RIGHTTYPE_ManageUsersAndRights" xml:space="preserve">
-    <value>Manage users and right for them</value>
+  <data name="MODEL_RIGHTTYPE_UploadFile" xml:space="preserve">
+    <value>Upload files (UploadFile)</value>
+  </data>
+  <data name="MODEL_RIGHTTYPE_ViewChanges" xml:space="preserve">
+    <value>View changes (ViewChanges)</value>
+  </data>
+  <data name="MODEL_RIGHTTYPE_ViewEmployes" xml:space="preserve">
+    <value>User can view employes (ViewEmployes)</value>
   </data>
   <data name="MODEL_RIGHTTYPE_ViewStaffing" xml:space="preserve">
-    <value>User can view staffing</value>
-  </data>
-  <data name="MODEL_RIGHTTYPE_ViewUsersAndRights" xml:space="preserve">
-    <value>User can view other users and their rights</value>
+    <value>User can view staffing (ViewStaffing)</value>
   </data>
   <data name="MODEL_RIGHT_SystemNameMaxLength" xml:space="preserve">
     <value>System name length must be less or equals 100</value>

@@ -10,7 +10,7 @@ namespace Personnel.Services.Service.Staffing
 {
     public partial class StaffingService
     {
-        private IEnumerable<string> SRVCUpdateLogins(Helpers.Log.SessionInfo logSession, Repository.Logic.Repository rep,
+        private IEnumerable<EmployeeLogin> SRVCUpdateLogins(Helpers.Log.SessionInfo logSession, Repository.Logic.Repository rep,
             long employeeId, IEnumerable<string> addLogins, IEnumerable<string> removeLogins)
         {
 #pragma warning disable 618
@@ -31,13 +31,16 @@ namespace Personnel.Services.Service.Staffing
                     .ToArray()
                     .Select(r => rep.New<Repository.Model.EmployeeLogin>((er) =>
                     {
-                        er.Employee = emp;
+                        er.EmployeeLoginId = emp.EmployeeId;
                         er.DomainLogin = r;
-                    }));
+                    }))
+                    .ToArray();
 
                 logSession.Add($"Add this logins {addLoginsUpper.Concat(r => r.DomainLogin, ",")} for employee id = {employeeId}");
                 foreach (var r in addLoginsUpper)
                     emp.Logins.Add(r);
+
+                rep.AddRange(addLoginsUpper, saveAfterInsert: false);
             }
 
             #endregion
@@ -55,11 +58,15 @@ namespace Personnel.Services.Service.Staffing
                 logSession.Add($"Remove this logins {removeLoginsUpper.Concat(r => r.DomainLogin, ",")} for employee id = {employeeId}");
                 foreach (var r in removeLoginsUpper)
                     emp.Logins.Remove(r);
+
+                rep.RemoveRange(removeLoginsUpper, saveAfterRemove: false);
             }
 
             #endregion
 
-            return emp.Logins.Select(er => er.DomainLogin);
+            rep.SaveChanges();
+
+            return emp.Logins.Select(er => AutoMapper.Mapper.Map<EmployeeLogin>(er));
 #pragma warning restore 618
         }
 
@@ -230,7 +237,7 @@ namespace Personnel.Services.Service.Staffing
                     var emp = EmployeeGet(employeeId);
                     if (emp.Exception != null)
                         throw emp.Exception;
-                    return new LoginValueExecutionResults(emp.Value.Logins.Select(r => r.Login).ToArray());
+                    return new LoginValueExecutionResults(emp.Value.Logins.ToArray());
                 }
                 catch (Exception ex)
                 {

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Helpers;
 using Personnel.Application.ViewModels.Additional;
+using System.Runtime.CompilerServices;
 
 namespace Personnel.Application.ViewModels.ServiceWorkers
 {
@@ -61,7 +62,7 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
 
         public System.Runtime.Remoting.Contexts.Context Context { get; } = Thread.CurrentContext;
 
-        protected override void RaisePropertyChanged([ParenthesizePropertyName] string propertyName = "")
+        protected override void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
             Context.DoCallBack(() => base.RaisePropertyChanged(propertyName));
         }

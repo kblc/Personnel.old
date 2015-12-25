@@ -14,6 +14,8 @@ namespace Personnel.Services.Additional
         {
             var repFile = repository.New<Repository.Model.File>(f =>
             {
+                f.Date = DateTime.UtcNow;
+                f.FileId = Guid.NewGuid();
                 f.FileName = fileName;
                 f.MimeType = MimeStorage.GetMimeTypeByExtension(fileName);
             });

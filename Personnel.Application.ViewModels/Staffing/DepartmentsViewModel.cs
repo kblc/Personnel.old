@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Personnel.Application.ViewModels.StaffingService;
 using System.Windows;
+using Personnel.Application.ViewModels.AdditionalModels;
 
 namespace Personnel.Application.ViewModels.Staffing
 {
@@ -18,10 +19,14 @@ namespace Personnel.Application.ViewModels.Staffing
         public abstract bool CanManageDepartments { get; protected set; }
         public abstract bool CanManageStaffing { get; protected set; }
         public abstract bool CanManageEmployes { get; protected set; }
+        public abstract bool CanManageEmployeeLogins { get; protected set; }
+        public abstract bool CanManageEmployeeRights { get; protected set; }
         public abstract bool IsDebugView { get; set; }
         public abstract bool IsStaffingVisible { get; set; }
         public abstract bool IsDragMode { get; protected set; }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public abstract IReadOnlyNotifyCollection<Right> Rights { get; }
 
         protected void RaisePropertyChanged([ParenthesizePropertyName] string propertyName = "")
         {

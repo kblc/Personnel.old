@@ -39,8 +39,8 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
             get { return current; }
             private set
             {
-                if (current == value)
-                    return;
+                //if (current == value)
+                //    return;
                 current = value;
                 RaisePropertyChanged();
                 RaiseOnCurrentChanged();
@@ -446,7 +446,10 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                         tasks.Add(sClient.EmployeeGetCurrentAsync().ContinueWith<bool>(t =>
                             {
                                 if (checkAggregateExceptions(typeof(StaffingService.Employee), t.Exception))
-                                { 
+                                {
+                                    if (t.Result.Error != null)
+                                        throw new Exception(t.Result.Error);
+
                                     modelLevelThContext.DoCallBack(() => RaiseCurrentInitialize(t.Result.Value));
                                     return true;
                                 }
@@ -457,6 +460,9 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                         {
                             if (checkAggregateExceptions(typeof(StaffingService.Right), t.Exception))
                             {
+                                if (t.Result.Error != null)
+                                    throw new Exception(t.Result.Error);
+
                                 modelLevelThContext.DoCallBack(() => RaiseItemsInitialize(t.Result.Values));
                                 return true;
                             }
@@ -467,6 +473,9 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                         {
                             if (checkAggregateExceptions(typeof(StaffingService.Staffing), t.Exception))
                             {
+                                if (t.Result.Error != null)
+                                    throw new Exception(t.Result.Error);
+
                                 modelLevelThContext.DoCallBack(() => RaiseItemsInitialize(t.Result.Values));
                                 return true;
                             }
@@ -477,6 +486,9 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                         {
                             if (checkAggregateExceptions(typeof(StaffingService.Employee), t.Exception))
                             {
+                                if (t.Result.Error != null)
+                                    throw new Exception(t.Result.Error);
+
                                 modelLevelThContext.DoCallBack(() => RaiseItemsInitialize(t.Result.Values));
                                 return true;
                             }
@@ -487,6 +499,9 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
                         {
                             if (checkAggregateExceptions(typeof(StaffingService.Employee), t.Exception))
                             {
+                                if (t.Result.Error != null)
+                                    throw new Exception(t.Result.Error);
+
                                 modelLevelThContext.DoCallBack(() => RaiseItemsInitialize(t.Result.Values));
                                 return true;
                             }
@@ -528,7 +543,9 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
 
             var current = items.FirstOrDefault(i => i.Id == (Current?.Id ?? 0));
             if (current != null)
-                Current = (action == StaffingListsAction.Remove) ? null : current;
+                Current = (action == StaffingListsAction.Remove) 
+                    ? null 
+                    : current;
         }
         private void RaiseOnStaffingChanged(IEnumerable<StaffingService.Staffing> items, StaffingListsAction action)
             => Context.DoCallBack(() => {
