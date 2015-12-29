@@ -75,6 +75,9 @@
     <Compile Include="Model\EmployeeLogin.cs" />
     <Compile Include="Model\Picture.cs" />
     <Compile Include="Model\ModelMapper.cs" />
+    <Compile Include="Model\VacationBalance.cs" />
+    <Compile Include="Model\VacationLevel.cs" />
+    <Compile Include="Model\Vacation.cs" />
     <Compile Include="Model\Staffing.cs" />
     <Compile Include="Model\EmployeeRight.cs" />
     <Compile Include="Model\Right.cs" />
@@ -104,13 +107,30 @@
     <Compile Include="Service\Staffing\IStuffingService.EmployeePhoto.cs" />
     <Compile Include="Service\Staffing\IStuffingService.EmployeeLogin.cs" />
     <Compile Include="Service\Staffing\IStuffingService.EmployeeRight.cs" />
+    <Compile Include="Service\Staffing\StuffingService.Department.REST.cs" />
+    <Compile Include="Service\Staffing\StuffingService.Employee.REST.cs" />
+    <Compile Include="Service\Staffing\StuffingService.EmployeeLogin.REST.cs" />
     <Compile Include="Service\Staffing\StuffingService.EmployeePhoto.cs" />
     <Compile Include="Service\Staffing\StuffingService.EmployeeLogin.cs" />
+    <Compile Include="Service\Staffing\StuffingService.EmployeePhoto.REST.cs" />
+    <Compile Include="Service\Staffing\StuffingService.EmployeeRight.REST.cs" />
     <Compile Include="Service\Staffing\StuffingService.Staffing.cs" />
     <Compile Include="Service\Staffing\StuffingService.Department.cs" />
     <Compile Include="Service\Staffing\StuffingService.cs" />
     <Compile Include="Service\Staffing\StuffingService.Employee.cs" />
     <Compile Include="Service\Staffing\StuffingService.EmployeeRight.cs" />
+    <Compile Include="Service\Staffing\StuffingService.Staffing.REST.cs" />
+    <Compile Include="Service\Vacation\IVacationService.cs" />
+    <Compile Include="Service\Vacation\IVacationService.VacationBalance.cs" />
+    <Compile Include="Service\Vacation\IVacationService.Vacation.cs" />
+    <Compile Include="Service\Vacation\IVacationService.VacationLevel.cs" />
+    <Compile Include="Service\Vacation\VacationService.VacationBalance.REST.cs" />
+    <Compile Include="Service\Vacation\VacationService.VacationBalance.cs" />
+    <Compile Include="Service\Vacation\VacationService.VacationLevel.REST.cs" />
+    <Compile Include="Service\Vacation\VacationService.VacationLevel.cs" />
+    <Compile Include="Service\Vacation\VacationService.Vacation.REST.cs" />
+    <Compile Include="Service\Vacation\VacationService.Vacation.cs" />
+    <Compile Include="Service\Vacation\VacationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -134,6 +154,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <VSToolsPath Condition="'$(VSToolsPath)' == '' and '$(VisualStudioVersion)' != '' and '$(VisualStudioVersion)' != '11.0'">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

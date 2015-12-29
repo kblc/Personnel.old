@@ -43,3 +43,4 @@ C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.pdb
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_DeleteAppointTable.resources
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.csprojResolveAssemblyReference.cache
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_AddVacations.resources

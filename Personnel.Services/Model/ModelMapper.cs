@@ -125,7 +125,7 @@ namespace Personnel.Services.Model
                 .ForMember(dst => dst.DomainLogin, e => e.MapFrom(src => src.Login));
 
             #endregion
-            #region Stuffing
+            #region Staffing
 
             AutoMapper.Mapper.CreateMap<Repository.Model.Staffing, Model.Staffing>()
                 .ForMember(dst => dst.Id, e => e.MapFrom(a => a.StaffingId));
@@ -174,6 +174,25 @@ namespace Personnel.Services.Model
 
             AutoMapper.Mapper.CreateMap<Model.Employee, Repository.Model.Employee>()
                 .ForMember(dst => dst.EmployeeId, e => e.MapFrom(a => a.Id));
+
+            #endregion
+
+            #region VacationLevel
+
+            AutoMapper.Mapper.CreateMap<Repository.Model.VacationLevel, Model.VacationLevel>()
+                .ForMember(dst => dst.Id, e => e.MapFrom(a => a.VacationLevelId));
+
+            AutoMapper.Mapper.CreateMap<Model.VacationLevel, Repository.Model.VacationLevel>()
+                .ForMember(dst => dst.VacationLevelId, e => e.MapFrom(a => a.Id));
+
+            #endregion
+            #region Vacation
+
+            AutoMapper.Mapper.CreateMap<Repository.Model.Vacation, Model.Vacation>()
+                .ForMember(dst => dst.Id, e => e.MapFrom(a => a.VacationId));
+
+            AutoMapper.Mapper.CreateMap<Model.Vacation, Repository.Model.Vacation>()
+                .ForMember(dst => dst.VacationId, e => e.MapFrom(a => a.Id));
 
             #endregion
 

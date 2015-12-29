@@ -392,5 +392,50 @@ namespace Personnel.Repository.Properties {
                 return ResourceManager.GetString("MODEL_RIGHTTYPE_ViewStaffing", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional vacation.
+        /// </summary>
+        public static string MODEL_VACATIONKIND_Additional {
+            get {
+                return ResourceManager.GetString("MODEL_VACATIONKIND_Additional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main vacation.
+        /// </summary>
+        public static string MODEL_VACATIONKIND_Main {
+            get {
+                return ResourceManager.GetString("MODEL_VACATIONKIND_Main", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fact level.
+        /// </summary>
+        public static string MODEL_VACATIONLEVELKIND_Fact {
+            get {
+                return ResourceManager.GetString("MODEL_VACATIONLEVELKIND_Fact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plan level.
+        /// </summary>
+        public static string MODEL_VACATIONLEVELKIND_Plan {
+            get {
+                return ResourceManager.GetString("MODEL_VACATIONLEVELKIND_Plan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transfer level.
+        /// </summary>
+        public static string MODEL_VACATIONLEVELKIND_Transfer {
+            get {
+                return ResourceManager.GetString("MODEL_VACATIONLEVELKIND_Transfer", resourceCulture);
+            }
+        }
     }
 }

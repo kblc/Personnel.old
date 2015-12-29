@@ -228,4 +228,19 @@
   <data name="MODEL_RIGHT_SystemNameRequred" xml:space="preserve">
     <value>System name required for this item</value>
   </data>
+  <data name="MODEL_VACATIONKIND_Additional" xml:space="preserve">
+    <value>Additional vacation</value>
+  </data>
+  <data name="MODEL_VACATIONKIND_Main" xml:space="preserve">
+    <value>Main vacation</value>
+  </data>
+  <data name="MODEL_VACATIONLEVELKIND_Fact" xml:space="preserve">
+    <value>Fact level</value>
+  </data>
+  <data name="MODEL_VACATIONLEVELKIND_Plan" xml:space="preserve">
+    <value>Plan level</value>
+  </data>
+  <data name="MODEL_VACATIONLEVELKIND_Transfer" xml:space="preserve">
+    <value>Transfer level</value>
+  </data>
 </root>

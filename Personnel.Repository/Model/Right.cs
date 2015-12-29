@@ -41,6 +41,10 @@ namespace Personnel.Repository.Model
         UploadFile,
         [ResourceDescription("MODEL_RIGHTTYPE_ManageFile")]
         ManageFile,
+        [ResourceDescription("MODEL_RIGHTTYPE_ViewVacation")]
+        ViewVacation,
+        [ResourceDescription("MODEL_RIGHTTYPE_ManageVacation")]
+        ManageVacation,
     }
 
     public partial class RepositoryContext
@@ -107,14 +111,6 @@ namespace Personnel.Repository.Model
             context.Rights.AddRange(allRights.Where(i => i.Existed == null).Select(i => i.Default));
             context.Rights.RemoveRange(allRights.Where(i => i.Default == null).Select(i => i.Existed));
 #pragma warning restore 618
-        }
-
-        #endregion
-        #region ToString()
-
-        public override string ToString()
-        {
-            return this.GetColumnPropertiesForEntity();
         }
 
         #endregion

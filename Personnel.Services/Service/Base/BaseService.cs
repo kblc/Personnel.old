@@ -35,6 +35,14 @@ namespace Personnel.Services.Service.Base
             Thread.CurrentThread.CurrentUICulture = cultureForSession;
         }
 
+        protected DateTime DateFromString(string date)
+        {
+            var res = TryDateTimeFromString(date);
+            if (res.HasValue)
+                return res.Value;
+            throw new ArgumentException(string.Format(Properties.Resources.BASESERVICE_BadIdentifierFormat, date ?? "NULL"));
+        }
+
         protected long LongFromString(string id)
         {
             var res = TryLongFromString(id);
@@ -46,6 +54,14 @@ namespace Personnel.Services.Service.Base
         {
             long res;
             if (!string.IsNullOrWhiteSpace(id) && long.TryParse(id, out res))
+                return res;
+            return null;
+        }
+
+        protected DateTime? TryDateTimeFromString(string date)
+        {
+            DateTime res;
+            if (!string.IsNullOrWhiteSpace(date) && DateTime.TryParse(date, out res))
                 return res;
             return null;
         }

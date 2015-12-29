@@ -93,6 +93,10 @@
     <Compile Include="Migrations\201511181310196_Migration_DeleteAppointTable.Designer.cs">
       <DependentUpon>201511181310196_Migration_DeleteAppointTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512290507004_Migration_AddVacations.cs" />
+    <Compile Include="Migrations\201512290507004_Migration_AddVacations.Designer.cs">
+      <DependentUpon>201512290507004_Migration_AddVacations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\History.cs" />
@@ -108,6 +112,10 @@
     <Compile Include="Model\IDefaultRepositoryInitialization.cs" />
     <Compile Include="Model\RepositoryContext.cs" />
     <Compile Include="Model\Employee.cs" />
+    <Compile Include="Model\VacationBalance.cs" />
+    <Compile Include="Model\VacationAgreement.cs" />
+    <Compile Include="Model\Vacation.cs" />
+    <Compile Include="Model\VacationLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -141,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511181310196_Migration_DeleteAppointTable.resx">
       <DependentUpon>201511181310196_Migration_DeleteAppointTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512290507004_Migration_AddVacations.resx">
+      <DependentUpon>201512290507004_Migration_AddVacations.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
