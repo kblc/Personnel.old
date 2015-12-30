@@ -75,6 +75,7 @@
     <Compile Include="Model\EmployeeLogin.cs" />
     <Compile Include="Model\Picture.cs" />
     <Compile Include="Model\ModelMapper.cs" />
+    <Compile Include="Model\VacationAgreements.cs" />
     <Compile Include="Model\VacationBalance.cs" />
     <Compile Include="Model\VacationLevel.cs" />
     <Compile Include="Model\Vacation.cs" />
@@ -121,9 +122,12 @@
     <Compile Include="Service\Staffing\StuffingService.EmployeeRight.cs" />
     <Compile Include="Service\Staffing\StuffingService.Staffing.REST.cs" />
     <Compile Include="Service\Vacation\IVacationService.cs" />
+    <Compile Include="Service\Vacation\IVacationService.VacationAgreement.cs" />
     <Compile Include="Service\Vacation\IVacationService.VacationBalance.cs" />
     <Compile Include="Service\Vacation\IVacationService.Vacation.cs" />
     <Compile Include="Service\Vacation\IVacationService.VacationLevel.cs" />
+    <Compile Include="Service\Vacation\VacationService.VacationAgreement.cs" />
+    <Compile Include="Service\Vacation\VacationService.VacationAgreement.REST.cs" />
     <Compile Include="Service\Vacation\VacationService.VacationBalance.REST.cs" />
     <Compile Include="Service\Vacation\VacationService.VacationBalance.cs" />
     <Compile Include="Service\Vacation\VacationService.VacationLevel.REST.cs" />

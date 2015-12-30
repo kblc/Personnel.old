@@ -49,6 +49,12 @@ namespace Personnel.Services.Model
         /// </summary>
         [DataMember(IsRequired = false)]
         public bool NotUsed { get; set; }
+
+        /// <summary>
+        /// Vacation agreements
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        public VacationAgreement[] Agreements { get; set; }
     }
 
     [DataContract(Name = "VacationResult")]

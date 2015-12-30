@@ -23,6 +23,10 @@ namespace Personnel.Repository.Model
     [Table("vacation")]
     public class Vacation : HistoryAbstractBase<long, Vacation>
     {
+        public Vacation() {
+            Agreements = new HashSet<VacationAgreement>();
+        }
+
         /// <summary>
         /// Идентификатор записи
         /// </summary>
@@ -70,5 +74,10 @@ namespace Personnel.Repository.Model
         /// </summary>
         [Column("not_used"), Required]
         public bool NotUsed { get; set; }
+
+        /// <summary>
+        /// Vacation agrrements
+        /// </summary>
+        public virtual ICollection<VacationAgreement> Agreements { get; set; }
     }
 }

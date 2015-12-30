@@ -16,7 +16,6 @@ namespace Personnel.Services.Service.Vacation
         /// Get information about employee vacation balances
         /// </summary>
         /// <returns>Result info</returns>
-        [OperationContract]
         public Model.VacationBalanceExecutionResults RESTVacationBalanceGet()
             => VacationBalanceGet();
 
@@ -25,7 +24,6 @@ namespace Personnel.Services.Service.Vacation
         /// </summary>
         /// <param name="vacationBalance">Vacation balance</param>
         /// <returns>Result info</returns>
-        [OperationContract]
         public Model.VacationBalanceExecutionResult RESTVacationBalanceInsert(Model.Vacation vacationBalance)
             => RESTVacationBalanceInsert(vacationBalance);
     }
