@@ -17,6 +17,7 @@
         xmlns:history="clr-namespace:Personnel.Application.ViewModels.History;assembly=Personnel.Application.ViewModels"
         xmlns:staffing="clr-namespace:Personnel.Application.ViewModels.Staffing;assembly=Personnel.Application.ViewModels"
         xmlns:birthdays="clr-namespace:Personnel.Application.ViewModels.Birthdays;assembly=Personnel.Application.ViewModels"
+        xmlns:vacation="clr-namespace:Personnel.Application.ViewModels.Vacation;assembly=Personnel.Application.ViewModels"
         
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
@@ -48,6 +49,10 @@
                     <birthdays:BirthdaysViewModel x:Key="birthdays"
                                                   Notifications="{StaticResource notifications}"
                                                   Staffing="{StaticResource staffing}"/>
+                    <vacation:VacationViewModel x:Key="vacation"
+                                                Notifications="{StaticResource notifications}"
+                                                History="{StaticResource history}"
+                                                Staffing="{StaticResource staffing}"/>
                 </ResourceDictionary>
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />

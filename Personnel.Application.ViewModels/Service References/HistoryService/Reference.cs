@@ -213,6 +213,18 @@ namespace Personnel.Application.ViewModels.HistoryService {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private Personnel.Application.ViewModels.HistoryService.Staffing[] StuffingField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Personnel.Application.ViewModels.HistoryService.Vacation[] VacationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Personnel.Application.ViewModels.HistoryService.VacationAgreement[] VacationAgreementField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Personnel.Application.ViewModels.HistoryService.VacationBalance[] VacationBalanceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Personnel.Application.ViewModels.HistoryService.VacationLevel[] VacationLevelField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -314,6 +326,58 @@ namespace Personnel.Application.ViewModels.HistoryService {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Personnel.Application.ViewModels.HistoryService.Vacation[] Vacation {
+            get {
+                return this.VacationField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VacationField, value) != true)) {
+                    this.VacationField = value;
+                    this.RaisePropertyChanged("Vacation");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Personnel.Application.ViewModels.HistoryService.VacationAgreement[] VacationAgreement {
+            get {
+                return this.VacationAgreementField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VacationAgreementField, value) != true)) {
+                    this.VacationAgreementField = value;
+                    this.RaisePropertyChanged("VacationAgreement");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Personnel.Application.ViewModels.HistoryService.VacationBalance[] VacationBalance {
+            get {
+                return this.VacationBalanceField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VacationBalanceField, value) != true)) {
+                    this.VacationBalanceField = value;
+                    this.RaisePropertyChanged("VacationBalance");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Personnel.Application.ViewModels.HistoryService.VacationLevel[] VacationLevel {
+            get {
+                return this.VacationLevelField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VacationLevelField, value) != true)) {
+                    this.VacationLevelField = value;
+                    this.RaisePropertyChanged("VacationLevel");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -353,6 +417,18 @@ namespace Personnel.Application.ViewModels.HistoryService {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long[] StuffingField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long[] VacationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long[] VacationAgreementField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long[] VacationBalanceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long[] VacationLevelField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -451,6 +527,58 @@ namespace Personnel.Application.ViewModels.HistoryService {
                 if ((object.ReferenceEquals(this.StuffingField, value) != true)) {
                     this.StuffingField = value;
                     this.RaisePropertyChanged("Stuffing");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long[] Vacation {
+            get {
+                return this.VacationField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VacationField, value) != true)) {
+                    this.VacationField = value;
+                    this.RaisePropertyChanged("Vacation");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long[] VacationAgreement {
+            get {
+                return this.VacationAgreementField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VacationAgreementField, value) != true)) {
+                    this.VacationAgreementField = value;
+                    this.RaisePropertyChanged("VacationAgreement");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long[] VacationBalance {
+            get {
+                return this.VacationBalanceField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VacationBalanceField, value) != true)) {
+                    this.VacationBalanceField = value;
+                    this.RaisePropertyChanged("VacationBalance");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long[] VacationLevel {
+            get {
+                return this.VacationLevelField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VacationLevelField, value) != true)) {
+                    this.VacationLevelField = value;
+                    this.RaisePropertyChanged("VacationLevel");
                 }
             }
         }
@@ -1186,6 +1314,426 @@ namespace Personnel.Application.ViewModels.HistoryService {
                 if ((this.PositionField.Equals(value) != true)) {
                     this.PositionField = value;
                     this.RaisePropertyChanged("Position");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Vacation", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    public partial class Vacation : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Personnel.Application.ViewModels.HistoryService.VacationAgreement[] AgreementsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime BeginField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long DayCountField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long EmployeeIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool NotUsedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long VacationLevelIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Personnel.Application.ViewModels.HistoryService.VacationAgreement[] Agreements {
+            get {
+                return this.AgreementsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AgreementsField, value) != true)) {
+                    this.AgreementsField = value;
+                    this.RaisePropertyChanged("Agreements");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Begin {
+            get {
+                return this.BeginField;
+            }
+            set {
+                if ((this.BeginField.Equals(value) != true)) {
+                    this.BeginField = value;
+                    this.RaisePropertyChanged("Begin");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long DayCount {
+            get {
+                return this.DayCountField;
+            }
+            set {
+                if ((this.DayCountField.Equals(value) != true)) {
+                    this.DayCountField = value;
+                    this.RaisePropertyChanged("DayCount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long EmployeeId {
+            get {
+                return this.EmployeeIdField;
+            }
+            set {
+                if ((this.EmployeeIdField.Equals(value) != true)) {
+                    this.EmployeeIdField = value;
+                    this.RaisePropertyChanged("EmployeeId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool NotUsed {
+            get {
+                return this.NotUsedField;
+            }
+            set {
+                if ((this.NotUsedField.Equals(value) != true)) {
+                    this.NotUsedField = value;
+                    this.RaisePropertyChanged("NotUsed");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long VacationLevelId {
+            get {
+                return this.VacationLevelIdField;
+            }
+            set {
+                if ((this.VacationLevelIdField.Equals(value) != true)) {
+                    this.VacationLevelIdField = value;
+                    this.RaisePropertyChanged("VacationLevelId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VacationAgreement", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    public partial class VacationAgreement : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime DateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long EmployeeIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long VacationIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Date {
+            get {
+                return this.DateField;
+            }
+            set {
+                if ((this.DateField.Equals(value) != true)) {
+                    this.DateField = value;
+                    this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long EmployeeId {
+            get {
+                return this.EmployeeIdField;
+            }
+            set {
+                if ((this.EmployeeIdField.Equals(value) != true)) {
+                    this.EmployeeIdField = value;
+                    this.RaisePropertyChanged("EmployeeId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long VacationId {
+            get {
+                return this.VacationIdField;
+            }
+            set {
+                if ((this.VacationIdField.Equals(value) != true)) {
+                    this.VacationIdField = value;
+                    this.RaisePropertyChanged("VacationId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VacationBalance", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    public partial class VacationBalance : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long DayCountAdditionalField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long DayCountMainField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long EmployeeIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime UpdatedField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long DayCountAdditional {
+            get {
+                return this.DayCountAdditionalField;
+            }
+            set {
+                if ((this.DayCountAdditionalField.Equals(value) != true)) {
+                    this.DayCountAdditionalField = value;
+                    this.RaisePropertyChanged("DayCountAdditional");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long DayCountMain {
+            get {
+                return this.DayCountMainField;
+            }
+            set {
+                if ((this.DayCountMainField.Equals(value) != true)) {
+                    this.DayCountMainField = value;
+                    this.RaisePropertyChanged("DayCountMain");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long EmployeeId {
+            get {
+                return this.EmployeeIdField;
+            }
+            set {
+                if ((this.EmployeeIdField.Equals(value) != true)) {
+                    this.EmployeeIdField = value;
+                    this.RaisePropertyChanged("EmployeeId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Updated {
+            get {
+                return this.UpdatedField;
+            }
+            set {
+                if ((this.UpdatedField.Equals(value) != true)) {
+                    this.UpdatedField = value;
+                    this.RaisePropertyChanged("Updated");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VacationLevel", Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model")]
+    [System.SerializableAttribute()]
+    public partial class VacationLevel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SystemNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SystemName {
+            get {
+                return this.SystemNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SystemNameField, value) != true)) {
+                    this.SystemNameField = value;
+                    this.RaisePropertyChanged("SystemName");
                 }
             }
         }

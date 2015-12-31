@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="2467f739-43f4-4830-a36f-e54304d9acbc" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/vacations/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="7a430332-3129-4636-b65e-f1de3d1ef5a6" SourceId="1" SourceUrl="http://localhost:8733/vacations/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="560d8705-adf0-4fc1-885b-1ecd4e9d7ce4" SourceId="1" SourceUrl="http://localhost:8733/vacations/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="78adc25c-a369-402c-bc1e-ad43f6d5bf69" SourceId="1" SourceUrl="http://localhost:8733/vacations/mex" />
+    <MetadataFile FileName="Personnel.Services.Model.xsd" MetadataType="Schema" ID="ec437a2e-f831-4520-92fa-a4e65d1213e0" SourceId="1" SourceUrl="http://localhost:8733/vacations/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="3bc6c2fc-737a-4b1a-8e57-c193be3c5653" SourceId="1" SourceUrl="http://localhost:8733/vacations/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

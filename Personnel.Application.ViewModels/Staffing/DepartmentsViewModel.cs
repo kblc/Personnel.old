@@ -24,10 +24,10 @@ namespace Personnel.Application.ViewModels.Staffing
         public abstract bool IsDebugView { get; set; }
         public abstract bool IsStaffingVisible { get; set; }
         public abstract bool IsDragMode { get; protected set; }
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public abstract IReadOnlyNotifyCollection<Right> Rights { get; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
         protected void RaisePropertyChanged([ParenthesizePropertyName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

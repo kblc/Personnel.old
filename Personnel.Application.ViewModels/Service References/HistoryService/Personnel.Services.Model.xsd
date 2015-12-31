@@ -51,6 +51,10 @@
       <xs:element minOccurs="0" name="EmployeeRight" nillable="true" type="tns:ArrayOfEmployeeRight" />
       <xs:element minOccurs="0" name="File" nillable="true" type="tns:ArrayOfFile" />
       <xs:element minOccurs="0" name="Stuffing" nillable="true" type="tns:ArrayOfStaffing" />
+      <xs:element minOccurs="0" name="Vacation" nillable="true" type="tns:ArrayOfVacation" />
+      <xs:element minOccurs="0" name="VacationAgreement" nillable="true" type="tns:ArrayOfVacationAgreement" />
+      <xs:element minOccurs="0" name="VacationBalance" nillable="true" type="tns:ArrayOfVacationBalance" />
+      <xs:element minOccurs="0" name="VacationLevel" nillable="true" type="tns:ArrayOfVacationLevel" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="HistoryUpdateInfo" nillable="true" type="tns:HistoryUpdateInfo" />
@@ -200,6 +204,69 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfStaffing" nillable="true" type="tns:ArrayOfStaffing" />
+  <xs:complexType name="ArrayOfVacation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Vacation" nillable="true" type="tns:Vacation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacation" nillable="true" type="tns:ArrayOfVacation" />
+  <xs:complexType name="Vacation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Agreements" nillable="true" type="tns:ArrayOfVacationAgreement" />
+      <xs:element minOccurs="0" name="Begin" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DayCount" type="xs:long" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="NotUsed" type="xs:boolean" />
+      <xs:element minOccurs="0" name="VacationLevelId" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Vacation" nillable="true" type="tns:Vacation" />
+  <xs:complexType name="ArrayOfVacationAgreement">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VacationAgreement" nillable="true" type="tns:VacationAgreement" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacationAgreement" nillable="true" type="tns:ArrayOfVacationAgreement" />
+  <xs:complexType name="VacationAgreement">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="VacationId" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VacationAgreement" nillable="true" type="tns:VacationAgreement" />
+  <xs:complexType name="ArrayOfVacationBalance">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VacationBalance" nillable="true" type="tns:VacationBalance" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacationBalance" nillable="true" type="tns:ArrayOfVacationBalance" />
+  <xs:complexType name="VacationBalance">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DayCountAdditional" type="xs:long" />
+      <xs:element minOccurs="0" name="DayCountMain" type="xs:long" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Updated" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VacationBalance" nillable="true" type="tns:VacationBalance" />
+  <xs:complexType name="ArrayOfVacationLevel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VacationLevel" nillable="true" type="tns:VacationLevel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacationLevel" nillable="true" type="tns:ArrayOfVacationLevel" />
+  <xs:complexType name="VacationLevel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SystemName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VacationLevel" nillable="true" type="tns:VacationLevel" />
   <xs:complexType name="HistoryRemoveInfo">
     <xs:sequence>
       <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Departments" nillable="true" type="q1:ArrayOflong" />
@@ -209,6 +276,10 @@
       <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Employees" nillable="true" type="q5:ArrayOflong" />
       <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="File" nillable="true" type="q6:ArrayOflong" />
       <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Stuffing" nillable="true" type="q7:ArrayOflong" />
+      <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Vacation" nillable="true" type="q8:ArrayOflong" />
+      <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VacationAgreement" nillable="true" type="q9:ArrayOflong" />
+      <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VacationBalance" nillable="true" type="q10:ArrayOflong" />
+      <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VacationLevel" nillable="true" type="q11:ArrayOflong" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="HistoryRemoveInfo" nillable="true" type="tns:HistoryRemoveInfo" />

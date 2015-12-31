@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:element name="ChangeLanguage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="codename" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationAgreementRemove">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="vacationAgreementId" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationAgreementRemoveResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationAgreementRemoveResult" nillable="true" type="q1:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationAgreementRemoveRange">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="vacationAgreementIds" nillable="true" type="q2:ArrayOflong" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationAgreementRemoveRangeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationAgreementRemoveRangeResult" nillable="true" type="q3:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationAgreementInsert">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="vacationAgreement" nillable="true" type="q4:VacationAgreement" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationAgreementInsertResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationAgreementInsertResult" nillable="true" type="q5:VacationAgreementResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationAgreementInsertByUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="vacationId" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationAgreementInsertByUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationAgreementInsertByUserResult" nillable="true" type="q6:VacationAgreementResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationBalanceGet">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationBalanceGetResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationBalanceGetResult" nillable="true" type="q7:VacationBalanceResults" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationBalanceInsert">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="vacationBalance" nillable="true" type="q8:VacationBalance" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationBalanceInsertResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationBalanceInsertResult" nillable="true" type="q9:VacationBalanceResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationsGet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="from" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="to" nillable="true" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationsGetResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationsGetResult" nillable="true" type="q10:VacationResults" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationGet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="vacationId" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationGetResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationGetResult" nillable="true" type="q11:VacationResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationRemove">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="vacationId" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationRemoveResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationRemoveResult" nillable="true" type="q12:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationRemoveRange">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="vacationIds" nillable="true" type="q13:ArrayOflong" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationRemoveRangeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationRemoveRangeResult" nillable="true" type="q14:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationUpdate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="vacation" nillable="true" type="q15:Vacation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationUpdateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationUpdateResult" nillable="true" type="q16:VacationResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationInsert">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="vacation" nillable="true" type="q17:Vacation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VacationInsertResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="VacationInsertResult" nillable="true" type="q18:VacationResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLevels">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLevelsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="GetLevelsResult" nillable="true" type="q19:VacationLevelResults" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationAgreementRemove">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="vacationAgreementId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationAgreementRemoveResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationAgreementRemoveResult" nillable="true" type="q20:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationAgreementRemoveRange">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="vacationAgreementIds" nillable="true" type="q21:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationAgreementRemoveRangeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationAgreementRemoveRangeResult" nillable="true" type="q22:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationAgreementInsert">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="vacationAgreement" nillable="true" type="q23:VacationAgreement" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationAgreementInsertResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationAgreementInsertResult" nillable="true" type="q24:VacationAgreementResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationAgreementInsertByUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="vacationId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationAgreementInsertByUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationAgreementInsertByUserResult" nillable="true" type="q25:VacationAgreementResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationBalanceGet">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationBalanceGetResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationBalanceGetResult" nillable="true" type="q26:VacationBalanceResults" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationBalanceInsert">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="vacationBalance" nillable="true" type="q27:Vacation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationBalanceInsertResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationBalanceInsertResult" nillable="true" type="q28:VacationBalanceResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationsGet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="from" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="to" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationsGetResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationsGetResult" nillable="true" type="q29:VacationResults" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationGet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="vacationId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationGetResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationGetResult" nillable="true" type="q30:VacationResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationRemove">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="vacationId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationRemoveResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationRemoveResult" nillable="true" type="q31:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationRemoveRange">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="vacationIds" nillable="true" type="q32:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationRemoveRangeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationRemoveRangeResult" nillable="true" type="q33:Result" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationUpdate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="vacation" nillable="true" type="q34:Vacation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationUpdateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationUpdateResult" nillable="true" type="q35:VacationResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationInsert">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="vacation" nillable="true" type="q36:Vacation" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTVacationInsertResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTVacationInsertResult" nillable="true" type="q37:VacationResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTGetLevels">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RESTGetLevelsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" minOccurs="0" name="RESTGetLevelsResult" nillable="true" type="q38:VacationLevelResults" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

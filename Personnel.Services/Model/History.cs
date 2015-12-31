@@ -69,6 +69,35 @@ namespace Personnel.Services.Model
         [DataMember(IsRequired = false)]
         [RepositoryResolving(typeof(Repository.Model.File))]
         public File[] File { get; set; }
+
+        /// <summary>
+        /// Vacations
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        [RepositoryResolving(typeof(Repository.Model.Vacation))]
+        public Vacation[] Vacation { get; set; }
+
+        /// <summary>
+        /// Vacation balances
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        [RepositoryResolving(typeof(Repository.Model.VacationBalance))]
+        public VacationBalance[] VacationBalance { get; set; }
+
+        /// <summary>
+        /// Vacation agreements
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        [RepositoryResolving(typeof(Repository.Model.VacationAgreement))]
+        public VacationAgreement[] VacationAgreement { get; set; }
+
+        /// <summary>
+        /// Vacation levels
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        [RepositoryResolving(typeof(Repository.Model.VacationLevel))]
+        public VacationLevel[] VacationLevel { get; set; }
+
     }
 
     [DataContract]
@@ -122,6 +151,34 @@ namespace Personnel.Services.Model
         [DataMember(IsRequired = false)]
         [RepositoryResolving(typeof(Repository.Model.File), typeof(long))]
         public long[] File { get; set; }
+
+        /// <summary>
+        /// Vacations
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        [RepositoryResolving(typeof(Repository.Model.Vacation), typeof(long))]
+        public long[] Vacation { get; set; }
+
+        /// <summary>
+        /// Vacation balances
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        [RepositoryResolving(typeof(Repository.Model.VacationBalance), typeof(long))]
+        public long[] VacationBalance { get; set; }
+
+        /// <summary>
+        /// Vacation agreements
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        [RepositoryResolving(typeof(Repository.Model.VacationAgreement), typeof(long))]
+        public long[] VacationAgreement { get; set; }
+
+        /// <summary>
+        /// Vacation levels
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        [RepositoryResolving(typeof(Repository.Model.VacationLevel), typeof(long))]
+        public long[] VacationLevel { get; set; }
     }
 
     /// <summary>

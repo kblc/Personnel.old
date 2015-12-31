@@ -22,7 +22,8 @@ namespace Personnel.Application.ViewModels
                 .Where(t => t.Namespace != null &&
                     ( t.Namespace.StartsWith(typeof(HistoryService.HistoryServiceClient).Namespace)
                     || t.Namespace.StartsWith(typeof(StaffingService.StaffingServiceClient).Namespace)
-                    || t.Namespace.StartsWith(typeof(StorageService.FileServiceClient).Namespace)))
+                    || t.Namespace.StartsWith(typeof(StorageService.FileServiceClient).Namespace)
+                    || t.Namespace.StartsWith(typeof(VacationService.VacationServiceClient).Namespace)))
                 .GroupBy(t => t.Name)
                 .Select(g => new { Name = g.Key, GroupedTypes = g.ToList() })
                 .ToList()

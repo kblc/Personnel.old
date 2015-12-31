@@ -87,9 +87,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\VacationService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="ServiceWorkers\AbstractBaseWorker.cs" />
+    <Compile Include="ServiceWorkers\ChangeAction.cs" />
     <Compile Include="ServiceWorkers\HistoryWorker.cs" />
     <Compile Include="ServiceWorkers\NotificationsWorker.cs" />
+    <Compile Include="ServiceWorkers\VacationWorker.cs" />
     <Compile Include="ServiceWorkers\StaffingWorker.cs" />
     <Compile Include="Staffing\DepartmentsViewModel.cs" />
     <Compile Include="Staffing\EmployeeRightsViewModel.cs" />
@@ -97,6 +104,7 @@
     <Compile Include="Staffing\StaffingViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Static.cs" />
+    <Compile Include="Vacation\VacationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -200,11 +208,46 @@
     <None Include="Service References\StorageService\service1.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\VacationService\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.VacationAgreementResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.VacationBalanceResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.VacationBalanceResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.VacationLevelResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.VacationResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VacationService\Personnel.Application.ViewModels.VacationService.VacationResults.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VacationService\Personnel.Services.Model.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VacationService\service.wsdl" />
+    <None Include="Service References\VacationService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VacationService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\HistoryService\" />
     <WCFMetadataStorage Include="Service References\StaffingService\" />
     <WCFMetadataStorage Include="Service References\StorageService\" />
+    <WCFMetadataStorage Include="Service References\VacationService\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\HistoryService\configuration91.svcinfo" />
@@ -250,6 +293,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Icons\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\VacationService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\VacationService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\VacationService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

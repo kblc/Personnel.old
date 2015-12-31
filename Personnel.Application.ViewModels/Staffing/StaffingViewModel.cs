@@ -569,6 +569,7 @@ namespace Personnel.Application.ViewModels.Staffing
                 CanManageEmployes = GetCanManageEmployesProperty();
                 CanManageEmployeeRights = GetCanManageEmployeRightsProperty();
                 CanManageEmployeeLogins = GetCanManageEmployeeLoginsProperty();
+                OnCurrentChanged?.Invoke(this, e);
             }));
             worker.OnRightsChanged += (s, e) => RunUnderDispatcher(new Action(() =>
             {
@@ -627,9 +628,9 @@ namespace Personnel.Application.ViewModels.Staffing
             }
         }
 
-        private void OnWorkerDepartmentsChanged(object sender, StaffingListItemsEventArgs<Department> e)
+        private void OnWorkerDepartmentsChanged(object sender, ListItemsEventArgs<Department> e)
         {
-            if (new[] { StaffingListsAction.Add, StaffingListsAction.Change }.Contains(e.Action))
+            if (new[] { ChangeAction.Add, ChangeAction.Change }.Contains(e.Action))
                 foreach (var d in e.Items)
                 {
                     if (d.Id != 0)
@@ -688,22 +689,22 @@ namespace Personnel.Application.ViewModels.Staffing
 
             OnDepartmentsChanged?.Invoke(this, e);
         }
-        private void OnWorkerRightsChanged(object s, StaffingListItemsEventArgs<Right> e)
+        private void OnWorkerRightsChanged(object s, ListItemsEventArgs<Right> e)
         {
-            if (e.Action == StaffingListsAction.Add)
+            if (e.Action == ChangeAction.Add)
                 e.Items.ToList().ForEach(i => rights.Add(i));
-            else if (e.Action == StaffingListsAction.Change)
+            else if (e.Action == ChangeAction.Change)
                 e.Items.Join(rights, i => i.Id, n => n.Id, (i, n) => new { New = i, Old = n }).ToList().ForEach(i => i.New.CopyObjectTo(i.Old));
-            else if (e.Action == StaffingListsAction.Remove)
+            else if (e.Action == ChangeAction.Remove)
                 e.Items.Join(rights, i => i.Id, n => n.Id, (i, n) => n).ToList().ForEach(i => rights.Remove(i));
 
             OnRightsChanged?.Invoke(this, e);
         }
-        private void OnWorkerEmployeeChanged(object s, StaffingListItemsEventArgs<Employee> e)
+        private void OnWorkerEmployeeChanged(object s, ListItemsEventArgs<Employee> e)
         {
-            if (e.Action == StaffingListsAction.Add || e.Action == StaffingListsAction.Change)
+            if (e.Action == ChangeAction.Add || e.Action == ChangeAction.Change)
             {
-                var items = e.Action == StaffingListsAction.Add
+                var items = e.Action == ChangeAction.Add
                     ? e.Items.Select(i => 
                     {
                         var empVM = GetViewModelForEmployee(i);
@@ -741,7 +742,7 @@ namespace Personnel.Application.ViewModels.Staffing
                     }
                 });
             }
-            else if (e.Action == StaffingListsAction.Remove)
+            else if (e.Action == ChangeAction.Remove)
             { 
                 e.Items.Join(employees, i => i.Id, n => n.Employee.Id, (i, n) => n).ToList().ForEach(i => 
                 {
@@ -766,10 +767,10 @@ namespace Personnel.Application.ViewModels.Staffing
             EmployeeForEdit = (EmployeeViewModel)sender;
         }
 
-        private void OnWorkerStaffingChanged(object s, StaffingListItemsEventArgs<StaffingService.Staffing> e)
+        private void OnWorkerStaffingChanged(object s, ListItemsEventArgs<StaffingService.Staffing> e)
         {
             var fullItems = departments.AsEnumerable().Traverse(d => d.Childs).ToArray();
-            if (e.Action == StaffingListsAction.Add)
+            if (e.Action == ChangeAction.Add)
             { 
                 e.Items.ToList().ForEach(i =>
                 {
@@ -793,7 +794,7 @@ namespace Personnel.Application.ViewModels.Staffing
                     }
                 });
             }
-            else if (e.Action == StaffingListsAction.Change)
+            else if (e.Action == ChangeAction.Change)
             { 
                 e.Items.Join(staffing, i => i.Id, n => n.Id, (i, n) => new { New = i, Old = n }).ToList().ForEach(i => 
                 {
@@ -818,7 +819,7 @@ namespace Personnel.Application.ViewModels.Staffing
                     }
                 });
             }
-            else if (e.Action == StaffingListsAction.Remove)
+            else if (e.Action == ChangeAction.Remove)
             { 
                 e.Items.Join(staffing, i => i.Id, n => n.Id, (i, n) => n).ToList().ForEach(i =>
                 {
@@ -840,9 +841,10 @@ namespace Personnel.Application.ViewModels.Staffing
         }
 
         public event EventHandler<bool> OnIsLoadedChanged;
-        public event EventHandler<StaffingListItemsEventArgs<StaffingService.Right>> OnRightsChanged;
-        public event EventHandler<StaffingListItemsEventArgs<StaffingService.Staffing>> OnStaffingChanged;
-        public event EventHandler<StaffingListItemsEventArgs<StaffingService.Employee>> OnEmployeesChanged;
-        public event EventHandler<StaffingListItemsEventArgs<StaffingService.Department>> OnDepartmentsChanged;
+        public event EventHandler<ListItemsEventArgs<StaffingService.Right>> OnRightsChanged;
+        public event EventHandler<StaffingService.Employee> OnCurrentChanged;
+        public event EventHandler<ListItemsEventArgs<StaffingService.Staffing>> OnStaffingChanged;
+        public event EventHandler<ListItemsEventArgs<StaffingService.Employee>> OnEmployeesChanged;
+        public event EventHandler<ListItemsEventArgs<StaffingService.Department>> OnDepartmentsChanged;
     }
 }

@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Error" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Result" nillable="true" type="tns:Result" />
+  <xs:complexType name="VacationAgreement">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="VacationId" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VacationAgreement" nillable="true" type="tns:VacationAgreement" />
+  <xs:complexType name="VacationAgreementResult">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseExecutionResultOfVacationAgreement3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="VacationAgreementResult" nillable="true" type="tns:VacationAgreementResult" />
+  <xs:complexType name="BaseExecutionResultOfVacationAgreement3XPrIsxh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseExecutionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="VacationAgreement" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Result">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Value" nillable="true" type="tns:VacationAgreement" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseExecutionResultOfVacationAgreement3XPrIsxh" nillable="true" type="tns:BaseExecutionResultOfVacationAgreement3XPrIsxh" />
+  <xs:complexType name="VacationBalanceResults">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseExecutionResultsOfVacationBalance3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="VacationBalanceResults" nillable="true" type="tns:VacationBalanceResults" />
+  <xs:complexType name="BaseExecutionResultsOfVacationBalance3XPrIsxh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseExecutionResultsOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="VacationBalance" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Result">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Values" nillable="true" type="tns:ArrayOfVacationBalance" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseExecutionResultsOfVacationBalance3XPrIsxh" nillable="true" type="tns:BaseExecutionResultsOfVacationBalance3XPrIsxh" />
+  <xs:complexType name="ArrayOfVacationBalance">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VacationBalance" nillable="true" type="tns:VacationBalance" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacationBalance" nillable="true" type="tns:ArrayOfVacationBalance" />
+  <xs:complexType name="VacationBalance">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DayCountAdditional" type="xs:long" />
+      <xs:element minOccurs="0" name="DayCountMain" type="xs:long" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Updated" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VacationBalance" nillable="true" type="tns:VacationBalance" />
+  <xs:complexType name="VacationBalanceResult">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseExecutionResultOfVacationBalance3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="VacationBalanceResult" nillable="true" type="tns:VacationBalanceResult" />
+  <xs:complexType name="BaseExecutionResultOfVacationBalance3XPrIsxh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseExecutionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="VacationBalance" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Result">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Value" nillable="true" type="tns:VacationBalance" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseExecutionResultOfVacationBalance3XPrIsxh" nillable="true" type="tns:BaseExecutionResultOfVacationBalance3XPrIsxh" />
+  <xs:complexType name="VacationResults">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseExecutionResultsOfVacation3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="VacationResults" nillable="true" type="tns:VacationResults" />
+  <xs:complexType name="BaseExecutionResultsOfVacation3XPrIsxh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseExecutionResultsOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Vacation" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Result">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Values" nillable="true" type="tns:ArrayOfVacation" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseExecutionResultsOfVacation3XPrIsxh" nillable="true" type="tns:BaseExecutionResultsOfVacation3XPrIsxh" />
+  <xs:complexType name="ArrayOfVacation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Vacation" nillable="true" type="tns:Vacation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacation" nillable="true" type="tns:ArrayOfVacation" />
+  <xs:complexType name="Vacation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Agreements" nillable="true" type="tns:ArrayOfVacationAgreement" />
+      <xs:element minOccurs="0" name="Begin" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DayCount" type="xs:long" />
+      <xs:element minOccurs="0" name="EmployeeId" type="xs:long" />
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="NotUsed" type="xs:boolean" />
+      <xs:element minOccurs="0" name="VacationLevelId" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Vacation" nillable="true" type="tns:Vacation" />
+  <xs:complexType name="ArrayOfVacationAgreement">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VacationAgreement" nillable="true" type="tns:VacationAgreement" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacationAgreement" nillable="true" type="tns:ArrayOfVacationAgreement" />
+  <xs:complexType name="VacationResult">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseExecutionResultOfVacation3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="VacationResult" nillable="true" type="tns:VacationResult" />
+  <xs:complexType name="BaseExecutionResultOfVacation3XPrIsxh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseExecutionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Vacation" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Result">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Value" nillable="true" type="tns:Vacation" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseExecutionResultOfVacation3XPrIsxh" nillable="true" type="tns:BaseExecutionResultOfVacation3XPrIsxh" />
+  <xs:complexType name="VacationLevelResults">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseExecutionResultsOfVacationLevel3XPrIsxh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="VacationLevelResults" nillable="true" type="tns:VacationLevelResults" />
+  <xs:complexType name="BaseExecutionResultsOfVacationLevel3XPrIsxh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseExecutionResultsOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="VacationLevel" Namespace="http://schemas.datacontract.org/2004/07/Personnel.Services.Model" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Result">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Values" nillable="true" type="tns:ArrayOfVacationLevel" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseExecutionResultsOfVacationLevel3XPrIsxh" nillable="true" type="tns:BaseExecutionResultsOfVacationLevel3XPrIsxh" />
+  <xs:complexType name="ArrayOfVacationLevel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VacationLevel" nillable="true" type="tns:VacationLevel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVacationLevel" nillable="true" type="tns:ArrayOfVacationLevel" />
+  <xs:complexType name="VacationLevel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:long" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SystemName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VacationLevel" nillable="true" type="tns:VacationLevel" />
+</xs:schema>
