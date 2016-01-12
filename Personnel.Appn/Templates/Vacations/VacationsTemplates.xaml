@@ -15,25 +15,90 @@
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Generic.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <svgc:SvgViewbox x:Key="vacationsPlusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.add.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="vacationsMinusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.minus.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="vacationsDeleteContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.user.delete.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="vacationsLeftContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.chevron.left.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="vacationsRightContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.chevron.right.svg"
+                     IsHitTestVisible="False"/>
+
     <BooleanToVisibilityConverter x:Key="vacationsBooleanToVisibilityConverter"/>
     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="vacationsReverseBooleanToVisibilityConverter"/>
     <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="vacationsIsNotEmptyStringToVisibilityConverter"/>
 
+    <DataTemplate DataType="{x:Type vacation:VacationViewModel}" x:Key="VacationsListViewTemplate">
+        <Grid>
+            
+            
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
+                <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                        Cursor="Hand" Margin="8"
+                        Command="{Binding InsertVacationCommand}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="{StaticResource vacationsPlusContent}">
+                </Button>
+
+                <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+
+                    <Button Cursor="Hand"
+                            Margin="4" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                            Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
+                            Command="{Binding DecreaseYearCommand}" 
+                            ToolTip="Decrease year"
+                            ToolTipService.IsEnabled="True"
+                            Content="{StaticResource vacationsLeftContent}">
+
+                        <!-- Content="&lt;" -->
+                        <Button.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        </Button.LayoutTransform>
+                    </Button>
+
+                    <TextBlock Text="{Binding Year}" FontSize="32" VerticalAlignment="Center"/>
+
+                    <Button Cursor="Hand"
+                            Margin="4" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                            Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
+                            Command="{Binding IncreaseYearCommand}" 
+                            ToolTip="Increase year"
+                            ToolTipService.IsEnabled="True"
+                            Content="{StaticResource vacationsRightContent}">
+
+                        <!-- Content="&gt;" -->
+                        <Button.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        </Button.LayoutTransform>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type vacation:VacationViewModel}" x:Key="VacationsViewTemplate">
         <Grid>
             <!-- Show content -->
             <Grid>
-                <Grid.ColumnDefinitions>
+                <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10*"/>
                     <ColumnDefinition Width="6"/>
                     <ColumnDefinition Width="0*" MinWidth="130"/>
-                </Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>-->
 
-                <!-- Tree -->
-                <!--<ContentPresenter Margin="16"
+                <!-- List -->
+                <ContentPresenter Margin="16"
                                   Content="{Binding}"
-                                  ContentTemplate="{StaticResource DepartmentsTreeViewTemplate}"/>-->
+                                  ContentTemplate="{StaticResource VacationsListViewTemplate}"/>
 
                 <!-- Employees --><!--
                 <ContentPresenter Content="{Binding}" Grid.Column="2"

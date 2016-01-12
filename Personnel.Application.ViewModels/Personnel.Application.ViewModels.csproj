@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="AdditionalModels\IReadOnlyNotificationCollection.cs" />
     <Compile Include="AdditionalModels\LimitedObservableCollection.cs" />
+    <Compile Include="Additional\ObjectWrapper.cs" />
     <Compile Include="History\HistoryViewModel.cs" />
     <Compile Include="Notifications\NotificationViewModel.cs" />
     <Compile Include="AdditionalModels\TempData.cs" />

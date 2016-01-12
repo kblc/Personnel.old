@@ -30,7 +30,6 @@ C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\bin\Debug\Helpers.pdb
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\bin\Debug\Helpers.xml
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\bin\Debug\ru\Helpers.resources.dll
-C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.csprojResolveAssemblyReference.cache
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_Initial.resources
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_ChangeEmployeeLoginTableName.resources
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_ChangeFileEntity.resources
@@ -44,3 +43,5 @@ C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_DeleteAppointTable.resources
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.csprojResolveAssemblyReference.cache
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_AddVacations.resources
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_DeleteAppointTable.resources
+C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Repository\obj\Debug\Personnel.Repository.Migrations.Migration_AddVacations.resources

@@ -1,4 +1,5 @@
 ﻿using Helpers;
+using Helpers.Linq;
 using Helpers.WPF;
 using Personnel.Application.ViewModels.AdditionalModels;
 using Personnel.Application.ViewModels.ServiceWorkers;
@@ -28,6 +29,9 @@ namespace Personnel.Application.ViewModels.Vacation
 
         private NotifyCollection<VacationService.VacationBalance> vacationBalances = new NotifyCollection<VacationService.VacationBalance>();
         public IReadOnlyNotifyCollection<VacationService.VacationBalance> VacationBalances => vacationBalances;
+
+        private NotifyCollection<int> years = new NotifyCollection<int>();
+        public IReadOnlyNotifyCollection<int> Years => years;
 
         #region Notifications
 
@@ -123,6 +127,33 @@ namespace Personnel.Application.ViewModels.Vacation
         {
             get { return (DateTime?)GetValue(ToProperty); }
             set { SetValue(ToProperty, value); }
+        }
+
+        #endregion
+        #region Year
+
+        public static readonly DependencyProperty YearProperty = DependencyProperty.Register(nameof(Year), typeof(int),
+            typeof(VacationViewModel), new PropertyMetadata(DateTime.Now.Year, (s, e) => {
+                var model = (VacationViewModel)s;
+                var newYear = (int)e.NewValue;
+
+                if (!model.Years.Contains(newYear))
+                    throw new InvalidOperationException("View model have not specified year");
+
+                var from = new DateTime(newYear, 1, 1, 0, 0, 0, 0);
+                var to = new DateTime(newYear + 1, 1, 1, 0, 0, 0, 0);
+
+                model.worker.setPeriod(from, to);
+                model.From = from;
+                model.To = to;
+
+                model.UpdateCommands();
+            }));
+
+        public int Year
+        {
+            get { return (int)GetValue(YearProperty); }
+            set { SetValue(YearProperty, value); }
         }
 
         #endregion
@@ -289,6 +320,8 @@ namespace Personnel.Application.ViewModels.Vacation
         private void UpdateCommands()
         {
             insertVacationCommand?.RaiseCanExecuteChanged();
+            increaseYearCommand?.RaiseCanExecuteChanged();
+            decreaseYearCommand?.RaiseCanExecuteChanged();
         }
 
         private DelegateCommand insertVacationCommand = null;
@@ -313,6 +346,12 @@ namespace Personnel.Application.ViewModels.Vacation
             //departments.Add(newDep);
         }
 
+        private DelegateCommand increaseYearCommand = null;
+        public ICommand IncreaseYearCommand { get { return increaseYearCommand ?? (increaseYearCommand = new DelegateCommand(o => Year = Year + 1, o => years.Contains(Year + 1))); } }
+
+        private DelegateCommand decreaseYearCommand = null;
+        public ICommand DecreaseYearCommand { get { return decreaseYearCommand ?? (decreaseYearCommand = new DelegateCommand(o => Year = Year - 1, o => years.Contains(Year - 1))); } }
+
         #endregion
 
         private void RunUnderDispatcher(Delegate a)
@@ -331,6 +370,7 @@ namespace Personnel.Application.ViewModels.Vacation
             worker.OnVacationBalanceChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationBalanceChanged(s, e)));
             worker.OnVacationChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationChanged(s, e)));
             CanManageVacations = GetCanManageVacationsProperty();
+            RecalculateYears();
         }
 
         private void OnHistoryChanged(object sender, HistoryService.History e) => worker.ApplyHistoryChanges(e);
@@ -386,10 +426,10 @@ namespace Personnel.Application.ViewModels.Vacation
                 {
                     if (d.Id != 0)
                     {
-                        var existedLevel = vacationBalances.FirstOrDefault(l => l.Id == d.Id);
-                        if (existedLevel != null)
+                        var existedBalance = vacationBalances.FirstOrDefault(l => l.Id == d.Id);
+                        if (existedBalance != null)
                         {
-                            existedLevel.CopyObjectFrom(d);
+                            existedBalance.CopyObjectFrom(d);
                         }
                         else
                         {
@@ -404,12 +444,14 @@ namespace Personnel.Application.ViewModels.Vacation
                 {
                     if (d.Id != 0)
                     {
-                        var existedLevel = vacationBalances.FirstOrDefault(l => l.Id == d.Id);
-                        if (existedLevel != null)
-                            vacationBalances.Remove(existedLevel);
+                        var existedBalance = vacationBalances.FirstOrDefault(l => l.Id == d.Id);
+                        if (existedBalance != null)
+                            vacationBalances.Remove(existedBalance);
                     }
                 }
             }
+
+            RecalculateYears();
 
             OnVacationBalanceChanged?.Invoke(this, e);
         }
@@ -446,12 +488,36 @@ namespace Personnel.Application.ViewModels.Vacation
                 }
             }
 
+            RecalculateYears();
+
             OnVacationChanged?.Invoke(this, e);
         }
 
         private void RaiseOnIsLoadedChanged(bool value)
         {
             RunUnderDispatcher(new Action(() => OnIsLoadedChanged?.Invoke(this, value)));
+        }
+
+        private void RecalculateYears()
+        {
+            var validYears = vacations.Select(v => v.Begin.Year)
+                .Union(new[] { DateTime.Now.Year })
+                .Distinct()
+                .ToArray();
+
+            foreach(var year in validYears) 
+                if (!years.Contains(year))
+                    years.Add(year);
+
+            foreach(var year in years.ToArray()) 
+                if (!validYears.Contains(year))
+                    years.Remove(year);
+
+            if (!years.Contains(Year))
+                Year = (Year > years.Max()) ? years.Max() : years.Min();
+
+            increaseYearCommand?.RaiseCanExecuteChanged();
+            decreaseYearCommand?.RaiseCanExecuteChanged();
         }
 
         public event EventHandler<bool> OnIsLoadedChanged;

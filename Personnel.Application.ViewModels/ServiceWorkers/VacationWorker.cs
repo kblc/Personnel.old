@@ -15,38 +15,30 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
         private readonly List<VacationService.VacationBalance> VacationBalances = new List<VacationService.VacationBalance>();
         private readonly List<VacationService.VacationLevel> VacationLevels = new List<VacationService.VacationLevel>();
 
+        public void setPeriod(DateTime? from, DateTime? to)
+        {
+            bool needToReload = this.from != from || this.to != to;
+            this.from = from;
+            this.to = to;
+            if (needToReload && (initThread != null || IsLoaded))
+            {
+                DoStop();
+                DoStart();
+            }
+        }
+
         private DateTime? from = null;
         public DateTime? From
         {
             get { return from; }
-            set
-            {
-                if (from == value)
-                    return;
-                from = value;
-                if (initThread != null || IsLoaded)
-                {
-                    DoStop();
-                    DoStart();
-                }
-            }
+            set { setPeriod(value, To); }
         }
 
         private DateTime? to = null;
         public DateTime? To
         {
             get { return to; }
-            set
-            {
-                if (to == value)
-                    return;
-                to = value;
-                if (initThread != null || IsLoaded)
-                {
-                    DoStop();
-                    DoStart();
-                }
-            }
+            set { setPeriod(From, value); }
         }
 
         private IList<T> GetList<T>()
