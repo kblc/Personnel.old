@@ -28,7 +28,7 @@ namespace Personnel.Services.Service.Vacation
 
                         var dbRes = rep.Get<Repository.Model.VacationBalance>(asNoTracking: true)
                             .GroupBy(v => v.EmployeeId)
-                            .Select(g => g.OrderByDescending(i => i.Updated).First())
+                            .Select(g => g.OrderByDescending(i => i.Updated).FirstOrDefault())
                             .ToArray();
 
                         var res = dbRes.Select(i => AutoMapper.Mapper.Map<Model.VacationBalance>(i));

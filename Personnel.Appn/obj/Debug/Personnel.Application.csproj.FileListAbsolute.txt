@@ -94,3 +94,4 @@ C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\b
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\bin\Debug\SharpVectors.Rendering.Wpf.dll
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\bin\Debug\SharpVectors.Runtime.dll
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\bin\Debug\Personnel.Application.Icons.pdb
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\obj\Debug\Templates\Vacations\VacationsTemplates.baml

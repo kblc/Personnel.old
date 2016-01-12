@@ -49,9 +49,10 @@
                     <birthdays:BirthdaysViewModel x:Key="birthdays"
                                                   Notifications="{StaticResource notifications}"
                                                   Staffing="{StaticResource staffing}"/>
-                    <vacation:VacationViewModel x:Key="vacation"
+                    <vacation:VacationViewModel x:Key="vacations"
                                                 Notifications="{StaticResource notifications}"
                                                 History="{StaticResource history}"
+                                                IsActive="True"
                                                 Staffing="{StaticResource staffing}"/>
                 </ResourceDictionary>
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
@@ -62,6 +63,7 @@
                 <ResourceDictionary Source="Templates/Notifications/NotificationsTemplates.xaml" />
                 <ResourceDictionary Source="Templates/Birthdays/BirthdaysTemplates.xaml" />
                 <ResourceDictionary Source="Templates/Staffing/DepartmentsTemplates.xaml" />
+                <ResourceDictionary Source="Templates/Vacations/VacationsTemplates.xaml" />
                 <ResourceDictionary>
                     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
                     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter"/>
@@ -117,6 +119,16 @@
                                 </controls:ContentStorageControl.Header>
                                 <controls:ContentStorageControl.Content>
                                     <ContentPresenter Content="{StaticResource notifications}" ContentTemplate="{StaticResource NotificationsViewTemplate}"/>
+                                </controls:ContentStorageControl.Content>
+                            </controls:ContentStorageControl>
+
+                            <controls:ContentStorageControl IsLoaded="{Binding Source={StaticResource vacations}, Path=IsLoaded}"
+                                                            Caption="Vacations">
+                                <controls:ContentStorageControl.Header>
+                                    <TextBlock Text="Vacations"/>
+                                </controls:ContentStorageControl.Header>
+                                <controls:ContentStorageControl.Content>
+                                    <ContentPresenter Content="{StaticResource vacations}" ContentTemplate="{StaticResource VacationsViewTemplate}"/>
                                 </controls:ContentStorageControl.Content>
                             </controls:ContentStorageControl>
                         </ListBox>
