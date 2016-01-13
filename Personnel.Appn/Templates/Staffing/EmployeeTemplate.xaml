@@ -124,6 +124,52 @@
         </DataTemplate.Triggers>
     </DataTemplate>
 
+    <DataTemplate x:Key="EmployeeTemplateLeftImage" DataType="{x:Type staffing:EmployeeViewModel}">
+        <iw:IconViewer ViewStyle="IconLeft" x:Name="PART_IconViewer"
+                       Image="{Binding Photos[Avatar64].File.Link, Converter={StaticResource employeeImagePathToImageSourceConverter}}"
+                       IsImageVisible="True"
+                       VerticalHeaderAlignment="Center">
+            <iw:IconViewer.Header>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Margin" Value="4,0"/>
+                            <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="18"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <TextBlock Text="{Binding Employee.Surname}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Employee.Name}" FontWeight="Medium"/>
+                </StackPanel>
+            </iw:IconViewer.Header>
+        </iw:IconViewer>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Photos[Avatar64]}" Value="{x:Null}">
+                <Setter TargetName="PART_IconViewer" Property="Image"
+                        Value="{svgc:SvgImage Source=/Personnel.Application.Icons;component/SVG/appbar.user.svg}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EmployeeTemplateLeftImageCard" DataType="{x:Type staffing:EmployeeViewModel}">
+        <md:Card Margin="4" MinWidth="92" Height="92" ToolTipService.IsEnabled="True" Padding="4">
+            <md:Card.ToolTip>
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1} {2}">
+                            <Binding Path="Employee.Surname"/>
+                            <Binding Path="Employee.Name"/>
+                            <Binding Path="Employee.Patronymic"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </md:Card.ToolTip>
+            <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource EmployeeTemplateLeftImage}"/>
+        </md:Card>
+    </DataTemplate>
+
     <DataTemplate x:Key="EmployeeTemplateTopImageWithDepartment" DataType="{x:Type staffing:EmployeeViewModel}">
         <md:Card Margin="4" Width="92" ToolTipService.IsEnabled="True" Padding="4">
             <md:Card.ToolTip>

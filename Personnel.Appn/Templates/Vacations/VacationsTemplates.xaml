@@ -13,6 +13,7 @@
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Generic.xaml"/>
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Vacations/VacationEditTemplates.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <svgc:SvgViewbox x:Key="vacationsPlusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
@@ -35,7 +36,7 @@
     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="vacationsReverseBooleanToVisibilityConverter"/>
     <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="vacationsIsNotEmptyStringToVisibilityConverter"/>
 
-    <DataTemplate DataType="{x:Type vacation:VacationViewModel}" x:Key="VacationsListViewTemplate">
+    <DataTemplate DataType="{x:Type vacation:VacationsViewModel}" x:Key="VacationsListViewTemplate">
         <Grid>
             
             
@@ -85,7 +86,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vacation:VacationViewModel}" x:Key="VacationsViewTemplate">
+    <DataTemplate DataType="{x:Type vacation:VacationsViewModel}" x:Key="VacationsViewTemplate">
         <Grid>
             <!-- Show content -->
             <Grid>
@@ -100,15 +101,11 @@
                                   Content="{Binding}"
                                   ContentTemplate="{StaticResource VacationsListViewTemplate}"/>
 
-                <!-- Employees --><!--
-                <ContentPresenter Content="{Binding}" Grid.Column="2"
-                                  ContentTemplate="{StaticResource EmployeesListTemplate}"/>
-
-                --><!-- Edit employee --><!--
-                <ContentPresenter Content="{Binding EmployeeForEdit}" Grid.ColumnSpan="999" Grid.RowSpan="999"
-                                  ContentTemplate="{StaticResource EmployeeEditTemplate}"
-                                  x:Name="PART_EmployeeForEditContentPresenter"
-                                  Visibility="Collapsed"/>-->
+                 <!--Edit employee-->
+                <ContentPresenter Content="{Binding SelectedVacationForEdit}" Grid.ColumnSpan="999" Grid.RowSpan="999"
+                                  ContentTemplate="{StaticResource VacationEditEditTemplate}"
+                                  x:Name="PART_SelectedVacationEditContentPresenter"
+                                  Visibility="Collapsed"/>
 
                 <!-- Fade -->
                 <Border Background="#99000000" Grid.ColumnSpan="999" Grid.RowSpan="999"
@@ -134,6 +131,11 @@
                 </md:ColorZone>
             </StackPanel>
         </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding SelectedVacationForEdit.IsEditMode}" Value="True">
+                <Setter TargetName="PART_SelectedVacationEditContentPresenter" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
     
 </ResourceDictionary>

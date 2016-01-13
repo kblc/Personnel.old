@@ -43,7 +43,7 @@ namespace Personnel.Application.ViewModels.Staffing
             get
             {
                 var photo = 
-                    employee.Photos
+                    employee.Photos?
                         .Select(p => p.Picture)
                         .OrderBy(p => Math.Abs(p.Width - width) + Math.Abs(p.Height - height))
                         .ThenByDescending(p => p.File.Date)
@@ -57,7 +57,7 @@ namespace Personnel.Application.ViewModels.Staffing
             get
             {
                 var photo =
-                    employee.Photos
+                    employee.Photos?
                         .Select(p => p.Picture)
                         .Where(p => p.PictureType == type)
                         .OrderByDescending(p => p.File.Date)
@@ -125,13 +125,6 @@ namespace Personnel.Application.ViewModels.Staffing
 
     public class EmployeeViewModel : NotifyPropertyChangedBase
     {
-        private bool isEmpty = false;
-        public bool IsEmpty
-        {
-            get { return isEmpty; }
-            set { if (isEmpty == value) return; isEmpty = value; RaisePropertyChanged(); RaiseAllComamnds(); }
-        }
-
         private DataOwner owner;
         public DataOwner Owner
         {
@@ -152,6 +145,13 @@ namespace Personnel.Application.ViewModels.Staffing
                 RaisePropertyChanged();
                 RaiseAllComamnds();
             }
+        }
+
+        private bool isEmpty = false;
+        public bool IsEmpty
+        {
+            get { return isEmpty; }
+            set { if (isEmpty == value) return; isEmpty = value; RaisePropertyChanged(); RaiseAllComamnds(); }
         }
 
         private bool isDeleted = false;

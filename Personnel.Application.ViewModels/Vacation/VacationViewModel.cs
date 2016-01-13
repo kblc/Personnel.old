@@ -1,537 +1,336 @@
-﻿using Helpers;
-using Helpers.Linq;
-using Helpers.WPF;
-using Personnel.Application.ViewModels.AdditionalModels;
-using Personnel.Application.ViewModels.ServiceWorkers;
+﻿using Personnel.Application.ViewModels.Additional;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using System.ComponentModel;
+using Helpers.WPF;
 using System.Windows.Input;
+using Helpers;
 
 namespace Personnel.Application.ViewModels.Vacation
 {
-    public class VacationViewModel : DependencyObject, INotifyPropertyChanged
+    public class VacationViewModel : NotifyPropertyChangedBase
     {
-        private const string MANAGEVACATION = "MANAGEVACATION";
+        #region Constructor
 
-        private readonly ServiceWorkers.VacationWorker worker = new ServiceWorkers.VacationWorker();
-
-        private NotifyCollection<VacationService.VacationLevel> levels = new NotifyCollection<VacationService.VacationLevel>();
-        public IReadOnlyNotifyCollection<VacationService.VacationLevel> Levels => levels;
-
-        private NotifyCollection<VacationService.Vacation> vacations = new NotifyCollection<VacationService.Vacation>();
-        public IReadOnlyNotifyCollection<VacationService.Vacation> Vacations => vacations;
-
-        private NotifyCollection<VacationService.VacationBalance> vacationBalances = new NotifyCollection<VacationService.VacationBalance>();
-        public IReadOnlyNotifyCollection<VacationService.VacationBalance> VacationBalances => vacationBalances;
-
-        private NotifyCollection<int> years = new NotifyCollection<int>();
-        public IReadOnlyNotifyCollection<int> Years => years;
-
-        #region Notifications
-
-        public static readonly DependencyProperty NotificationsProperty = DependencyProperty.Register(nameof(Notifications), typeof(Notifications.NotificationsViewModel),
-            typeof(VacationViewModel), new PropertyMetadata(null, (s, e) => { }));
-
-        public Notifications.NotificationsViewModel Notifications
+        //public VacationViewModel() { }
+        public VacationViewModel(VacationsViewModel owner) : this(owner, null, false) { }
+        public VacationViewModel(VacationsViewModel owner, long employeeId, long levelId, bool createEdited)
+            : this(owner, new VacationService.Vacation() { EmployeeId = employeeId, VacationLevelId = levelId }, createEdited) { }
+        public VacationViewModel(VacationsViewModel owner, VacationService.Vacation vacation, bool createEdited)
         {
-            get { return (Notifications.NotificationsViewModel)GetValue(NotificationsProperty); }
-            set { SetValue(NotificationsProperty, value); }
-        }
-
-        #endregion
-        #region History
-
-        public static readonly DependencyProperty HistoryProperty = DependencyProperty.Register(nameof(History), typeof(History.HistoryViewModel),
-            typeof(VacationViewModel), new PropertyMetadata(null, (s, e) =>
+            Owner = owner;
+            Vacation = vacation ?? new VacationService.Vacation();
+            if (createEdited)
             {
-                var model = s as VacationViewModel;
-                var historyNewvalue = e.NewValue as History.HistoryViewModel;
-                var historyOldvalue = e.OldValue as History.HistoryViewModel;
-                if (model != null)
-                {
-                    if (historyOldvalue != null)
-                        historyOldvalue.AsyncChanged -= model.OnHistoryChanged;
-                    if (historyNewvalue != null)
-                        historyNewvalue.AsyncChanged += model.OnHistoryChanged;
-                }
-            }));
-
-        public History.HistoryViewModel History
-        {
-            get { return (History.HistoryViewModel)GetValue(HistoryProperty); }
-            set { SetValue(HistoryProperty, value); }
+                IsEditMode = true;
+            }
         }
 
         #endregion
-        #region Staffing
+        #region Properties
 
-        public static readonly DependencyProperty StaffingProperty = DependencyProperty.Register(nameof(Staffing), typeof(Staffing.StaffingViewModel),
-            typeof(VacationViewModel), new PropertyMetadata(null, (s, e) =>
+        private VacationsViewModel owner;
+        public VacationsViewModel Owner
+        {
+            get { return owner; }
+            set
             {
-                var model = s as VacationViewModel;
-                var staffingNewvalue = e.NewValue as Staffing.StaffingViewModel;
-                var staffingOldvalue = e.OldValue as Staffing.StaffingViewModel;
-                if (model != null)
-                {
-                    if (staffingOldvalue != null) {
-                        staffingOldvalue.OnRightsChanged -= model.OnRightsChanged;
-                        staffingOldvalue.OnCurrentChanged -= model.OnCurrentChanged;
-                    }
-                    if (staffingNewvalue != null)
-                    {
-                        staffingNewvalue.OnRightsChanged += model.OnRightsChanged;
-                        staffingNewvalue.OnCurrentChanged += model.OnCurrentChanged;
-                    }
-                }
-            }));
+                if (value == null)
+                    throw new ArgumentNullException(nameof(Owner));
 
-        public Staffing.StaffingViewModel Staffing
-        {
-            get { return (Staffing.StaffingViewModel)GetValue(StaffingProperty); }
-            set { SetValue(StaffingProperty, value); }
+                if (owner != null)
+                    owner.PropertyChanged -= Owner_PropertyChanged;
+
+                owner = value;
+
+                if (owner != null)
+                    owner.PropertyChanged += Owner_PropertyChanged;
+
+                RaisePropertyChanged();
+                RaiseAllComamnds();
+            }
         }
 
-        #endregion
-        #region From
-
-        public static readonly DependencyProperty FromProperty = DependencyProperty.Register(nameof(From), typeof(DateTime?),
-            typeof(VacationViewModel), new PropertyMetadata(null, (s, e) => {
-                var model = (VacationViewModel)s;
-                var dateNewValue = (DateTime?)e.NewValue;
-                model.worker.From = dateNewValue;
-            }));
-
-        public DateTime? From
+        private VacationService.Vacation vacation = null;
+        public VacationService.Vacation Vacation
         {
-            get { return (DateTime?)GetValue(FromProperty); }
-            set { SetValue(FromProperty, value); }
+            get { return vacation; }
+            set
+            {
+                if (vacation == value)
+                    return;
+
+                if (vacation != null)
+                    vacation.PropertyChanged -= Vacation_PropertyChanged;
+
+                vacation = value;
+
+                if (vacation != null)
+                    vacation.PropertyChanged += Vacation_PropertyChanged;
+
+                RaisePropertyChanged();
+            }
         }
 
-        #endregion
-        #region To
-
-        public static readonly DependencyProperty ToProperty = DependencyProperty.Register(nameof(To), typeof(DateTime?),
-            typeof(VacationViewModel), new PropertyMetadata(null, (s, e) => {
-                var model = (VacationViewModel)s;
-                var dateNewValue = (DateTime?)e.NewValue;
-                model.worker.To = dateNewValue;
-            }));
-
-        public DateTime? To
+        private VacationService.Vacation vacationForEdit = null;
+        public VacationService.Vacation VacationForEdit
         {
-            get { return (DateTime?)GetValue(ToProperty); }
-            set { SetValue(ToProperty, value); }
+            get { return vacationForEdit; }
+            private set
+            {
+                if (vacationForEdit == value)
+                    return;
+                vacationForEdit = value;
+                RaisePropertyChanged();
+            }
         }
 
-        #endregion
-        #region Year
-
-        public static readonly DependencyProperty YearProperty = DependencyProperty.Register(nameof(Year), typeof(int),
-            typeof(VacationViewModel), new PropertyMetadata(DateTime.Now.Year, (s, e) => {
-                var model = (VacationViewModel)s;
-                var newYear = (int)e.NewValue;
-
-                if (!model.Years.Contains(newYear))
-                    throw new InvalidOperationException("View model have not specified year");
-
-                var from = new DateTime(newYear, 1, 1, 0, 0, 0, 0);
-                var to = new DateTime(newYear + 1, 1, 1, 0, 0, 0, 0);
-
-                model.worker.setPeriod(from, to);
-                model.From = from;
-                model.To = to;
-
-                model.UpdateCommands();
-            }));
-
-        public int Year
+        public Staffing.EmployeeViewModel Employee
         {
-            get { return (int)GetValue(YearProperty); }
-            set { SetValue(YearProperty, value); }
+            get
+            {
+                return Owner
+                    .Staffing
+                    .Employees
+                    .Where(e => !e.IsEmpty)
+                    .FirstOrDefault(e => e.Employee.Id == (VacationForEdit?.EmployeeId ?? Vacation.EmployeeId));
+            }
         }
 
-        #endregion
-        #region IsLoaded
-
-        private static readonly DependencyPropertyKey ReadOnlyIsLoadedPropertyKey
-            = DependencyProperty.RegisterReadOnly(nameof(IsLoaded), typeof(bool), typeof(VacationViewModel),
-                new FrameworkPropertyMetadata(false,
-                    FrameworkPropertyMetadataOptions.None,
-                    new PropertyChangedCallback((s, e) =>
-                    {
-                        var model = s as VacationViewModel;
-                        if (model != null)
-                            model.RaiseOnIsLoadedChanged((bool)e.NewValue);
-                    })));
-        public static readonly DependencyProperty ReadOnlyIsLoadedProperty = ReadOnlyIsLoadedPropertyKey.DependencyProperty;
-
-        public bool IsLoaded
+        public bool IsEmpty
         {
-            get { return (bool)GetValue(ReadOnlyIsLoadedProperty); }
-            private set { SetValue(ReadOnlyIsLoadedPropertyKey, value); RaiseOnIsLoadedChanged(value); }
+            get { return (Vacation?.Id == 0); }
         }
 
-        #endregion
-        #region Error
+        private bool isDeleted = false;
+        public bool IsDeleted
+        {
+            get { return isDeleted; }
+            set { if (isDeleted == value) return; isDeleted = value; RaisePropertyChanged(); RaiseAllComamnds(); }
+        }
 
-        private static readonly DependencyPropertyKey ReadOnlyErrorPropertyKey
-            = DependencyProperty.RegisterReadOnly(nameof(Error), typeof(string), typeof(VacationViewModel),
-                new FrameworkPropertyMetadata(null,
-                    FrameworkPropertyMetadataOptions.None,
-                    new PropertyChangedCallback((s, e) => { })));
-        public static readonly DependencyProperty ReadOnlyErrorProperty = ReadOnlyErrorPropertyKey.DependencyProperty;
+        private bool isBusy = false;
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            private set { if (isBusy == value) return; isBusy = value; RaisePropertyChanged(); RaiseAllComamnds(); }
+        }
 
+        private bool isEditMode = false;
+        public bool IsEditMode
+        {
+            get { return isEditMode; }
+            private set
+            {
+                if (isEditMode == value)
+                    return;
+                isEditMode = value;
+
+                if (isEditMode)
+                    StartEdit();
+                else
+                    StopEdit();
+
+                RaisePropertyChanged();
+                RaiseAllComamnds();
+            }
+        }
+
+        public bool HasError { get { return !string.IsNullOrWhiteSpace(Error); } }
+
+        private string error = string.Empty;
         public string Error
         {
-            get { return (string)GetValue(ReadOnlyErrorProperty); }
-            private set { SetValue(ReadOnlyErrorPropertyKey, value); }
+            get { return error; }
+            internal set { if (error == value) return; error = value; RaisePropertyChanged(); RaisePropertyChanged(() => HasError); RaiseAllComamnds(); }
         }
 
         #endregion
-        #region State
 
-        private static readonly DependencyPropertyKey ReadOnlyStatePropertyKey
-            = DependencyProperty.RegisterReadOnly(nameof(State), typeof(ServiceWorkers.WorkerState), typeof(VacationViewModel),
-                new FrameworkPropertyMetadata(ServiceWorkers.WorkerState.None,
-                    FrameworkPropertyMetadataOptions.None,
-                    new PropertyChangedCallback((s, e) => { })));
-        public static readonly DependencyProperty ReadOnlyStateProperty = ReadOnlyStatePropertyKey.DependencyProperty;
-
-        public ServiceWorkers.WorkerState State
+        private void Owner_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            get { return (ServiceWorkers.WorkerState)GetValue(ReadOnlyStateProperty); }
-            private set { SetValue(ReadOnlyStatePropertyKey, value); }
-        }
-        #endregion
-        #region ConnectionTimeInterval
-
-        public static readonly DependencyProperty ConnectionTimeIntervalProperty = DependencyProperty.Register(nameof(ConnectionTimeInterval), typeof(TimeSpan),
-            typeof(VacationViewModel), new PropertyMetadata(TimeSpan.FromSeconds(ServiceWorkers.AbstractBaseWorker.DefaultConnectionTimeIntervalIsSeconds), (s, e) =>
-            {
-                var model = s as VacationViewModel;
-                if (model != null)
-                    model.worker.ConnectionTimeInterval = (TimeSpan)e.NewValue;
-            }));
-
-        public TimeSpan ConnectionTimeInterval
-        {
-            get { return (TimeSpan)GetValue(ConnectionTimeIntervalProperty); }
-            set { SetValue(ConnectionTimeIntervalProperty, value); }
-        }
-        #endregion
-        #region ServiceCultureInfo
-
-        public static readonly DependencyProperty ServiceCultureInfoProperty = DependencyProperty.Register(nameof(ServiceCultureInfo), typeof(CultureInfo),
-            typeof(VacationViewModel), new PropertyMetadata(System.Threading.Thread.CurrentThread.CurrentUICulture, (s, e) =>
-            {
-                var model = s as VacationViewModel;
-                if (model != null)
-                    model.worker.ServiceCultureInfo = (CultureInfo)e.NewValue;
-            }));
-
-        public CultureInfo ServiceCultureInfo
-        {
-            get { return (CultureInfo)GetValue(ServiceCultureInfoProperty); }
-            set { SetValue(ServiceCultureInfoProperty, value); }
-        }
-        #endregion
-        #region IsActive
-
-        public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(nameof(IsActive), typeof(bool),
-            typeof(VacationViewModel), new PropertyMetadata(false, (s, e) =>
-            {
-                var model = s as VacationViewModel;
-                if (model != null && (bool)e.NewValue != (bool)e.OldValue)
-                {
-                    if ((bool)e.NewValue)
-                        model.worker.Start();
-                    else
-                        model.worker.Stop();
-                }
-            }));
-
-        public bool IsActive
-        {
-            get { return (bool)GetValue(IsActiveProperty); }
-            set { SetValue(IsActiveProperty, value); }
+            RaiseAllComamnds();
         }
 
-        #endregion
-        #region IsDebugView
-
-        public static readonly DependencyProperty IsDebugViewProperty = DependencyProperty.Register(nameof(IsDebugView), typeof(bool),
-            typeof(VacationViewModel), new PropertyMetadata(true, (s, e) =>
-            {
-                var model = s as VacationViewModel;
-                if (model != null)
-                    model.RaisePropertyChanged(e.Property.Name);
-            }));
-
-        public bool IsDebugView
+        private void Vacation_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            get { return (bool)GetValue(IsDebugViewProperty); }
-            set { SetValue(IsDebugViewProperty, value); RaisePropertyChanged(); }
-        }
-        #endregion
-        #region CanManageVacations
-
-        private static readonly DependencyPropertyKey ReadOnlyCanManageVacationsPropertyKey
-            = DependencyProperty.RegisterReadOnly(nameof(CanManageVacations), typeof(bool), typeof(VacationViewModel),
-                new FrameworkPropertyMetadata(false,
-                    FrameworkPropertyMetadataOptions.None,
-                    new PropertyChangedCallback((s, e) =>
-                    {
-                        var model = s as VacationViewModel;
-                        if (model != null)
-                        {
-                            model.RaisePropertyChanged(e.Property.Name);
-                            model.UpdateCommands();
-                        }
-                    })));
-        public static readonly DependencyProperty ReadOnlyCanManageVacationsProperty = ReadOnlyCanManageVacationsPropertyKey.DependencyProperty;
-
-        public bool CanManageVacations
-        {
-            get { return (bool)GetValue(ReadOnlyCanManageVacationsProperty); }
-            protected set { SetValue(ReadOnlyCanManageVacationsPropertyKey, value); RaisePropertyChanged(); UpdateCommands(); }
+            RaiseAllComamnds();
+            RaisePropertyChanged(() => Employee);
+            RaisePropertyChanged(() => IsEmpty);
         }
 
-        private bool GetCanManageVacationsProperty()
+        private bool GetCanManageCurrentVacation()
         {
-            var res = false;
-            if (Staffing != null && Staffing.Current != null)
-            {
-                var canManageRight = Staffing.Rights.FirstOrDefault(r => string.Compare(r.SystemName, MANAGEVACATION, true) == 0);
-                if (canManageRight != null)
-                    res = Staffing.Current.Rights.Any(r => r.RightId == canManageRight.Id);
-            }
-            return res;
+            return (owner.CanManageVacations || (owner.Staffing.Current.Id == Vacation.EmployeeId && (Vacation.Agreements?.Length ?? 0) == 0));
         }
 
-        #endregion
+        private void RaiseAllComamnds()
+        {
+            deleteCommand?.RaiseCanExecuteChanged();
+            cancelCommand?.RaiseCanExecuteChanged();
+            saveCommand?.RaiseCanExecuteChanged();
+            editCommand?.RaiseCanExecuteChanged();
+        }
+
+        private void StartEdit()
+        {
+            var vacation = new VacationService.Vacation();
+            vacation.CopyObjectFrom(Vacation);
+            VacationForEdit = vacation;
+        }
+        private void StopEdit()
+        {
+            VacationForEdit = null;
+        }
+
+        private string GetExceptionText(string whereCatched, Exception ex)
+        {
+            return ex.GetExceptionText($"{GetType().Name}.{whereCatched}()"
+#if !DEBUG
+                , clearText: true, includeData: false, includeStackTrace: false
+#endif
+
+                );
+        }
+
         #region Commands
 
-        private void UpdateCommands()
+        private DelegateCommand deleteCommand = null;
+        public ICommand DeleteCommand { get { return deleteCommand ?? (deleteCommand = new DelegateCommand(o => DeleteAsync(), o => GetCanManageCurrentVacation() && !IsDeleted && !IsBusy && !IsEmpty)); } }
+
+        private DelegateCommand cancelCommand = null;
+        public ICommand CancelCommand { get { return cancelCommand ?? (cancelCommand = new DelegateCommand(o => { IsEditMode = false; }, o => !IsDeleted && !IsBusy && IsEditMode)); } }
+
+        private DelegateCommand saveCommand = null;
+        public ICommand SaveCommand
         {
-            insertVacationCommand?.RaiseCanExecuteChanged();
-            increaseYearCommand?.RaiseCanExecuteChanged();
-            decreaseYearCommand?.RaiseCanExecuteChanged();
+            get
+            {
+                return saveCommand ?? (saveCommand = new DelegateCommand(o =>
+                {
+                    SaveAsync(VacationForEdit);
+                }, o => GetCanManageCurrentVacation() && !IsDeleted && !IsBusy && IsEditMode));
+            }
         }
 
-        private DelegateCommand insertVacationCommand = null;
-        public ICommand InsertVacationCommand { get { return insertVacationCommand ?? (insertVacationCommand = new DelegateCommand(o => InsertVacation())); } }
-
-        private void InsertVacation()
+        private DelegateCommand editCommand = null;
+        public ICommand EditCommand
         {
-            //var newDep = new DepartmentEditViewModel(true)
-            //{
-            //    Data = new DepartmentAndStaffingData(this)
-            //    {
-            //        Department = new Department()
-            //        {
-            //            ParentId = null,
-            //            Name = Properties.Resources.DEPARTMENTEDIT_NewDepartmentName,
-            //        }
-            //    },
-            //    Parent = this,
-            //    Owner = this,
-            //    IsSelected = true,
-            //};
-            //departments.Add(newDep);
+            get
+            {
+                return editCommand ?? (editCommand = new DelegateCommand(o =>
+                {
+                    RaiseOnEditCommandExecuted();
+                    IsEditMode = true;
+                }, o => GetCanManageCurrentVacation() && !IsDeleted && !IsBusy && !IsEditMode));
+            }
         }
-
-        private DelegateCommand increaseYearCommand = null;
-        public ICommand IncreaseYearCommand { get { return increaseYearCommand ?? (increaseYearCommand = new DelegateCommand(o => Year = Year + 1, o => years.Contains(Year + 1))); } }
-
-        private DelegateCommand decreaseYearCommand = null;
-        public ICommand DecreaseYearCommand { get { return decreaseYearCommand ?? (decreaseYearCommand = new DelegateCommand(o => Year = Year - 1, o => years.Contains(Year - 1))); } }
 
         #endregion
+        #region Service methods
 
-        private void RunUnderDispatcher(Delegate a)
+        private async void DeleteAsync()
         {
-            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, a);
-        }
-
-        public VacationViewModel()
-        {
-            worker.CopyObjectTo(this);
-            worker.OnErrorChanged += (s, e) => RunUnderDispatcher(new Action(() => Error = e));
-            worker.OnLoadedChanged += (s, e) => RunUnderDispatcher(new Action(() => IsLoaded = e));
-            worker.OnStateChanged += (s, e) => RunUnderDispatcher(new Action(() => State = e));
-            worker.OnNotification += (s, e) => RunUnderDispatcher(new Action(() => Notifications?.Add(e)));
-            worker.OnVacationLevelChanged += (s,e) => RunUnderDispatcher(new Action(() => OnWorkerVacationLevelChanged(s, e)));
-            worker.OnVacationBalanceChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationBalanceChanged(s, e)));
-            worker.OnVacationChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationChanged(s, e)));
-            CanManageVacations = GetCanManageVacationsProperty();
-            RecalculateYears();
-        }
-
-        private void OnHistoryChanged(object sender, HistoryService.History e) => worker.ApplyHistoryChanges(e);
-
-        private void OnRightsChanged(object semder, ListItemsEventArgs<StaffingService.Right> e)
-        {
-            CanManageVacations = GetCanManageVacationsProperty();
-        }
-        private void OnCurrentChanged(object semder, StaffingService.Employee e)
-        {
-            CanManageVacations = GetCanManageVacationsProperty();
-        }
-
-        private void OnWorkerVacationLevelChanged(object sender, ListItemsEventArgs<VacationService.VacationLevel> e)
-        {
-            if (new[] { ChangeAction.Add, ChangeAction.Change }.Contains(e.Action))
+            if (Vacation.Id == 0)
             {
-                foreach (var d in e.Items)
+                IsDeleted = true;
+                return;
+            }
+
+            IsBusy = true;
+            try
+            {
+                var sc = new VacationService.VacationServiceClient();
+                var waittask = sc.VacationRemoveAsync(Vacation.Id);
+                await waittask.ContinueWith(t =>
                 {
-                    if (d.Id != 0)
+                    try
                     {
-                        var existedLevel = levels.FirstOrDefault(l => l.Id == d.Id);
-                        if (existedLevel != null)
+                        if (t.Exception != null)
                         {
-                            existedLevel.CopyObjectFrom(d);
+                            Error = GetExceptionText(nameof(DeleteAsync), t.Exception);
                         }
                         else
                         {
-                            levels.Add(d);
+                            if (!string.IsNullOrWhiteSpace(t.Result.Error))
+                            {
+                                Error = t.Result.Error;
+                            }
+                            else
+                            {
+                                Error = null;
+                                VacationForEdit = null;
+                                IsDeleted = true;
+                            }
                         }
                     }
-                }
-            } else
-            {
-                foreach (var d in e.Items)
-                {
-                    if (d.Id != 0)
+                    catch (Exception ex)
                     {
-                        var existedLevel = levels.FirstOrDefault(l => l.Id == d.Id);
-                        if (existedLevel != null)
-                            levels.Remove(existedLevel);
+                        Error = GetExceptionText(nameof(DeleteAsync), ex);
                     }
-                }
-            }
-
-            OnVacationLevelChanged?.Invoke(this, e);
-        }
-        private void OnWorkerVacationBalanceChanged(object sender, ListItemsEventArgs<VacationService.VacationBalance> e)
-        {
-            if (new[] { ChangeAction.Add, ChangeAction.Change }.Contains(e.Action))
-            {
-                foreach (var d in e.Items)
-                {
-                    if (d.Id != 0)
+                    finally
                     {
-                        var existedBalance = vacationBalances.FirstOrDefault(l => l.Id == d.Id);
-                        if (existedBalance != null)
-                        {
-                            existedBalance.CopyObjectFrom(d);
-                        }
-                        else
-                        {
-                            vacationBalances.Add(d);
-                        }
+                        try { sc.Close(); } catch { }
+                        IsBusy = false;
                     }
-                }
+                },
+                    System.Threading.CancellationToken.None,
+                    TaskContinuationOptions.AttachedToParent,
+                    TaskScheduler.FromCurrentSynchronizationContext());
             }
-            else
+            catch (Exception ex)
             {
-                foreach (var d in e.Items)
-                {
-                    if (d.Id != 0)
-                    {
-                        var existedBalance = vacationBalances.FirstOrDefault(l => l.Id == d.Id);
-                        if (existedBalance != null)
-                            vacationBalances.Remove(existedBalance);
-                    }
-                }
+                IsBusy = false;
+                Error = GetExceptionText(nameof(DeleteAsync), ex);
             }
-
-            RecalculateYears();
-
-            OnVacationBalanceChanged?.Invoke(this, e);
         }
-        private void OnWorkerVacationChanged(object sender, ListItemsEventArgs<VacationService.Vacation> e)
+
+        private async void SaveAsync(VacationService.Vacation vacationToSave)
         {
-            if (new[] { ChangeAction.Add, ChangeAction.Change }.Contains(e.Action))
+            IsBusy = true;
+            try
             {
-                foreach (var d in e.Items)
-                {
-                    if (d.Id != 0)
+                var task = Task.Factory.StartNew(() => {
+                    var sc = new VacationService.VacationServiceClient();
+                    try
                     {
-                        var existedVacation = vacations.FirstOrDefault(l => l.Id == d.Id);
-                        if (existedVacation != null)
-                        {
-                            existedVacation.CopyObjectFrom(d);
-                        }
-                        else
-                        {
-                            vacations.Add(d);
-                        }
+                        var updateRes = Vacation.Id == 0
+                            ? sc.VacationInsert(vacationToSave)
+                            : sc.VacationUpdate(vacationToSave);
+
+                        if (!string.IsNullOrWhiteSpace(updateRes.Error))
+                            throw new Exception(updateRes.Error);
+
+                        return updateRes.Value;
                     }
-                }
+                    finally
+                    {
+                        try { sc.Close(); } catch { }
+                    }
+                });
+
+                Vacation.CopyObjectFrom(await task);
+                
+                Error = null;
+                IsBusy = false;
+                IsEditMode = false;
             }
-            else
+            catch (Exception ex)
             {
-                foreach (var d in e.Items)
-                {
-                    if (d.Id != 0)
-                    {
-                        var existedVacation = vacations.FirstOrDefault(l => l.Id == d.Id);
-                        if (existedVacation != null)
-                            vacations.Remove(existedVacation);
-                    }
-                }
+                IsBusy = false;
+                Error = GetExceptionText(nameof(SaveAsync), ex);
             }
-
-            RecalculateYears();
-
-            OnVacationChanged?.Invoke(this, e);
         }
 
-        private void RaiseOnIsLoadedChanged(bool value)
-        {
-            RunUnderDispatcher(new Action(() => OnIsLoadedChanged?.Invoke(this, value)));
-        }
+        #endregion
+        #region Events
 
-        private void RecalculateYears()
-        {
-            var validYears = vacations.Select(v => v.Begin.Year)
-                .Union(new[] { DateTime.Now.Year })
-                .Distinct()
-                .ToArray();
+        private void RaiseOnEditCommandExecuted() => OnEditCommandExecuted?.Invoke(this, new EventArgs());
 
-            foreach(var year in validYears) 
-                if (!years.Contains(year))
-                    years.Add(year);
-
-            foreach(var year in years.ToArray()) 
-                if (!validYears.Contains(year))
-                    years.Remove(year);
-
-            if (!years.Contains(Year))
-                Year = (Year > years.Max()) ? years.Max() : years.Min();
-
-            increaseYearCommand?.RaiseCanExecuteChanged();
-            decreaseYearCommand?.RaiseCanExecuteChanged();
-        }
-
-        public event EventHandler<bool> OnIsLoadedChanged;
-        public event EventHandler<ListItemsEventArgs<VacationService.VacationLevel>> OnVacationLevelChanged;
-        public event EventHandler<ListItemsEventArgs<VacationService.VacationBalance>> OnVacationBalanceChanged;
-        public event EventHandler<ListItemsEventArgs<VacationService.Vacation>> OnVacationChanged;
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChanged([ParenthesizePropertyName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public event EventHandler OnEditCommandExecuted;
 
         #endregion
     }

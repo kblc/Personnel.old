@@ -44,7 +44,7 @@
                    Visibility="{TemplateBinding IsImageVisible, Converter={StaticResource resource_BooleanToVisibilityConverter}}"
                    x:Name="PART_Photo"/>
 
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" VerticalAlignment="{TemplateBinding VerticalHeaderAlignment}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>

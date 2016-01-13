@@ -49,11 +49,11 @@
                     <birthdays:BirthdaysViewModel x:Key="birthdays"
                                                   Notifications="{StaticResource notifications}"
                                                   Staffing="{StaticResource staffing}"/>
-                    <vacation:VacationViewModel x:Key="vacations"
-                                                Notifications="{StaticResource notifications}"
-                                                History="{StaticResource history}"
-                                                IsActive="True"
-                                                Staffing="{StaticResource staffing}"/>
+                    <vacation:VacationsViewModel x:Key="vacations"
+                                                 Notifications="{StaticResource notifications}"
+                                                 History="{StaticResource history}"
+                                                 Staffing="{StaticResource staffing}"
+                                                 IsActive="True"/>
                 </ResourceDictionary>
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
                 <ResourceDictionary Source="/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
