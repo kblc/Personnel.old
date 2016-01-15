@@ -1,9 +1,28 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/">
 
     <Color x:Key="WarningColor">#FFFF8A8A</Color>
     
     <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource WarningColor}"/>
     <SolidColorBrush x:Key="DeleteBrush" Color="{StaticResource WarningColor}"/>
+
+    <svgc:SvgViewbox x:Key="plusIconContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.add.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="minusIconContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.minus.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="deleteIconContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.delete.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="leftIconContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.chevron.left.svg"
+                     IsHitTestVisible="False"/>
+    <svgc:SvgViewbox x:Key="rightIconContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
+                     Source="/Personnel.Application.Icons;component/SVG/appbar.chevron.right.svg"
+                     IsHitTestVisible="False"/>
+    
+    
 
 </ResourceDictionary>

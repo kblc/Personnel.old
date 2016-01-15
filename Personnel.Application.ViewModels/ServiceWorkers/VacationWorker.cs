@@ -67,8 +67,9 @@ namespace Personnel.Application.ViewModels.ServiceWorkers
             var evnt = GetEvent<T>();
             if (list != null)
             {
+                var remItems = list.ToArray();
                 list.Clear();
-                evnt?.Invoke(list, ChangeAction.Remove);
+                evnt?.Invoke(remItems, ChangeAction.Remove);
                 foreach (var item in items)
                     list.Add(item);
                 evnt?.Invoke(list, ChangeAction.Add);

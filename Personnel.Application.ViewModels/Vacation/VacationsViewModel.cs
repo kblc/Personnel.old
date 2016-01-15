@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 
@@ -35,6 +36,9 @@ namespace Personnel.Application.ViewModels.Vacation
 
         private NotifyCollection<int> years = new NotifyCollection<int>();
         public IReadOnlyNotifyCollection<int> Years => years;
+
+        private NotifyCollection<VacationListItemViewModel> employeeVacations = new NotifyCollection<VacationListItemViewModel>();
+        public IReadOnlyNotifyCollection<VacationListItemViewModel> EmployeeVacations => employeeVacations;
 
         #region Notifications
 
@@ -85,11 +89,13 @@ namespace Personnel.Application.ViewModels.Vacation
                     if (staffingOldvalue != null) {
                         staffingOldvalue.OnRightsChanged -= model.OnRightsChanged;
                         staffingOldvalue.OnCurrentChanged -= model.OnCurrentChanged;
+                        staffingNewvalue.Employees.CollectionChanged -= model.EmployeesCollectionChanged;
                     }
                     if (staffingNewvalue != null)
                     {
                         staffingNewvalue.OnRightsChanged += model.OnRightsChanged;
                         staffingNewvalue.OnCurrentChanged += model.OnCurrentChanged;
+                        staffingNewvalue.Employees.CollectionChanged += model.EmployeesCollectionChanged;
                     }
                 }
             }));
@@ -323,23 +329,34 @@ namespace Personnel.Application.ViewModels.Vacation
         private void UpdateCommands()
         {
             insertVacationCommand?.RaiseCanExecuteChanged();
+            editVacationCommand?.RaiseCanExecuteChanged();
             increaseYearCommand?.RaiseCanExecuteChanged();
             decreaseYearCommand?.RaiseCanExecuteChanged();
         }
 
         private DelegateCommand insertVacationCommand = null;
-        public ICommand InsertVacationCommand { get { return insertVacationCommand ?? (insertVacationCommand = new DelegateCommand(o => InsertVacation(), o => Staffing?.Current != null)); } }
+        public ICommand InsertVacationCommand { get { return insertVacationCommand ?? (insertVacationCommand = new DelegateCommand(o => InsertVacation((long?)o), o => Staffing?.Current != null)); } }
 
-        private void InsertVacation()
+        private void InsertVacation(long? employeeId)
         {
             var levelPlan = Levels.FirstOrDefault(l => string.Compare(VACATIONLEVELPLAN, l.SystemName, true) == 0);
             var newVac = new VacationViewModel(this, new VacationService.Vacation()
             {
-                EmployeeId = Staffing.Current.Id,
+                EmployeeId = employeeId ?? Staffing.Current.Id,
                 VacationLevelId = levelPlan.Id,
                 Begin = DateTime.Now,
                 DayCount = 1
             }, true);
+            SelectedVacationForEdit = newVac;
+        }
+
+        private DelegateCommand editVacationCommand = null;
+        public ICommand EditVacationCommand { get { return editVacationCommand ?? (editVacationCommand = new DelegateCommand(o => EditVacation((long?)o), o => (Staffing?.Current?.Id ?? 0) == ((long?)o) || CanManageVacations)); } }
+
+        private void EditVacation(long? vacationId)
+        {
+            var vac = vacations.FirstOrDefault(v => v.Id == vacationId);
+            var newVac = new VacationViewModel(this, vac, true);
             SelectedVacationForEdit = newVac;
         }
 
@@ -350,6 +367,9 @@ namespace Personnel.Application.ViewModels.Vacation
         public ICommand DecreaseYearCommand { get { return decreaseYearCommand ?? (decreaseYearCommand = new DelegateCommand(o => Year = Year - 1, o => years.Contains(Year - 1))); } }
 
         #endregion
+
+        private Timer updateCurrentDateTimeTimer = new Timer(1000);
+        public DateTime CurrentDateTime { get { return DateTime.Now; } }
 
         private VacationViewModel selectedVacationForEdit;
         public VacationViewModel SelectedVacationForEdit
@@ -375,9 +395,11 @@ namespace Personnel.Application.ViewModels.Vacation
             worker.OnVacationChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationChanged(s, e)));
             CanManageVacations = GetCanManageVacationsProperty();
             RecalculateYears();
+            ReloadEmployeeVacations();
+            updateCurrentDateTimeTimer.Elapsed += (s,e) => RaisePropertyChanged(nameof(CurrentDateTime));
         }
 
-        private void OnHistoryChanged(object sender, HistoryService.History e) => worker.ApplyHistoryChanges(e);
+        private void OnHistoryChanged(object sender, HistoryService.History e) => RunUnderDispatcher(new Action(() => worker.ApplyHistoryChanges(e)));
 
         private void OnRightsChanged(object semder, ListItemsEventArgs<StaffingService.Right> e)
         {
@@ -505,7 +527,9 @@ namespace Personnel.Application.ViewModels.Vacation
         private void RecalculateYears()
         {
             var validYears = vacations.Select(v => v.Begin.Year)
-                .Union(new[] { DateTime.Now.Year })
+                .Union(new[] { Year })
+                .Union(new[] { Year + 1 })
+                .Union(new[] { Year - 1 })
                 .Distinct()
                 .ToArray();
 
@@ -522,6 +546,25 @@ namespace Personnel.Application.ViewModels.Vacation
 
             increaseYearCommand?.RaiseCanExecuteChanged();
             decreaseYearCommand?.RaiseCanExecuteChanged();
+        }
+
+        private void ReloadEmployeeVacations()
+        {
+            employeeVacations.Clear();
+            if (Staffing != null)
+                foreach(var i in Staffing.Employees.Select(e => new VacationListItemViewModel(e, this)))
+                    employeeVacations.Add(i);
+        }
+
+        private void EmployeesCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+                foreach (var i in e.OldItems.Cast<Staffing.EmployeeViewModel>().Join(employeeVacations, evm => evm, evvm => evvm.Employee, (evm, evvm) => evvm).ToArray())
+                    employeeVacations.Remove(i);
+
+            if (e.NewItems != null)
+                foreach (var i in e.NewItems.Cast<Staffing.EmployeeViewModel>().Select(vm => new VacationListItemViewModel(vm, this)))
+                    employeeVacations.Add(i);
         }
 
         public event EventHandler<bool> OnIsLoadedChanged;

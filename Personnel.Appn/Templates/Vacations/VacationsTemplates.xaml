@@ -14,6 +14,7 @@
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
         <ResourceDictionary Source="/Personnel.Appn;component/Styles/Generic.xaml"/>
         <ResourceDictionary Source="/Personnel.Appn;component/Templates/Vacations/VacationEditTemplates.xaml" />
+        <ResourceDictionary Source="/Personnel.Appn;component/Templates/Vacations/VacationListViewTemplates.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <svgc:SvgViewbox x:Key="vacationsPlusContent" Height="20" Width="20" Stretch="Uniform" x:Shared="False"
@@ -36,10 +37,12 @@
     <helperConverters:ReverseBooleanToVisibilityConverter x:Key="vacationsReverseBooleanToVisibilityConverter"/>
     <localConverters:IsNotEmptyStringToVisibilityConverter x:Key="vacationsIsNotEmptyStringToVisibilityConverter"/>
 
-    <DataTemplate DataType="{x:Type vacation:VacationsViewModel}" x:Key="VacationsListViewTemplate">
+    <DataTemplate DataType="{x:Type vacation:VacationsViewModel}" x:Key="VacationsSourceTemplate">
         <Grid>
-            
-            
+            <!-- List -->
+            <ContentPresenter Content="{Binding}"
+                              ContentTemplate="{StaticResource VacationListViewTemplate}"/>
+
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
                 <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
@@ -99,7 +102,7 @@
                 <!-- List -->
                 <ContentPresenter Margin="16"
                                   Content="{Binding}"
-                                  ContentTemplate="{StaticResource VacationsListViewTemplate}"/>
+                                  ContentTemplate="{StaticResource VacationsSourceTemplate}"/>
 
                  <!--Edit employee-->
                 <ContentPresenter Content="{Binding SelectedVacationForEdit}" Grid.ColumnSpan="999" Grid.RowSpan="999"

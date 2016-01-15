@@ -15,7 +15,6 @@ namespace Personnel.Application.ViewModels.Vacation
     {
         #region Constructor
 
-        //public VacationViewModel() { }
         public VacationViewModel(VacationsViewModel owner) : this(owner, null, false) { }
         public VacationViewModel(VacationsViewModel owner, long employeeId, long levelId, bool createEdited)
             : this(owner, new VacationService.Vacation() { EmployeeId = employeeId, VacationLevelId = levelId }, createEdited) { }

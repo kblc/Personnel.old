@@ -119,3 +119,4 @@ C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Appn\obj\De
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Appn\obj\Debug\Templates\Staffing\EmployeeTemplate.baml
 C:\Users\1\Documents\Visual Studio 2012\Projects\Personnel\Personnel.Appn\obj\Debug\Templates\Vacations\VacationsTemplates.baml
 C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\obj\Debug\Templates\Vacations\VacationEditTemplates.baml
+C:\Users\SYCHSS\Documents\Visual Studio 2013\Projects\Personnel\Personnel.Appn\obj\Debug\Templates\Vacations\VacationListViewTemplates.baml

@@ -105,6 +105,8 @@
     <Compile Include="Staffing\StaffingViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Static.cs" />
+    <Compile Include="Vacation\VacationListItemPartViewModel.cs" />
+    <Compile Include="Vacation\VacationListItemViewModel.cs" />
     <Compile Include="Vacation\VacationsViewModel.cs" />
     <Compile Include="Vacation\VacationViewModel.cs" />
   </ItemGroup>
