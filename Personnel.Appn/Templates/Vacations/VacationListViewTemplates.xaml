@@ -7,7 +7,8 @@
                     xmlns:md="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
                     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
                     xmlns:add="clr-namespace:Personnel.Appn.Additional"
-                    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/">
+                    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
@@ -18,28 +19,73 @@
     <helperConverters:ApplyConverter x:Key="vacationListViewApplyConverter"/>
     <localConverters:StaffingPictureToImageSourceConverter x:Key="vacationListViewImagePathToImageSourceConverter"/>
     <BooleanToVisibilityConverter x:Key="vacationListViewBooleanToVisibilityConverter"/>
+    <localConverters:NullValueToZeroValueConverter x:Key="vacationListViewNullValueToZeroValueConverter"/>
+    <localConverters:AddDaysConverter x:Key="vacationListViewAddDaysConverter"/>
+    <localConverters:AddMonthConverter x:Key="vacationListViewAddMonthConverter"/>
+    <localConverters:MaxConverter x:Key="vacationListViewMaxConverter"/>
+
+    <Style x:Key="VacationListItemDelimiterBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="Width" Value="1"/>
+        <Setter Property="Height" Value="10"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="1" ScaleY="10" CenterY="5"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Opacity" Value="0.6"/>
+    </Style>
+    
+    <Style x:Key="VacationListItemPartStyle">
+        <Setter Property="xctk:TimelinePanel.Date" Value="{Binding Path=Vacation.Begin}"/>
+        <Setter Property="xctk:TimelinePanel.DateEnd">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource vacationListViewAddDaysConverter}">
+                    <Binding Path="Vacation.Begin"/>
+                    <Binding Path="Vacation.DayCount" Converter="{StaticResource vacationListViewMaxConverter}" ConverterParameter="12"/>
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <DataTemplate x:Key="VacationListItemPartTemplate" DataType="{x:Type vacation:VacationListItemPartViewModel}">
-        <Border x:Name="listItemPartContent" DataContext="{Binding}" Margin="0,2,4,2"
-                MinWidth="{Binding Vacation.DayCount, Converter={StaticResource vacationListViewApplyConverter}, ConverterParameter=*3}"
-                Background="DeepSkyBlue" BorderBrush="Blue" BorderThickness="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock FontSize="8" Margin="4,2" VerticalAlignment="Center">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="с {0:00}.{1:00} ({2})">
-                            <Binding Path="Vacation.Begin.Day"/>
-                            <Binding Path="Vacation.Begin.Month"/>
-                            <Binding Path="Vacation.DayCount"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+        <Grid Margin="0,0,4,0" x:Name="PART_VacationListItemPartTemplate" HorizontalAlignment="Stretch"
+              MinWidth="20">
 
-                <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Grid.Column="1" x:Name="PART_RemoveButton"
-                        Cursor="Hand" Margin="2,2"
+            <Border x:Name="listItemPartContent"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    Background="DeepSkyBlue" BorderBrush="Blue" BorderThickness="1">
+                <TextBlock FontSize="8" Margin="4,2,8,2" Text="{Binding Vacation.DayCount}"
+                            VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Border.ToolTip>
+                    <TextBlock x:Name="PART_BorderTooltipTextBlock">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="с {0:00}.{1:00}.{2:0000} (на {3} дн.)">
+                                <Binding Path="Vacation.Begin.Day"/>
+                                <Binding Path="Vacation.Begin.Month"/>
+                                <Binding Path="Vacation.Begin.Year"/>
+                                <Binding Path="Vacation.DayCount"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Border.ToolTip>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <add:EventToCommand Command="{Binding Owner.Owner.EditVacationCommand}"
+                                            CommandParameter="{Binding Vacation.Id}"
+                                            PassEventArgsToCommand="False"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Border>
+
+            <StackPanel Orientation="Horizontal" 
+                        x:Name="PART_ActionBar" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
+                        x:Name="PART_RemoveButton"
+                        Cursor="Hand"
                         Command="{Binding RemoveCommand}"
                         CommandParameter="{Binding Vacation.Id}"
                         HorizontalContentAlignment="Center"
@@ -50,21 +96,41 @@
                     <Button.LayoutTransform>
                         <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
                     </Button.LayoutTransform>
+                    <Button.RenderTransform>
+                        <TranslateTransform X="10"/>
+                    </Button.RenderTransform>
                 </Button>
-            </Grid>
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseLeftButtonUp">
-                    <add:EventToCommand 
-                        Command="{Binding Owner.Owner.EditVacationCommand}"
-                        CommandParameter="{Binding Vacation.Id}"
-                        PassEventArgsToCommand="False"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </Border>
+            </StackPanel>
+        </Grid>
         <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Vacation.NotUsed}" Value="True">
+                <Setter TargetName="listItemPartContent" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="Gray"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="listItemPartContent" Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="DarkGray"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="PART_BorderTooltipTextBlock" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="не пошёл с {0:00}.{1:00}.{2:0000} (на {3} дн.)">
+                            <Binding Path="Vacation.Begin.Day"/>
+                            <Binding Path="Vacation.Begin.Month"/>
+                            <Binding Path="Vacation.Begin.Year"/>
+                            <Binding Path="Vacation.DayCount"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
             <DataTrigger Binding="{Binding CanManage}" Value="True">
                 <Setter TargetName="listItemPartContent" Property="Cursor" Value="Hand"/>
                 <Setter TargetName="PART_RemoveButton" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=PART_VacationListItemPartTemplate, Path=IsMouseOver}" Value="False">
+                <Setter TargetName="PART_ActionBar" Property="Visibility" Value="Hidden"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
@@ -77,58 +143,151 @@
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
         </DataTemplate.Resources>
-        <StackPanel Orientation="Horizontal" x:Name="listItemContent" DataContext="{Binding}">
+        <Grid x:Name="listItemContent" DataContext="{Binding}" Background="Transparent">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
             <StackPanel Orientation="Horizontal">
 
                 <Image Source="{Binding Employee.Photos[Avatar32].File.Link, Converter={StaticResource vacationListViewImagePathToImageSourceConverter}}"
-                       x:Name="PART_IconViewer"
-                       Width="32" Height="32"/>
+                        x:Name="PART_IconViewer"
+                        Width="32" Height="32"/>
 
-                <TextBlock Margin="4,2,4,2" VerticalAlignment="Center">
+                <TextBlock Margin="4,2,8,2" VerticalAlignment="Center" x:Name="PART_Text">
                     <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} {1}">
+                        <MultiBinding StringFormat="{}{0} {1} ({2} осн, {3} доп.)">
                             <Binding Path="Employee.Employee.Surname"/>
                             <Binding Path="Employee.Employee.Name"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                <TextBlock Margin="0,2,8,2" VerticalAlignment="Center">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}({2} осн. + {3} доп.)">
-                            <Binding Path="Balance.DayCountMain"/>
-                            <Binding Path="Balance.DayCountAdditional"/>
+                            <Binding Path="Balance.DayCountMain" Converter="{StaticResource vacationListViewNullValueToZeroValueConverter}"/>
+                            <Binding Path="Balance.DayCountAdditional" Converter="{StaticResource vacationListViewNullValueToZeroValueConverter}"/>
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
 
-                <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
-                        Cursor="Hand" Margin="4,2"
-                        Command="{Binding Owner.InsertVacationCommand}"
-                        CommandParameter="{Binding Employee.Employee.Id}"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        VerticalAlignment="Center"
-                        Content="{StaticResource plusIconContent}"
-                        Visibility="{Binding Owner.CanManageVacations, Converter={StaticResource vacationListViewBooleanToVisibilityConverter}}">
-                    <Button.LayoutTransform>
-                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                    </Button.LayoutTransform>
-                </Button>
+                <StackPanel Orientation="Horizontal" x:Name="PART_ActionBar">
+                    <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"
+                            Cursor="Hand" Margin="4,2"
+                            Command="{Binding Owner.InsertVacationCommand}"
+                            CommandParameter="{Binding Employee.Employee.Id}"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{StaticResource plusIconContent}">
+                        <Button.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        </Button.LayoutTransform>
+                    </Button>
+                </StackPanel>
 
             </StackPanel>
-            <ItemsControl ItemsSource="{Binding Vacations}" ItemTemplate="{StaticResource VacationListItemPartTemplate}">
+
+            <!-- Vertical lines and month's names -->
+            <xctk:TimelinePanel BeginDate="{Binding Owner.From}"
+                                EndDate="{Binding Owner.To, Converter={StaticResource vacationListViewAddDaysConverter}, ConverterParameter=30}"
+                                Grid.Column="1" 
+                                x:Name="PART_TimelineDelimitersPanel" VerticalAlignment="Center">
+                <xctk:TimelinePanel.Resources>
+                    <Style TargetType="{x:Type Border}" BasedOn="{StaticResource VacationListItemDelimiterBorderStyle}"/>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="Opacity" Value="0.6"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}},Path=IsMouseOver, Converter={StaticResource vacationListViewBooleanToVisibilityConverter}}"/>
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <TranslateTransform Y="5"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </xctk:TimelinePanel.Resources>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=0}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=1}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=2}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=3}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=4}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=5}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=6}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=7}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=8}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=9}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=10}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=11}"/>
+                <Border xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=12}"/>
+
+                <TextBlock Text="ЯНВАРЬ" 
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=0}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=1}"/>
+                <TextBlock Text="ФЕВРАЛЬ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=1}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=2}"/>
+                <TextBlock Text="МАРТ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=2}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=3}"/>
+                <TextBlock Text="АПРЕЛЬ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=3}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=4}"/>
+                <TextBlock Text="МАЙ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=4}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=5}"/>
+                <TextBlock Text="ИЮНЬ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=5}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=6}"/>
+                <TextBlock Text="ИЮЛЬ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=6}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=7}"/>
+                <TextBlock Text="АВГУСТ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=7}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=8}"/>
+                <TextBlock Text="СЕНТЯБРЬ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=8}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=9}"/>
+                <TextBlock Text="ОКТЯБРЬ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=9}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=10}"/>
+                <TextBlock Text="НОЯБРЬ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=10}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=11}"/>
+                <TextBlock Text="ДЕКАБРЬ"
+                           xctk:TimelinePanel.Date="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=11}"
+                           xctk:TimelinePanel.DateEnd="{Binding ElementName=PART_TimelineDelimitersPanel, Path=BeginDate, Converter={StaticResource vacationListViewAddMonthConverter}, ConverterParameter=12}"/>
+            </xctk:TimelinePanel>
+
+            <ItemsControl ItemsSource="{Binding Vacations}" 
+                          ItemTemplate="{StaticResource VacationListItemPartTemplate}"
+                          ItemContainerStyle="{StaticResource VacationListItemPartStyle}"
+                          Grid.Column="1" VerticalAlignment="Center">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal"/>
+                        <xctk:TimelinePanel BeginDate="{Binding Owner.From}" 
+                                            EndDate="{Binding Owner.To, Converter={StaticResource vacationListViewAddDaysConverter}, ConverterParameter=30}"
+                                            x:Name="PART_TimelineVacationPanel"
+                                            IsItemsHost="True"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-        </StackPanel>
-        
+        </Grid>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding Employee.Photos[Avatar32]}" Value="{x:Null}">
                 <Setter TargetName="PART_IconViewer" Property="Source" 
                         Value="{svgc:SvgImage Source=/Personnel.Application.Icons;component/SVG/appbar.user.svg}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Balance}" Value="{x:Null}">
+                <Setter TargetName="PART_Text" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="Employee.Employee.Surname"/>
+                            <Binding Path="Employee.Employee.Name"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}},Path=IsMouseOver}" Value="False">
+                <Setter TargetName="PART_ActionBar" Property="Visibility" Value="Hidden"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
@@ -144,7 +303,8 @@
                 </CollectionViewSource>
             </Grid.Resources>
             <ListBox ItemsSource="{Binding Source={StaticResource EmployeeVacationsSorted}}"
-                     ItemTemplate="{StaticResource VacationListItemTemplate}"/>
+                     ItemTemplate="{StaticResource VacationListItemTemplate}"
+                     HorizontalContentAlignment="Stretch"/>
         </Grid>
     </DataTemplate>
     

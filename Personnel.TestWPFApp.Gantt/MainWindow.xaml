@@ -4,10 +4,65 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Personnel.TestWPFApp.Gantt"
+        xmlns:localConverter="clr-namespace:Personnel.TestWPFApp.Gantt.Converter"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
+        <local:Model x:Key="model"/>
+        <localConverter:AddDaysConverter x:Key="AddDaysConverter"/>
     </Window.Resources>
     <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <ScrollViewer x:Name="PART_OwnerPanel" HorizontalScrollBarVisibility="Visible">
+
+            <ItemsControl ItemsSource="{Binding Source={StaticResource model}, Path=Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:Item}">
+                        <Border Background="Red" Margin="2,2" Height="20"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="xctk:TimelinePanel.Date" Value="{Binding Path=Begin}"/>
+                        <Setter Property="xctk:TimelinePanel.DateEnd">
+                            <Setter.Value>
+                                <MultiBinding Converter="{StaticResource AddDaysConverter}">
+                                    <Binding Path="Begin"/>
+                                    <Binding Path="Days"/>
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <xctk:TimelinePanel 
+                            BeginDate="{Binding Source={StaticResource model}, Path=From}" 
+                            EndDate="{Binding Source={StaticResource model}, Path=To}"
+                            IsItemsHost="True"
+                            Background="Blue"
+                            Width="1200">
+                        </xctk:TimelinePanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Grid Background="Green" Grid.Row="1" x:Name="PART_Grid" HorizontalAlignment="Left">
+            <TextBlock Text="Test ME" x:Name="PART_Text"/>
+            <Popup IsOpen="{Binding ElementName=PART_Grid, Path=IsMouseOver, Mode=OneWay}" 
+                   PlacementTarget="{Binding ElementName=PART_Text}"
+                   StaysOpen="False">
+                <Border Background="White">
+                    <Button Content="test button" Margin="8,8"/>
+                </Border>
+            </Popup>
+        </Grid>
     </Grid>
 </Window>

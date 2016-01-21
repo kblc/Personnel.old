@@ -34,9 +34,6 @@ namespace Personnel.Application.ViewModels.Vacation
         private NotifyCollection<VacationService.VacationBalance> vacationBalances = new NotifyCollection<VacationService.VacationBalance>();
         public IReadOnlyNotifyCollection<VacationService.VacationBalance> VacationBalances => vacationBalances;
 
-        private NotifyCollection<int> years = new NotifyCollection<int>();
-        public IReadOnlyNotifyCollection<int> Years => years;
-
         private NotifyCollection<VacationListItemViewModel> employeeVacations = new NotifyCollection<VacationListItemViewModel>();
         public IReadOnlyNotifyCollection<VacationListItemViewModel> EmployeeVacations => employeeVacations;
 
@@ -109,53 +106,37 @@ namespace Personnel.Application.ViewModels.Vacation
         #endregion
         #region From
 
-        public static readonly DependencyProperty FromProperty = DependencyProperty.Register(nameof(From), typeof(DateTime?),
-            typeof(VacationsViewModel), new PropertyMetadata(null, (s, e) => {
-                var model = (VacationsViewModel)s;
-                var dateNewValue = (DateTime?)e.NewValue;
-                model.worker.From = dateNewValue;
-            }));
-
+        private DateTime? from;
         public DateTime? From
         {
-            get { return (DateTime?)GetValue(FromProperty); }
-            set { SetValue(FromProperty, value); }
+            get { return from; }
+            private set { from = value; RaisePropertyChanged(); }
         }
 
         #endregion
         #region To
 
-        public static readonly DependencyProperty ToProperty = DependencyProperty.Register(nameof(To), typeof(DateTime?),
-            typeof(VacationsViewModel), new PropertyMetadata(null, (s, e) => {
-                var model = (VacationsViewModel)s;
-                var dateNewValue = (DateTime?)e.NewValue;
-                model.worker.To = dateNewValue;
-            }));
-
+        private DateTime? to;
         public DateTime? To
         {
-            get { return (DateTime?)GetValue(ToProperty); }
-            set { SetValue(ToProperty, value); }
+            get { return to; }
+            private set { to = value; RaisePropertyChanged(); }
         }
 
         #endregion
         #region Year
 
         public static readonly DependencyProperty YearProperty = DependencyProperty.Register(nameof(Year), typeof(int),
-            typeof(VacationsViewModel), new PropertyMetadata(DateTime.Now.Year, (s, e) => {
+            typeof(VacationsViewModel), new PropertyMetadata(default(int), (s, e) => {
                 var model = (VacationsViewModel)s;
                 var newYear = (int)e.NewValue;
-
-                if (!model.Years.Contains(newYear))
-                    throw new InvalidOperationException("View model have not specified year");
 
                 var from = new DateTime(newYear, 1, 1, 0, 0, 0, 0);
                 var to = new DateTime(newYear + 1, 1, 1, 0, 0, 0, 0);
 
-                model.worker.setPeriod(from, to);
                 model.From = from;
                 model.To = to;
-
+                model.worker.setPeriod(from, to);
                 model.UpdateCommands();
             }));
 
@@ -361,10 +342,10 @@ namespace Personnel.Application.ViewModels.Vacation
         }
 
         private DelegateCommand increaseYearCommand = null;
-        public ICommand IncreaseYearCommand { get { return increaseYearCommand ?? (increaseYearCommand = new DelegateCommand(o => Year = Year + 1, o => years.Contains(Year + 1))); } }
+        public ICommand IncreaseYearCommand { get { return increaseYearCommand ?? (increaseYearCommand = new DelegateCommand(o => Year = Year + 1, o => IsLoaded)); } }
 
         private DelegateCommand decreaseYearCommand = null;
-        public ICommand DecreaseYearCommand { get { return decreaseYearCommand ?? (decreaseYearCommand = new DelegateCommand(o => Year = Year - 1, o => years.Contains(Year - 1))); } }
+        public ICommand DecreaseYearCommand { get { return decreaseYearCommand ?? (decreaseYearCommand = new DelegateCommand(o => Year = Year - 1, o => IsLoaded)); } }
 
         #endregion
 
@@ -394,7 +375,7 @@ namespace Personnel.Application.ViewModels.Vacation
             worker.OnVacationBalanceChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationBalanceChanged(s, e)));
             worker.OnVacationChanged += (s, e) => RunUnderDispatcher(new Action(() => OnWorkerVacationChanged(s, e)));
             CanManageVacations = GetCanManageVacationsProperty();
-            RecalculateYears();
+            Year = DateTime.Now.Year;
             ReloadEmployeeVacations();
             updateCurrentDateTimeTimer.Elapsed += (s,e) => RaisePropertyChanged(nameof(CurrentDateTime));
         }
@@ -477,8 +458,6 @@ namespace Personnel.Application.ViewModels.Vacation
                 }
             }
 
-            RecalculateYears();
-
             OnVacationBalanceChanged?.Invoke(this, e);
         }
         private void OnWorkerVacationChanged(object sender, ListItemsEventArgs<VacationService.Vacation> e)
@@ -514,38 +493,12 @@ namespace Personnel.Application.ViewModels.Vacation
                 }
             }
 
-            RecalculateYears();
-
             OnVacationChanged?.Invoke(this, e);
         }
 
         private void RaiseOnIsLoadedChanged(bool value)
         {
             RunUnderDispatcher(new Action(() => OnIsLoadedChanged?.Invoke(this, value)));
-        }
-
-        private void RecalculateYears()
-        {
-            var validYears = vacations.Select(v => v.Begin.Year)
-                .Union(new[] { Year })
-                .Union(new[] { Year + 1 })
-                .Union(new[] { Year - 1 })
-                .Distinct()
-                .ToArray();
-
-            foreach(var year in validYears) 
-                if (!years.Contains(year))
-                    years.Add(year);
-
-            foreach(var year in years.ToArray()) 
-                if (!validYears.Contains(year))
-                    years.Remove(year);
-
-            if (!years.Contains(Year))
-                Year = (Year > years.Max()) ? years.Max() : years.Min();
-
-            increaseYearCommand?.RaiseCanExecuteChanged();
-            decreaseYearCommand?.RaiseCanExecuteChanged();
         }
 
         private void ReloadEmployeeVacations()
